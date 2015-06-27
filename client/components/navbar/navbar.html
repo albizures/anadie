@@ -1,0 +1,11 @@
+<header class="navbar" ng-controller="NavbarCtrl">
+    <div class="logotipo">
+        <img src="client/assets/imagenes/logo1.png" width="200" alt="">
+    </div>
+    <nav >
+        <ul>
+            <li ng-repeat="opcion in opciones">
+                <a href="/login">{{opcion.op}}</a></li>
+        </ul>
+    </nav>
+</header>

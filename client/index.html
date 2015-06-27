@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es">
+	<head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <base href="/">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+		<meta charset="UTF-8">
+		<title>Sistema de registro, Preguntas y respuestas - ANADIE</title>
+        <link rel="stylesheet" href="client/app/app.css">
+	</head>
+	<body  ng-app="anApp">
+        <div ng-include='"client/components/navbar/navbar.html"'></div>
+        <section class="main">
+            <div class="articles" ui-view="" class="view"></div>
+            <div  ng-include="'client/components/panel/panel.html'"></div>
+        </section>
+		<footer>
+			<p>Luis Albizures - la-innovagt.com</p>
+		</footer>
+        <toaster-container></toaster-container>
+		<script src="client/bower_components/jquery/dist/jquery.js"></script>
+		<script src="client/bower_components/angular/angular.js"></script>
+        <script src="client/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="client/bower_components/angular-cookies/angular-cookies.js"></script>
+        <script src="client/bower_components/angular-resource/angular-resource.js"></script>
+        <script src="client/bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <script src="client/bower_components/angular-animate/angular-animate.js"></script>
+        <script src="client/bower_components/angularjs-toaster/toaster.js"></script>
+
+		<script src="client/app/app.js"></script>
+        <script src="client/app/Services/Data.service.js"></script>
+        <script src="client/components/navbar/navbar.controller.js"></script>
+        <script src="client/components/panel/panel.controller.js"></script>
+        <script src="client/app/login/login.controller.js"></script>
+        <script src="client/app/login/login.js"></script>
+        <script src="client/app/main/main.js"></script>
+        <script src="client/app/main/main.controller.js"></script>
+	</body>
+</html>

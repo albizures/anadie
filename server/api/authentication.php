@@ -14,34 +14,62 @@ $app->get('/login',function() use ($app){
 
 $app->post('/login',function() use ($app){
 
+	// Recupera los datos de la forma
     $r = json_decode($app->request->getBody());
-    $password = $r->customer->password;
-    $response = array();
+    verifyRequiredParams(array('username', 'password'),$r->customer);
+
+    $clave = $r->customer->password;
     $user = $r->customer->username;
-    if($user == "luis" && $password == "hyperion"){
-        $response['status'] = "success";
-        $response['message'] = 'Logged in successfully.';
-        $response['name'] = $user;
-        $response['uid'] = 1;
-        $response['email'] = "lalbizurs@nadie.com";
-        //$response['createdAt'] = $user['created'];
-        if (!isset($_SESSION)) {
-            session_start();
-        }
-        $_SESSION['uid'] = 1;
-        $_SESSION['email'] = "lalbizurs@nadie.com";;
-        $_SESSION['name'] = $user;
 
-    }else{
-        $response['status'] = "error";
-        $response['message'] = 'Login failed. Incorrect credentials';
-    }
+    $response = array();
+	//
+	// Verifica si los datos existen en la base de datos.
+	//
+    $db = new DbHandler();
+    $usuario = $db->get1Record("call sp_sel_seg_usuario( '$user' )");
 
+	$opciones = array();
+	// call sp_sel_seg_usuario( ? ) pusuario
+    if ($usuario != NULL) {
+        if(passwordHash::check_password($usuario['clave'],$clave)){
+			$response['status'] = "success";
+			$response['message'] = 'Ha ingresado al sistema.';
+			$response['name'] = $usuario['nombre'];
+			$response['uid'] = $usuario['id'];
+			$response['email'] = $usuario['email'];
+			$response['nombres'] = $usuario['nombres'];
+			$response['apellidos'] = $usuario['apellidos'];
+			$response['idrol'] = $usuario['idrol'];
+			$idrol = $usuario['idrol'];
+			$response['rol'] = $usuario['rol'];
+			$response['idorganizacion'] = $usuario['idorganizacion'];
+			$response['organizacion'] = $usuario['organizacion'];
+			$response['idestado'] = $usuario['idestado'];
+			$response['estado'] = $usuario['estado'];
+			
+			$response['fecha'] = $usuario['fecha'];
+			if (!isset($_SESSION)) {
+				session_start();
+			}
+			$_SESSION['uid'] = 1;
+			$_SESSION['name'] = $usuario['nombre'];
+			// 
+			// Ya tiene los accesos , ahora busca las opciones asignadas de acuerdo a su rol
+			$res = $db->getAllRecord("call sp_sel_rol_opcion( '$idrol' )" );
+			$response['opciones'] = $res;
+			
+		}else{
+			$response['status'] = "error";
+			$response['message'] = 'Falló el ingreso al sistema. Datos de ingreso incorrectos';
+			}
+		}
     echoResponse(200, $response);
 });
+
 $app->get('/logout', function() {
 
     $response["status"] = "info";
-    $response["message"] = "Logged out successfully";
+    $response["message"] = "Se ha desconectado del sistema.";
+	
     echoResponse(200, $response);
 });

@@ -1,4 +1,5 @@
 .idea
 server/api/Slim
+server/api/config.php
 client/bower_components
 node_modules

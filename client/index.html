@@ -7,7 +7,12 @@
         <meta name="viewport" content="width=device-width,initial-scale=1">
 		<meta charset="UTF-8">
 		<title>Sistema de registro, Preguntas y respuestas - ANADIE</title>
-        <link rel="stylesheet" href="client/app/app.css">
+        <!-- bower:css -->
+        <link rel="stylesheet" href="/client/bower_components/angularjs-toaster/toaster.css">
+        <!-- endbower -->
+        <!-- injector:css -->
+        <link rel="stylesheet" href="/client/app/app.css">
+        <!-- endinjector -->
 	</head>
 	<body  ng-app="anApp">
         <div ng-include='"client/components/navbar/navbar.html"'></div>
@@ -19,22 +24,28 @@
 			<p>Luis Albizures - la-innovagt.com</p>
 		</footer>
         <toaster-container></toaster-container>
-		<script src="client/bower_components/jquery/dist/jquery.js"></script>
-		<script src="client/bower_components/angular/angular.js"></script>
-        <script src="client/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-        <script src="client/bower_components/angular-cookies/angular-cookies.js"></script>
-        <script src="client/bower_components/angular-resource/angular-resource.js"></script>
-        <script src="client/bower_components/angular-sanitize/angular-sanitize.js"></script>
-        <script src="client/bower_components/angular-animate/angular-animate.js"></script>
-        <script src="client/bower_components/angularjs-toaster/toaster.js"></script>
-
-		<script src="client/app/app.js"></script>
-        <script src="client/app/Services/Data.service.js"></script>
-        <script src="client/components/navbar/navbar.controller.js"></script>
-        <script src="client/components/panel/panel.controller.js"></script>
-        <script src="client/app/login/login.controller.js"></script>
-        <script src="client/app/login/login.js"></script>
-        <script src="client/app/main/main.js"></script>
-        <script src="client/app/main/main.controller.js"></script>
+        <script src="//localhost:35729/livereload.js"></script>
+        <!-- bower:js -->
+        <script src="/client/bower_components/jquery/dist/jquery.js"></script>
+        <script src="/client/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="/client/bower_components/angular/angular.js"></script>
+        <script src="/client/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="/client/bower_components/angular-resource/angular-resource.js"></script>
+        <script src="/client/bower_components/angular-cookies/angular-cookies.js"></script>
+        <script src="/client/bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <script src="/client/bower_components/angular-animate/angular-animate.js"></script>
+        <script src="/client/bower_components/angularjs-toaster/toaster.js"></script>
+        <script src="/client/bower_components/moment/moment.js"></script>
+        <!-- endbower -->
+        <!-- injector:js -->
+        <script src="/client/app/app.js"></script>
+        <script src="/client/app/Services/Data.service.js"></script>
+        <script src="/client/app/login/login.controller.js"></script>
+        <script src="/client/app/login/login.js"></script>
+        <script src="/client/app/main/main.controller.js"></script>
+        <script src="/client/app/main/main.js"></script>
+        <script src="/client/components/navbar/navbar.controller.js"></script>
+        <script src="/client/components/panel/panel.controller.js"></script>
+        <!-- endinjector -->
 	</body>
 </html>

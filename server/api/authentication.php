@@ -13,55 +13,64 @@ $app->get('/login',function() use ($app){
 });
 
 //
-// Segun yo, solo es necesario que mandes el username, ya no valido clave, puesto que se hizo cuando se hizo el login
-$app->post('/session',function() use ($app){
-	// Recupera los datos de la forma
-    $r = json_decode($app->request->getBody());
-    verifyRequiredParams(array('username'),$r->customer);
+// Cambio para que el cliente no tenga que mandar nada, para que la informacion de la
+// sesion se use para pedir la informacion, de lo contrario se responde con 401 de no autorizado.
+// Tambien cambie la ruta a get porque no se va a mandar nada.
 
-    $user = $r->customer->username;
-
+$app->get('/session',function() use ($app){
     $response = array();
-	//
-	// Verifica si los datos existen en la base de datos.
-	//
-    $db = new DbHandler();
-    $usuario = $db->get1Record("call sp_sel_seg_usuario( '$user' )");
+    $code = 0;
+    if(true/*isset($_SESSION)*/){
+        //
+        // Verifica si los datos existen en la base de datos.
+        //
+        $opciones = array();
+        $response = array();
 
-	$opciones = array();
+        $db = new DbHandler();
+        //$usuario = $db->get1Record("call sp_sel_seg_usuario( '".$_SESSION['name']."' )");
+        $usuario = $db->get1Record("call sp_sel_seg_usuario( 'lalbizures' )");
+        $response['status'] = "success";
+        //$response['message'] = 'Ha ingresado al sistema.';
+        $response['name'] = $usuario['nombre'];
+        $response['uid'] = $usuario['id'];
+        $response['email'] = $usuario['email'];
+        $response['nombres'] = $usuario['nombres'];
+        $response['apellidos'] = $usuario['apellidos'];
+        $response['idrol'] = $usuario['idrol'];
+        $idrol = $usuario['idrol'];
+        $response['rol'] = $usuario['rol'];
+        $response['idorganizacion'] = $usuario['idorganizacion'];
+        $response['organizacion'] = $usuario['organizacion'];
+        $response['idestado'] = $usuario['idestado'];
+        $response['estado'] = $usuario['estado'];
 
-	$response['status'] = "success";
-	$response['message'] = 'Ha ingresado al sistema.';
-	$response['name'] = $usuario['nombre'];
-	$response['uid'] = $usuario['id'];
-	$response['email'] = $usuario['email'];
-	$response['nombres'] = $usuario['nombres'];
-	$response['apellidos'] = $usuario['apellidos'];
-	$response['idrol'] = $usuario['idrol'];
-	$idrol = $usuario['idrol'];
-	$response['rol'] = $usuario['rol'];
-	$response['idorganizacion'] = $usuario['idorganizacion'];
-	$response['organizacion'] = $usuario['organizacion'];
-	$response['idestado'] = $usuario['idestado'];
-	$response['estado'] = $usuario['estado'];
-	
-	$response['fecha'] = $usuario['fecha'];
+        $response['fecha'] = $usuario['fecha'];
 
-	// Ya tiene los datos , ahora busca las opciones asignadas de acuerdo a su rol
-	$res = $db->getAllRecord("call sp_sel_rol_opcion( '$idrol' )" );
-	$response['opciones'] = $res;
-			
-    echoResponse(200, $response);
+        // Ya tiene los datos , ahora busca las opciones asignadas de acuerdo a su rol
+        $res = $db->getAllRecord("call sp_sel_rol_opcion( '$idrol' )" );
+        $response['opciones'] = $res;
+        $code = 200;
+    }else{
+        $code = 401;
+        $response['status'] = "error";
+        $response['message'] = 'Aun no a iniciado sesion.';
+    }
+	// Recupera los datos de la forma
+    //$r = json_decode($app->request->getBody());
+    //verifyRequiredParams(array('username'),$r->customer);
+
+    echoResponse($code, $response);
 });
-	
+
 $app->post('/login',function() use ($app){
 
 	// Recupera los datos de la forma
     $r = json_decode($app->request->getBody());
-    verifyRequiredParams(array('username', 'password'),$r->customer);
+    verifyRequiredParams(array('username', 'password'),$r->user);//cambio el nombre customer por user
 
-    $clave = $r->customer->password;
-    $user = $r->customer->username;
+    $clave = $r->user->password;
+    $user = $r->user->username;
 
     $response = array();
 	//
@@ -104,7 +113,6 @@ $app->post('/login',function() use ($app){
 			$response['status'] = "error";
 			$response['message'] = 'Falló el ingreso al sistema. Datos de ingreso incorrectos';
 		}
-
 	} else {$response['status'] = "error";
         $response['message'] = 'Falló el ingreso al sistema. Datos de ingreso incorrectos';
     }

@@ -8,31 +8,31 @@ var anApp = angular.module("anApp",[
     'ngSanitize',
     'ui.router',
     'ngAnimate',
+    'http-auth-interceptor',
     'toaster'
 ])
     .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         $urlRouterProvider
-            .otherwise('/login');
+            .otherwise('/');
 
         $locationProvider.html5Mode(true);
     })
-    .run(function ($rootScope, $location, Data) {
-        $rootScope.$on("$routeChangeStart", function (event, next, current) {
-            $rootScope.authenticated = false;
-            Data.get('session').then(function (results) {
-                if (results.uid) {
-                    $rootScope.authenticated = true;
-                    $rootScope.uid = results.uid;
-                    $rootScope.name = results.name;
-                    $rootScope.email = results.email;
-                } else {
-                    var nextUrl = next.$$route.originalPath;
-                    if (nextUrl == '/signup' || nextUrl == '/login') {
-
-                    } else {
-                        $location.path("/login");
-                    }
-                }
-            });
+    .run(['$rootScope', '$location', 'Auth','$state',function ($rootScope, $location, Auth,$state) {
+        $rootScope.$watch('usuario', function(currentUser) {
+            if (!currentUser && (['/', '/login', '/logout', '/signup'].indexOf($location.path()) == -1 )) {
+                Auth.currentUser();
+            }
         });
-    });
+        $rootScope.$on('$stateChangeSuccess', function (event, next, current) {
+
+        });
+        $rootScope.$on('$stateChangeStart', function (event,next,current) {
+            if(['contacto', 'login' ].indexOf(next.name) == -1){
+                Auth.currentUser();
+            }
+        });
+        $rootScope.$on('event:auth-loginRequired', function() {
+            $location.path('/login');
+            return false;
+        });
+    }]);

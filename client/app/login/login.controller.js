@@ -2,9 +2,16 @@
  * Created by josec on 6/26/2015.
  */
 angular.module('anApp')
-    .controller('LoginCtrl',['$location','$scope','Data','$rootScope',function ($location,$scope,Data,$rootScope) {
-        $scope.login = function(customer){
-            Data.post('login',{customer : customer})
+    .controller('LoginCtrl',['$location','$scope','$rootScope','Auth',function ($location,$scope,$rootScope,Auth) {
+        $scope.login = function(user){
+
+           Auth.login(user,function(err){
+                if(!err){
+                    $location.path('/');
+                }
+           });
+
+           /* Data.post('login',{customer : customer})
                 .then(function (results) {
                     console.log('resultado ',results);
                     Data.toast(results);
@@ -22,6 +29,6 @@ angular.module('anApp')
                         };
                         $rootScope.opciones = results.opciones;
                     }
-                });
+                });*/
         }
     }]);

@@ -6,7 +6,7 @@ angular.module('anApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('main', {
-                url: '/main',
+                url: '/',
                 templateUrl: 'client/app/main/main.html',
                 controller: 'MainCtrl'
             });

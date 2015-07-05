@@ -14,10 +14,6 @@ angular.module('anApp')
             Data.get('logout')
                 .then(function (results) {
                     console.log('resultado ',results);
-
-
-
-
                 });
        };
     }]);

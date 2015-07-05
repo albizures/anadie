@@ -10,13 +10,13 @@
     <nav >
         <ul>
             <li>
-                <a href="/main">Inicio</a>
+                <a ui-sref="main">Inicio</a>
             </li>
             <li ng-repeat="opcion in $root.opciones">
-                <a href="/{{opcion.opcion | lowercase}}">{{opcion.opcion}}</a>
+                <a ui-sref="{{opcion.opcion | lowercase}}">{{opcion.opcion}}</a>
             </li>
             <li class="pull-right">
-                <a href="/contacto">Contacto</a>
+                <a ui-sref="contacto">Contacto</a>
             </li>
         </ul>
     </nav>

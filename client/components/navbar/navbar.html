@@ -1,11 +1,23 @@
 <header class="navbar" ng-controller="NavbarCtrl">
     <div class="logotipo">
         <img src="client/assets/imagenes/logo1.png" width="200" alt="">
+        <div class="pull-right">
+            <button class="pull-right btn btn-default btn-xs" ng-click="logout()">Salir</button>
+            <div>{{$root.usuario.nombre}}</div>
+        </div>
+
     </div>
     <nav >
         <ul>
-            <li ng-repeat="opcion in opciones">
-                <a href="/login">{{opcion.op}}</a></li>
+            <li>
+                <a href="/main">Inicio</a>
+            </li>
+            <li ng-repeat="opcion in $root.opciones">
+                <a href="/{{opcion.opcion | lowercase}}">{{opcion.opcion}}</a>
+            </li>
+            <li class="pull-right">
+                <a href="/contacto">Contacto</a>
+            </li>
         </ul>
     </nav>
 </header>

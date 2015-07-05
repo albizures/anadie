@@ -1,14 +1,13 @@
 <div>
-    <ng-form class="form-inline">
+    <form class="form-inline" ng-submit="login(user)">
         <div class="form-group">
             <label >Usuario</label>
-            <input type="text" name="username" ng-model="user.username" class="form-control" placeholder="Usuario">
+            <input type="text" autofocus="" name="username" ng-model="user.username" class="form-control" placeholder="Usuario">
         </div>
         <div class="form-group">
             <label >Email</label>
             <input type="password" name="password" ng-model="user.password" class="form-control"  placeholder="Clave">
         </div>
-        <button  ng-click="login(user)" class="btn btn-success">Ingrese</button>
-    </ng-form>
-
+        <button type="submit" class="btn btn-success">Ingrese</button>
+    </form>
 </div>

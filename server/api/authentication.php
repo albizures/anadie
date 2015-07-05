@@ -31,7 +31,7 @@ $app->post('/login',function() use ($app){
 	$opciones = array();
 	// call sp_sel_seg_usuario( ? ) pusuario
     if ($usuario != NULL) {
-        if(passwordHash::check_password($usuario['clave'],$clave)){
+        if($clave == $usuario['clave']/*passwordHash::check_password($usuario['clave'],$clave)*/){
 			$response['status'] = "success";
 			$response['message'] = 'Ha ingresado al sistema.';
 			$response['name'] = $usuario['nombre'];
@@ -61,8 +61,11 @@ $app->post('/login',function() use ($app){
 		}else{
 			$response['status'] = "error";
 			$response['message'] = 'Falló el ingreso al sistema. Datos de ingreso incorrectos';
-			}
 		}
+
+	} else {$response['status'] = "error";
+        $response['message'] = 'Falló el ingreso al sistema. Datos de ingreso incorrectos';
+    }
     echoResponse(200, $response);
 });
 
@@ -70,6 +73,6 @@ $app->get('/logout', function() {
 
     $response["status"] = "info";
     $response["message"] = "Se ha desconectado del sistema.";
-	
+    session_unset();
     echoResponse(200, $response);
 });

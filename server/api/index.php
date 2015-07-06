@@ -21,6 +21,7 @@ $app = new \Slim\Slim();
 $user_id = NULL;
 
 require_once "authentication.php";
+require_once "opciones.php";
 
 /**
  * Verifying required params posted or not
@@ -57,5 +58,34 @@ function echoResponse($status_code, $response) {
 
     echo json_encode($response);
 }
+
+// $authenticateForRole = function ( $role = 'member' ) {
+//    return function () use ( $role ) {
+//       $user = User::fetchFromDatabaseSomehow();
+	
+function sessionAlive () {
+		session_start();
+
+// Si acaso quisieramos ponerle un timeout mayor al estandar
+		
+// if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
+    // // last request was more than 30 minutes ago
+    // session_unset();     // unset $_SESSION variable for the run-time 
+    // session_destroy();   // destroy session data in storage
+// }
+// $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
+		
+		if (!isset($_SESSION['name'])) {
+			$code = 401;
+			$response = array();
+			$response['status'] = "error";
+			$response['message'] = 'Aun no ha iniciado sesion.';			
+			$app = \Slim\Slim::getInstance();
+		    echoResponse($code, $response);
+			$app->stop();
+        }
+};
+
 $app->run();
 
+?>

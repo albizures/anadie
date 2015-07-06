@@ -1,9 +1,12 @@
 <?php
 
+	require_once('dbStatementParameter.php');
+
 class DbHandler {
 
     private $conn;
 
+	
     function __construct() {
         require_once 'dbConnect.php';
         // opening db connection
@@ -53,6 +56,69 @@ class DbHandler {
         $r = $this->conn->query($query.' LIMIT 1') or die($this->conn->error.__LINE__);
         return $result = $r->fetch_assoc();    
     }
+
+    public function deleteRecord($sp_name,$id) {
+		$db = new dbConnect();
+		$this->conn = $db->connect();
+		
+		$st = $this->conn->prepare($sp_name);
+		$st->bind_param('i', $idvalue);
+		$idvalue = $id;
+		$st->execute();
+		$st->close();
+		$db->disconnect();
+		return 0;
+    }
+	
+	public function updateRecord($sp_name,$obj,$column_names,$comillas) {
+		$db = new dbConnect();
+		$this->conn = $db->connect();
+		
+
+		$column_list = "";
+		$value_list = "";
+		
+		$c = (array)$obj;
+		$keys = array_keys($c);
+		
+//		var_dump($sp);
+		$st = $this->conn->stmt_init();
+		if ($st->prepare($sp_name)) {
+		$sp = new Statement_Parameter();
+
+		//-------------------------------- Arma la lista para luego realizar el prepare
+		//
+		$i=0;
+		foreach ($column_names as $desired_key) {
+			if (substr($comillas,$i,1)=='s') {
+				$sp->Add_Parameter($desired_key,Statement_Parameter_Type::$STATEMENT_TYPE_STRING); }
+			else {
+				$sp->Add_Parameter($desired_key,Statement_Parameter_Type::$STATEMENT_TYPE_INTEGER); }
+			$i= $i+1;
+		}
+		
+		//--------------------------------
+//		echo "Hara el bind";
+		$sp->Bind_Params($st);
+		$i = 0;
+		foreach ($column_names as $desired_key2) {
+			$$desired_key2 = $c[$desired_key2];
+			if (substr($comillas,$i,1)=='s') {
+				$sp->Set_Parameter($desired_key2,$$desired_key2); 
+			}
+			else {
+				$sp->Set_Parameter($desired_key2,$$desired_key2); 
+			}
+			$i = $i+1;
+			}
+		
+		$st->execute();
+		$db->disconnect();
+		
+        return 0;    
+		}
+		else { return -1; }
+	}
     /**
      * Creating new record
      */

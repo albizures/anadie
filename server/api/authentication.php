@@ -18,9 +18,10 @@ $app->get('/login',function() use ($app){
 // Tambien cambie la ruta a get porque no se va a mandar nada.
 
 $app->get('/session',function() use ($app){
+	session_start();
     $response = array();
     $code = 0;
-    if(true/*isset($_SESSION)*/){
+    if(isset($_SESSION['name'])){
         //
         // Verifica si los datos existen en la base de datos.
         //
@@ -28,8 +29,8 @@ $app->get('/session',function() use ($app){
         $response = array();
 
         $db = new DbHandler();
-        //$usuario = $db->get1Record("call sp_sel_seg_usuario( '".$_SESSION['name']."' )");
-        $usuario = $db->get1Record("call sp_sel_seg_usuario( 'lalbizures' )");
+        $usuario = $db->get1Record("call sp_sel_seg_usuario( '".$_SESSION['name']."' )");
+        //$usuario = $db->get1Record("call sp_sel_seg_usuario( 'lalbizures' )");
         $response['status'] = "success";
         //$response['message'] = 'Ha ingresado al sistema.';
         $response['name'] = $usuario['nombre'];
@@ -54,11 +55,8 @@ $app->get('/session',function() use ($app){
     }else{
         $code = 401;
         $response['status'] = "error";
-        $response['message'] = 'Aun no a iniciado sesion.';
+        $response['message'] = 'Aun no ha iniciado sesion.';
     }
-	// Recupera los datos de la forma
-    //$r = json_decode($app->request->getBody());
-    //verifyRequiredParams(array('username'),$r->customer);
 
     echoResponse($code, $response);
 });
@@ -82,7 +80,8 @@ $app->post('/login',function() use ($app){
 	$opciones = array();
 	// call sp_sel_seg_usuario( ? ) pusuario
     if ($usuario != NULL) {
-        if($clave == $usuario['clave']/*passwordHash::check_password($usuario['clave'],$clave)*/){
+        //if($clave == $usuario['clave']/*passwordHash::check_password($usuario['clave'],$clave)*/){
+		if(passwordHash::check_password($usuario['clave'],$clave)){
 			$response['status'] = "success";
 			$response['message'] = 'Ha ingresado al sistema.';
 			$response['name'] = $usuario['nombre'];
@@ -107,6 +106,7 @@ $app->post('/login',function() use ($app){
 			// 
 			// Ya tiene los accesos , ahora busca las opciones asignadas de acuerdo a su rol
 			$res = $db->getAllRecord("call sp_sel_rol_opcion( '$idrol' )" );
+			
 			$response['opciones'] = $res;
 			
 		}else{
@@ -116,13 +116,17 @@ $app->post('/login',function() use ($app){
 	} else {$response['status'] = "error";
         $response['message'] = 'Falló el ingreso al sistema. Datos de ingreso incorrectos';
     }
+	
     echoResponse(200, $response);
 });
 
-$app->get('/logout', function() {
-
+$app->get('/logout', function() use ($app){
+    session_start();
     $response["status"] = "info";
     $response["message"] = "Se ha desconectado del sistema.";
     session_unset();
+	session_destroy();
     echoResponse(200, $response);
 });
+
+?>

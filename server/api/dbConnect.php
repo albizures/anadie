@@ -23,6 +23,7 @@ class dbConnect {
         }
 
         // returing connection resource
+        mysqli_set_charset($this->conn,"utf8");
         return $this->conn;
     }
 	

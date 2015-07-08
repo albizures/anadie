@@ -31,24 +31,23 @@ $app->get('/opDatos','sessionAlive', function() use ($app){
 	//
     $db = new DbHandler();
     $datos = $db->getAllRecord("call sp_sel_seg_opcion( )");
-    var_dump($datos);
+    //var_dump($datos);
 	$opciones = array();
 	// call sp_sel_seg_usuario( ? ) pusuario
     if ($datos != NULL) {
 			$response = $datos;
-			
-		}else{
-			$response['status'] = "info";
-			$response['message'] = 'No hay datos';
-		}
-	
-	
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No hay datos';
+    }
+
+
     echoResponse(200, $response);
 });
 
 //   Opción para ingresar un registro de la tabla opcion
 
-$app->post('/opDatosI','sessionAlive',function() use ($app){
+$app->post('/opDatos','sessionAlive',function() use ($app){
 
 	// Recupera los datos de la forma
 	//

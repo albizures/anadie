@@ -8,6 +8,7 @@ var anApp = angular.module("anApp",[
     'ngSanitize',
     'ui.router',
     'ngAnimate',
+    'ngTable',
     'http-auth-interceptor',
     'toaster'
 ])

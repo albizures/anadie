@@ -1,3 +1,32 @@
 <div>
-    adminstracion
+    <section class="form-inline">
+        <input type="text" ng-model="search" class="form-control" placeholder="Buscar">
+        <button ng-click="open()" class="btn btn-primary pull-right"><i class="icon-white icon-plus"></i> Agregar opcion</button>
+    </section>
+    <br/>
+    <button ng-click="tableOpciones.sorting({})" class="btn btn-default pull-right">Limpiar filtro</button>
+    <table ng-table="tableOpciones" class="table table-striped">
+        <tr ng-repeat="opcion in $data">
+            <td data-title="'Nombre'" sortable="'nombre'">
+                <span >{{opcion.nombre}}</span>
+            </td>
+            <td data-title="'Descripcion'" sortable="'descripcion'" width="330">
+                <span >{{opcion.descripcion}}</span>
+            </td>
+            <td data-title="'Tipo'"  sortable="'nombreTipo'" width="150">
+                <span >{{opcion.nombreTipo}}</span>
+            </td>
+            <td data-title="'Orden'"  sortable="'orden'" width="50">
+                <span >{{opcion.orden}}</span>
+            </td>
+            <td data-title="'Padre'"  sortable="'idPadre'" width="50">
+                <span >{{opcion.idPadre}}</span>
+            </td>
+            <td data-title="'Acciones'" width="200">
+                <a href="" class="btn btn-primary btn-xs" >Editar</a>
+                <a ng-click="removeRecord(opcion.$id)" class="btn btn-default btn-xs">Eliminar</a>
+            </td>
+        </tr>
+
+    </table>
 </div>

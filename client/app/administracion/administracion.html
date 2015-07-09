@@ -1,19 +1,22 @@
 <div>
     <section class="form-inline">
         <input type="text" ng-model="search" class="form-control" placeholder="Buscar">
+        <button type="button" class="btn btn-primary" ng-model="filtro" btn-checkbox>
+            <span class="glyphicon glyphicon-filter"></span>
+        </button>
         <button ng-click="open()" class="btn btn-primary pull-right"><i class="icon-white icon-plus"></i> Agregar opcion</button>
     </section>
     <br/>
     <button ng-click="tableOpciones.sorting({})" class="btn btn-default pull-right">Limpiar filtro</button>
-    <table ng-table="tableOpciones" class="table table-striped">
+    <table ng-table="tableOpciones"  show-filter="filtro" class="table table-striped">
         <tr ng-repeat="opcion in $data">
-            <td data-title="'Nombre'" sortable="'nombre'">
+            <td data-title="'Nombre'" sortable="'nombre'" filter="{ 'nombre': 'text' }">
                 <span >{{opcion.nombre}}</span>
             </td>
-            <td data-title="'Descripcion'" sortable="'descripcion'" width="330">
+            <td data-title="'Descripcion'" sortable="'descripcion'" width="330" filter="{ 'descripcion': 'text' }">
                 <span >{{opcion.descripcion}}</span>
             </td>
-            <td data-title="'Tipo'"  sortable="'nombreTipo'" width="150">
+            <td data-title="'Tipo'"  sortable="'nombreTipo'" width="150" filter="{ 'nombreTipo': 'text' }">
                 <span >{{opcion.nombreTipo}}</span>
             </td>
             <td data-title="'Orden'"  sortable="'orden'" width="50">
@@ -23,10 +26,49 @@
                 <span >{{opcion.idPadre}}</span>
             </td>
             <td data-title="'Acciones'" width="200">
-                <a href="" class="btn btn-primary btn-xs" >Editar</a>
+                <a ng-click="editar(opcion.id); opcion.$edit = true" class="btn btn-primary btn-xs" >Editar</a>
                 <a ng-click="removeRecord(opcion.$id)" class="btn btn-default btn-xs">Eliminar</a>
             </td>
         </tr>
 
     </table>
+    <script type="text/ng-template" id="modelOpciones">
+        <div>
+            <div class="modal-header">
+                <h3 class="modal-title">Ingrese los datos</h3>
+            </div>
+            <div class="modal-body">
+                <form novalidate >
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input ng-model="opcion.nombre" type="text" class="form-control" id="nombre" placeholder="Nombre" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion">Descripcion</label>
+                        <input ng-model="opcion.descripcion" id="descripcion" class="form-control" type="text" placeholder="Descripcion" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="titulo">Titulo</label>
+                        <input ng-model="opcion.titulo" id="titulo" class="form-control" type="text" placeholder="Titulo" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="padre">Padre</label>
+                        <input ng-model="opcion.idPadre" id="padre" type="number" class="form-control" placeholder="Padre" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipo">Tipo</label>
+                        <select ng-options="item.id as item.nombreTipo for item in tipos" ng-model="opcion.idTipo" name="tipo" id="tipo"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="orden">Orden</label>
+                        <input ng-model="opcion.orden" id="orden" class="form-control" type="text" placeholder="Orden"/>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="ok()">Aceptar</button>
+                <button class="btn btn-warning" ng-click="cancel()">Cancelar</button>
+            </div>
+        </div>
+    </script>
 </div>

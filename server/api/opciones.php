@@ -105,12 +105,14 @@ $app->post('/opDatos','sessionAlive',function() use ($app){
 	$id = $db->get1Record("select fn_ins_seg_opcion( '$nombre','$descripcion','$titulo', $idPadre, $idTipo , $orden ) as id");
 
     if ($id != NULL) {
+        $response['status'] = "success";
+        $response['message'] = 'Se agrego correctamente';
 			$response = $id;
 			
-		}else{
-			$response['status'] = "info";
-			$response['message'] = 'No hay datos';
-		}
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No hay datos';
+    }
 	
 	
     echoResponse(200, $response);
@@ -154,11 +156,11 @@ $app->post('/opDatosU','sessionAlive',function() use ($app){
     echoResponse(200, $response);
 });
 
-$app->post('/opDatosD','sessionAlive',function() use ($app){
+$app->get('/opDatosD/:id','sessionAlive',function($id) use ($app){
 
 	// Recupera los datos de la forma
 	//
-    $r = json_decode($app->request->getBody());
+   // $r = json_decode($app->request->getBody());
 	
     $response = array();
 	//
@@ -168,17 +170,17 @@ $app->post('/opDatosD','sessionAlive',function() use ($app){
 	// select fn_ins_seg_opcion('Ingresa opciones', 'ingreso de opciones', 'Opciones' , 0, 1, 1)
 	//
     $db = new DbHandler();
-	$resId = $db->deleteRecord("call sp_del_seg_opcion(?)", $r->id);
-	
+	//$resId = $db->deleteRecord("call sp_del_seg_opcion(?)", $r->id);
+    $resId = $db->deleteRecord("call sp_del_seg_opcion(?)", $id);
     if ($resId == 0) {
 		$response['status'] = "info";
 		$response['message'] = 'Datos eliminados';
-		}else{
-		if ($id < 0) {
+	}else{
+		if ($resId < 0) {
 				$response['status'] = "error " . $resId;
 				$response['message'] = 'No pudo eliminar los Datos';
 			}
-		}
+	}
 	
     echoResponse(200, $response);
 });

@@ -12,9 +12,42 @@
    pg_tipo
    seg_opcion`
    sp_sel_opcion()
+   sp_sel_seg_opcion( )
+   sp_sel_tipo_opcion()
+   sp_sel_seg_opcion_hijos( padre )
  
  **/
 
+$app->get('/opLista','sessionAlive', function() use ($app) {
+	$db = new DbHandler();
+    $response = array();
+	$datos = $db->getAllRecord("call sp_sel_tipo_opcion()");
+    if ($datos != NULL) {
+			$response = $datos;
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No hay datos';
+    }
+    echoResponse(200, $response);
+});
+
+$app->post('/opListaH','sessionAlive', function() use ($app) {
+    $r = json_decode($app->request->getBody());
+    verifyRequiredParams(array('idPadre'),$r); // 
+    $idPadre = $r->idPadre;
+
+	$db = new DbHandler();
+    $response = array();
+	$datos = $db->getAllRecord("call sp_sel_seg_opcion_hijos($idPadre)");
+    if ($datos != NULL) {
+			$response = $datos;
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No hay datos';
+    }
+    echoResponse(200, $response);
+});
+ 
 // Opcion para obtener la totalidad de registros de la tabla opcion 
 
 $app->get('/opDatos','sessionAlive', function() use ($app){
@@ -32,7 +65,6 @@ $app->get('/opDatos','sessionAlive', function() use ($app){
     $db = new DbHandler();
     $datos = $db->getAllRecord("call sp_sel_seg_opcion( )");
     //var_dump($datos);
-	$opciones = array();
 	// call sp_sel_seg_usuario( ? ) pusuario
     if ($datos != NULL) {
 			$response = $datos;

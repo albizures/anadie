@@ -1,13 +1,12 @@
 <div>
     <section class="form-inline">
-        <input type="text" ng-model="search" class="form-control" placeholder="Buscar">
         <button type="button" class="btn btn-primary" ng-model="filtro" btn-checkbox>
             <span class="glyphicon glyphicon-filter"></span>
         </button>
         <button ng-click="open()" class="btn btn-primary pull-right"><i class="icon-white icon-plus"></i> Agregar opcion</button>
     </section>
     <br/>
-    <button ng-click="tableOpciones.sorting({})" class="btn btn-default pull-right">Limpiar filtro</button>
+    <button ng-click="" class="btn btn-default pull-right">Limpiar filtro</button>
     <table ng-table="tableOpciones"  show-filter="filtro" class="table table-striped">
         <tr ng-repeat="opcion in $data">
             <td data-title="'Nombre'" sortable="'nombre'" filter="{ 'nombre': 'text' }">
@@ -19,10 +18,10 @@
             <td data-title="'Tipo'"  sortable="'nombreTipo'" width="150" filter="{ 'nombreTipo': 'text' }">
                 <span >{{opcion.nombreTipo}}</span>
             </td>
-            <td data-title="'Orden'"  sortable="'orden'" width="50">
+            <td data-title="'Orden'"  sortable="'orden'" width="50"  filter="{ 'orden': 'text' }">
                 <span >{{opcion.orden}}</span>
             </td>
-            <td data-title="'Padre'"  sortable="'idPadre'" width="50">
+            <td data-title="'Padre'"  sortable="'idPadre'" width="50" filter="{ 'idPadre': 'text' }">
                 <span >{{opcion.idPadre}}</span>
             </td>
             <td data-title="'Acciones'" width="200">

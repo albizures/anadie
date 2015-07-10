@@ -28,12 +28,17 @@ angular.module('anApp')
                         total : $scope.opciones.length,
                         getData : function ($defer, params) {
                             var orderedData = params.sorting() ? $filter('orderBy')($scope.opciones, params.orderBy()) : $scope.opciones;
+                            orderedData = params.filter() ? $filter('filter')($scope.opciones, params.filter()) : $scope.opciones;
                             $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
                         }
                     }
                 );
             });
-
+        $scope.limpiar = function () {
+            tableOpciones.sorting({});
+            tableOpciones.filter({});
+            filtro = false;
+        };
         $scope.editar = function (id) {
             var modalOpciones = $modal.open({
                 templateUrl : 'modelOpciones',

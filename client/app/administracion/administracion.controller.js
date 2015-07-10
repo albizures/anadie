@@ -17,6 +17,11 @@ angular.module('anApp')
                     $scope.opciones[index].codTipo = Number($scope.opciones[index].codTipo);
                     $scope.opciones[index].idTipo = Number($scope.opciones[index].idTipo);
                     $scope.opciones[index].orden = Number($scope.opciones[index].orden);
+                    $scope.opciones[index].tipo = {
+                        codTipo : $scope.opciones[index].codTipo,
+                        id  : $scope.opciones[index].idTipo,
+                        nombreTipo : $scope.opciones[index].nombreTipo
+                    }
                 }
                 $scope.tableOpciones = new ngTableParams({
                         page : 1,
@@ -52,14 +57,43 @@ angular.module('anApp')
             modalOpciones.result.then(function (opcion) {
                 Data.post('opDatosU',{'opcion':opcion})
                     .then(function (results) {
-                        for(index in $scope.opciones){
-                            if($scope.opciones[index].id == opcion.id){
-                                $scope.opciones[index] = opcion;
-                                $scope.tableOpciones.reload();
+                        if(results.status === "info") {
+                            for (index in $scope.opciones) {
+                                if ($scope.opciones[index].id == opcion.id) {
+                                    $scope.opciones[index] = opcion;
+                                    $scope.tableOpciones.reload();
+                                }
                             }
                         }
+                        Data.toast(results);
                     });
             }, function () {
             });
+        };
+        $scope.agregar = function () {
+            var modalOpciones = $modal.open({
+                templateUrl : 'modelOpciones',
+                controller : 'ModalOpcionesCtrl',
+                resolve : {
+                    opcion : function () {
+                        return {}
+                    }
+                }
+            });
+            modalOpciones.result.then(function (opcion) {
+                Data.post('opDatos',{'opcion':opcion})
+                    .then(function (results) {
+                        if(results.status === "info"){
+
+                        }
+                        Data.toast(results);
+                    });
+            });
+        };
+        $scope.eliminar = function (id) {
+            Data.get('opDatosD/'+id)
+                .then(function (results) {
+                    Data.toast(results);
+                })
         };
     }]);

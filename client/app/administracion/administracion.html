@@ -3,7 +3,7 @@
         <button type="button" class="btn btn-primary" ng-model="filtro" btn-checkbox>
             <span class="glyphicon glyphicon-filter"></span>
         </button>
-        <button ng-click="open()" class="btn btn-primary pull-right"><i class="icon-white icon-plus"></i> Agregar opcion</button>
+        <button ng-click="agregar()" class="btn btn-primary pull-right"><i class="icon-white icon-plus"></i> Agregar opcion</button>
     </section>
     <br/>
     <button ng-click="" class="btn btn-default pull-right">Limpiar filtro</button>
@@ -26,7 +26,7 @@
             </td>
             <td data-title="'Acciones'" width="200">
                 <a ng-click="editar(opcion.id); opcion.$edit = true" class="btn btn-primary btn-xs" >Editar</a>
-                <a ng-click="removeRecord(opcion.$id)" class="btn btn-default btn-xs">Eliminar</a>
+                <a ng-click="eliminar(opcion.id)" class="btn btn-default btn-xs">Eliminar</a>
             </td>
         </tr>
 
@@ -37,7 +37,7 @@
                 <h3 class="modal-title">Ingrese los datos</h3>
             </div>
             <div class="modal-body">
-                <form novalidate >
+                <form novalidate name="formOpcion" >
                     <div class="form-group">
                         <label for="nombre">Nombre</label>
                         <input ng-model="opcion.nombre" type="text" class="form-control" id="nombre" placeholder="Nombre" required/>
@@ -56,16 +56,16 @@
                     </div>
                     <div class="form-group">
                         <label for="tipo">Tipo</label>
-                        <select ng-options="item.id as item.nombreTipo for item in tipos" ng-model="opcion.idTipo" name="tipo" id="tipo"></select>
+                        <select class="form-control" ng-options="item.id as item.nombreTipo for item in tipos" ng-model="opcion.idTipo" name="tipo" id="tipo" required></select>
                     </div>
                     <div class="form-group">
                         <label for="orden">Orden</label>
-                        <input ng-model="opcion.orden" id="orden" class="form-control" type="text" placeholder="Orden"/>
+                        <input ng-model="opcion.orden" id="orden" class="form-control" type="text" placeholder="Orden" required/>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" ng-click="ok()">Aceptar</button>
+                <button class="btn btn-primary" ng-disabled="!formOpcion.$valid" ng-click="ok()">Aceptar</button>
                 <button class="btn btn-warning" ng-click="cancel()">Cancelar</button>
             </div>
         </div>

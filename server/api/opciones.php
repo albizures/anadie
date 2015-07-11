@@ -105,9 +105,9 @@ $app->post('/opDatos','sessionAlive',function() use ($app){
 	$id = $db->get1Record("select fn_ins_seg_opcion( '$nombre','$descripcion','$titulo', $idPadre, $idTipo , $orden ) as id");
 
     if ($id != NULL) {
+        $response['data'] = $id;
         $response['status'] = "success";
         $response['message'] = 'Se agrego correctamente';
-			$response = $id;
 			
     }else{
         $response['status'] = "info";

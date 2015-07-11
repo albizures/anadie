@@ -5,11 +5,15 @@
 
 angular.module('anApp')
     .controller('AdministracionCtrl',['$scope','Data','$rootScope','ngTableParams','$filter','$modal','utils',
-                             function ($scope,Data,$rootScope, ngTableParams,$filter,$modal,utils) {
+    function ($scope,Data,$rootScope, ngTableParams,$filter,$modal,utils) {
+        Data.get('opListaH/'+0)
+            .then(function (result) {
+                console.log(result);
+
+            });
         $scope.filtro = false;
         Data.get('opDatos')
             .then(function (results) {
-                console.log(typeof results,results);
                 for(index in results){
 
                     results[index] = utils.convertNumber(results[index]);
@@ -85,7 +89,6 @@ angular.module('anApp')
             modalOpciones.result.then(function (opcion) {
                 Data.post('opDatos',{'opcion':opcion})
                     .then(function (results) {
-                        console.log('termino',results);
                         if(results.status === "success"){
                             $scope.opciones.push(opcion);
                             $scope.tableOpciones.reload();

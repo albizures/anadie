@@ -3,7 +3,7 @@
  */
 angular.module('anApp')
     .factory('Auth',['$cookieStore','$rootScope','Data','$location',function ($cookieStore,$rootScope,Data,$location) {
-        $rootScope.currentUser = $cookieStore.get('user') || null;
+        $rootScope.usuario = $cookieStore.get('user') || null;
         $cookieStore.remove('user');
         function informacionUsuario (data) {
             $rootScope.usuario = {
@@ -39,12 +39,12 @@ angular.module('anApp')
 
             logout: function(callback) {
                 var cb = callback || angular.noop;
-                Session.delete(function(res) {
-                        $rootScope.currentUser = null;
+                Data.get('logout')
+                    .then(function (results) {
+                        Data.toast(results);
+                        $rootScope.usuario = {};
+                        $rootScope.opciones = {};
                         return cb();
-                    },
-                    function(err) {
-                        return cb(err.data);
                     });
             },
             currentUser: function() {

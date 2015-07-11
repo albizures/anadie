@@ -1,4 +1,7 @@
 <div>
+    <tabset>
+        <tab ng-repeat="tab in tabs" heading="{{tab.title}}"></tab>
+    </tabset>
     <section class="form-inline">
         <button type="button" class="btn btn-primary" ng-model="filtro" btn-checkbox>
             <span class="glyphicon glyphicon-filter"></span>
@@ -56,7 +59,7 @@
                     </div>
                     <div class="form-group">
                         <label for="padre">Padre</label>
-                        <select ng-disabled="!padres" ng-options="item.id as item.nombre for item in padres" ng-model="opcion.idPadre" id="padre" type="number" class="form-control" placeholder="Padre" required></select>
+                        <select ng-disabled="!padres" ng-options="item.id as item.nombre for item in padres" ng-model="opcion.idPadre" id="padre" type="number" class="form-control" placeholder="Padre"></select>
                     </div>
                     <div class="form-group">
                         <label for="orden">Orden</label>
@@ -65,7 +68,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" ng-disabled="!formOpcion.$valid" ng-click="ok()">Aceptar</button>
+                <button class="btn btn-primary" ng-disabled="!formOpcion.$valid && " ng-click="ok()">Aceptar</button>
                 <button class="btn btn-warning" ng-click="cancel()">Cancelar</button>
             </div>
         </div>

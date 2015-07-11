@@ -10,6 +10,7 @@ angular.module('anApp')
             .then(function (result) {
                 console.log(result);
 
+
             });
         $scope.filtro = false;
         Data.get('opDatos')

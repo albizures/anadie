@@ -26,7 +26,7 @@
             </td>
             <td data-title="'Acciones'" width="200">
                 <a ng-click="editar(opcion.id); opcion.$edit = true" class="btn btn-primary btn-xs" >Editar</a>
-                <a ng-click="eliminar(opcion.id)" class="btn btn-default btn-xs">Eliminar</a>
+                <a ng-click="eliminar(opcion.id,$index)" class="btn btn-default btn-xs">Eliminar</a>
             </td>
         </tr>
 
@@ -51,12 +51,12 @@
                         <input ng-model="opcion.titulo" id="titulo" class="form-control" type="text" placeholder="Titulo" required/>
                     </div>
                     <div class="form-group">
-                        <label for="padre">Padre</label>
-                        <input ng-model="opcion.idPadre" id="padre" type="number" class="form-control" placeholder="Padre" required/>
-                    </div>
-                    <div class="form-group">
                         <label for="tipo">Tipo</label>
                         <select class="form-control" ng-options="item.id as item.nombreTipo for item in tipos" ng-model="opcion.idTipo" name="tipo" id="tipo" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="padre">Padre</label>
+                        <select ng-disabled="!padres" ng-options="item.id as item.nombre for item in padres" ng-model="opcion.idPadre" id="padre" type="number" class="form-control" placeholder="Padre" required></select>
                     </div>
                     <div class="form-group">
                         <label for="orden">Orden</label>

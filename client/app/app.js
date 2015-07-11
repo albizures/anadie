@@ -13,6 +13,10 @@ var anApp = angular.module("anApp",[
     'http-auth-interceptor',
     'toaster'
 ])
+    .constant('tipoMenu',{
+        1 : false,
+        2 : 0
+    })
     .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         $urlRouterProvider
             .otherwise('/');

@@ -4,19 +4,20 @@
 
 
 angular.module('anApp')
-    .controller('AdministracionCtrl',['$scope','Data','$rootScope','ngTableParams','$filter','$modal',
-                             function ($scope,Data,$rootScope, ngTableParams,$filter,$modal) {
+    .controller('AdministracionCtrl',['$scope','Data','$rootScope','ngTableParams','$filter','$modal','utils',
+                             function ($scope,Data,$rootScope, ngTableParams,$filter,$modal,utils) {
         $scope.filtro = false;
         Data.get('opDatos')
             .then(function (results) {
-                console.log(results);
+                console.log(typeof results,results);
+                for(index in results){
+
+                    results[index] = utils.convertNumber(results[index]);
+                }
+               // console.log(results);
                 $scope.opciones = results;
                 for(index in $scope.opciones){
-                    $scope.opciones[index].id = Number($scope.opciones[index].id);
-                    $scope.opciones[index].idPadre = Number($scope.opciones[index].idPadre);
-                    $scope.opciones[index].codTipo = Number($scope.opciones[index].codTipo);
-                    $scope.opciones[index].idTipo = Number($scope.opciones[index].idTipo);
-                    $scope.opciones[index].orden = Number($scope.opciones[index].orden);
+
                     $scope.opciones[index].tipo = {
                         codTipo : $scope.opciones[index].codTipo,
                         id  : $scope.opciones[index].idTipo,
@@ -84,16 +85,20 @@ angular.module('anApp')
             modalOpciones.result.then(function (opcion) {
                 Data.post('opDatos',{'opcion':opcion})
                     .then(function (results) {
-                        if(results.status === "info"){
-
+                        console.log('termino',results);
+                        if(results.status === "success"){
+                            $scope.opciones.push(opcion);
+                            $scope.tableOpciones.reload();
                         }
                         Data.toast(results);
                     });
             });
         };
-        $scope.eliminar = function (id) {
+        $scope.eliminar = function (id,index) {
             Data.get('opDatosD/'+id)
                 .then(function (results) {
+                    $scope.opciones.splice(index,1);
+                    $scope.tableOpciones.reload();
                     Data.toast(results);
                 })
         };

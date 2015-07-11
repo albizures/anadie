@@ -31,12 +31,15 @@ class DbHandler {
 		$this->conn = $db->connect();
 
         $r = $this->conn->query($query) or die($this->conn->error.__LINE__);
+		$i = 0;
 		while($row = $r->fetch_array(MYSQLI_ASSOC))
 			{
 				$rows[] = $row;
+				$i = +1;
 			}
         //return $result = $r->fetch_array(MYSQLI_ASSOC);    
 		$db->disconnect();
+		if ($i==0) { $rows = null; }
 		
 		return $rows;
     }

@@ -13,7 +13,8 @@ angular.module('anApp')
        $scope.logout = function () {
             Data.get('logout')
                 .then(function (results) {
-                    console.log('resultado ',results);
+
+                    Data.toast(results);
                 });
        };
     }]);

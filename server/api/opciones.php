@@ -31,14 +31,14 @@ $app->get('/opLista','sessionAlive', function() use ($app) {
     echoResponse(200, $response);
 });
 
-$app->post('/opListaH','sessionAlive', function() use ($app) {
-    $r = json_decode($app->request->getBody());
-    verifyRequiredParams(array('idPadre'),$r); // 
-    $idPadre = $r->idPadre;
+$app->get('/opListaH/:id','sessionAlive', function($id) use ($app) {
+   //$r = json_decode($app->request->getBody());
+    //verifyRequiredParams(array('idPadre'),$id); //
+    //$idPadre = $r->idPadre;
 
 	$db = new DbHandler();
     $response = array();
-	$datos = $db->getAllRecord("call sp_sel_seg_opcion_hijos($idPadre)");
+	$datos = $db->getAllRecord("call sp_sel_seg_opcion_hijos($id)");
     if ($datos != NULL) {
 			$response = $datos;
     }else{

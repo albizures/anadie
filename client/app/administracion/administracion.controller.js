@@ -31,6 +31,7 @@ angular.module('anApp')
                         }
                     },{
                         total : $scope.opciones.length,
+                        filterDelay: 350,
                         getData : function ($defer, params) {
                             var orderedData = params.sorting() ? $filter('orderBy')($scope.opciones, params.orderBy()) : $scope.opciones;
                             orderedData = params.filter() ? $filter('filter')($scope.opciones, params.filter()) : $scope.opciones;

@@ -84,6 +84,9 @@ angular.module('anApp')
                 Data.post('opDatos',{'opcion':opcion})
                     .then(function (results) {
                         if(results.status === "success"){
+                            //debugger;
+                            console.log(Number(results.data.id),results.data.id,results.data);
+                            opcion.id = Number(results.data.id);
                             $scope.opciones.push(opcion);
                             $scope.tableOpciones.reload();
                         }
@@ -91,12 +94,18 @@ angular.module('anApp')
                     });
             });
         };
-        $scope.eliminar = function (id,index) {
+        $scope.eliminar = function (id) {
             Data.get('opDatosD/'+id)
                 .then(function (results) {
-                    $scope.opciones.splice(index,1);
-                    $scope.tableOpciones.reload();
-                    Data.toast(results);
+                    for(index in $scope.opciones){
+                        if($scope.opciones[index].id == id){
+                            $scope.opciones.splice(index,1);
+                            $scope.tableOpciones.reload();
+                            Data.toast(results);
+                            break;
+                        }
+                    }
+
                 })
         };
     }]);

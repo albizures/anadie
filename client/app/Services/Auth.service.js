@@ -2,7 +2,7 @@
  * Created by josec on 7/5/2015.
  */
 angular.module('anApp')
-    .factory('Auth',['$cookieStore','$rootScope','Data','$location',function ($cookieStore,$rootScope,Data,$location) {
+    .factory('Auth',['$cookieStore','$rootScope','Data','$location','utils',function ($cookieStore,$rootScope,Data,$location,utils) {
         $rootScope.usuario = $cookieStore.get('user') || null;
         $cookieStore.remove('user');
         function informacionUsuario (data) {
@@ -16,6 +16,9 @@ angular.module('anApp')
                 organizacion : data.organizacion,
                 email : data.email
             };
+            for(index in data.opciones){
+                data.opciones[index] = utils.convertNumber(data.opciones[index]);
+            }
             $rootScope.opciones = data.opciones;
         }
         return {
@@ -42,8 +45,8 @@ angular.module('anApp')
                 Data.get('logout')
                     .then(function (results) {
                         Data.toast(results);
-                        $rootScope.usuario = {};
-                        $rootScope.opciones = {};
+                        $rootScope.usuario = null;
+                        $rootScope.opciones = null;
                         return cb();
                     });
             },

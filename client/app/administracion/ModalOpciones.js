@@ -23,6 +23,9 @@ angular.module('anApp')
             {id : 1,nombreTipo : 'Menu'}
         ];*/
         $scope.ok = function () {
+            if($scope.opcion.idPadre == undefined || $scope.opcion.idPadre == null || $scope.opcion.idPadre == ""){
+                $scope.opcion.idPadre = 0;
+            }
             $modalIntance.close($scope.opcion);
         };
         $scope.cancel = function () {

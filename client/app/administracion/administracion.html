@@ -1,39 +1,7 @@
 <div>
     <tabset>
-        <tab ng-repeat="tab in tabs" heading="{{tab.title}}"></tab>
+        <tab ng-repeat="tab in tabs" heading="{{tab.nombre}}"><div ng-include="'client/app/administracion/' + tab.nombre.toLowerCase() + '.html'"></div></tab>
     </tabset>
-    <section class="form-inline">
-        <button type="button" class="btn btn-primary" ng-model="filtro" btn-checkbox>
-            <span class="glyphicon glyphicon-filter"></span>
-        </button>
-        <button ng-click="agregar()" class="btn btn-primary pull-right"><i class="icon-white icon-plus"></i> Agregar opcion</button>
-    </section>
-    <br/>
-    <button ng-click="" class="btn btn-default pull-right">Limpiar filtro</button>
-    <table ng-table="tableOpciones"  show-filter="filtro" class="table table-striped">
-        <tr ng-repeat="opcion in $data">
-            <td data-title="'Nombre'" sortable="'nombre'" filter="{ 'nombre': 'text' }">
-                <span >{{opcion.nombre}}</span>
-            </td>
-            <td data-title="'Descripcion'" sortable="'descripcion'" width="330" filter="{ 'descripcion': 'text' }">
-                <span >{{opcion.descripcion}}</span>
-            </td>
-            <td data-title="'Tipo'"  sortable="'nombreTipo'" width="150" filter="{ 'nombreTipo': 'text' }">
-                <span >{{opcion.nombreTipo}}</span>
-            </td>
-            <td data-title="'Orden'"  sortable="'orden'" width="50"  filter="{ 'orden': 'text' }">
-                <span >{{opcion.orden}}</span>
-            </td>
-            <td data-title="'Padre'"  sortable="'idPadre'" width="50" filter="{ 'idPadre': 'text' }">
-                <span >{{opcion.idPadre}}</span>
-            </td>
-            <td data-title="'Acciones'" width="200">
-                <a ng-click="editar(opcion.id); opcion.$edit = true" class="btn btn-primary btn-xs" >Editar</a>
-                <a ng-click="eliminar(opcion.id,$index)" class="btn btn-default btn-xs">Eliminar</a>
-            </td>
-        </tr>
-
-    </table>
     <script type="text/ng-template" id="modelOpciones">
         <div>
             <div class="modal-header">

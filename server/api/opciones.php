@@ -6,18 +6,23 @@
  
  * server CRUD para la tabla de opciones de menu.
  
- * Entidades de DB que utiliza:
+ * Entidades de DB que se utilizan:
  *
    fn_tipo()
    pg_tipo
    seg_opcion`
-   sp_sel_opcion()
+   
    sp_sel_seg_opcion( )
+   fn_ins_seg_opcion( ? , ? ...)
+   sp_upd_seg_opcion(?,?,?,?,?,?,?)
+   sp_del_seg_opcion(?)
+   
    sp_sel_tipo_opcion()
    sp_sel_seg_opcion_hijos( padre )
  
  **/
 
+ // Obtiene la lista de tipos de opción, ej: Menu, Sub-Menu
 $app->get('/opLista','sessionAlive', function() use ($app) {
 	$db = new DbHandler();
     $response = array();
@@ -31,10 +36,8 @@ $app->get('/opLista','sessionAlive', function() use ($app) {
     echoResponse(200, $response);
 });
 
+// Obtiene la lista de opciones hijas de un padre específico solicitado por $id
 $app->get('/opListaH/:id','sessionAlive', function($id) use ($app) {
-   //$r = json_decode($app->request->getBody());
-    //verifyRequiredParams(array('idPadre'),$id); //
-    //$idPadre = $r->idPadre;
 
 	$db = new DbHandler();
     $response = array();
@@ -49,18 +52,9 @@ $app->get('/opListaH/:id','sessionAlive', function($id) use ($app) {
 });
  
 // Opcion para obtener la totalidad de registros de la tabla opcion 
-
 $app->get('/opDatos','sessionAlive', function() use ($app){
-	// Recupera los datos de la forma
-    // $r = json_decode($app->request->getBody());
-    // verifyRequiredParams(array('username', 'password'),$r->user);//cambio el nombre customer por user
-
-    // $clave = $r->user->password;
-    // $user = $r->user->username;
 
     $response = array();
-	//
-	// Verifica si los datos existen en la base de datos.
 	//
     $db = new DbHandler();
     $datos = $db->getAllRecord("call sp_sel_seg_opcion( )");
@@ -72,7 +66,6 @@ $app->get('/opDatos','sessionAlive', function() use ($app){
         $response['status'] = "info";
         $response['message'] = 'No hay datos';
     }
-
 
     echoResponse(200, $response);
 });
@@ -113,11 +106,11 @@ $app->post('/opDatos','sessionAlive',function() use ($app){
         $response['status'] = "info";
         $response['message'] = 'No hay datos';
     }
-	
-	
+		
     echoResponse(200, $response);
 });
 
+// Actualiza los datos de un registro de opción especificado en el parámetro $id
 $app->post('/opDatosU','sessionAlive',function() use ($app){
 
 	// Recupera los datos de la forma
@@ -156,6 +149,7 @@ $app->post('/opDatosU','sessionAlive',function() use ($app){
     echoResponse(200, $response);
 });
 
+// Elimina un registro de opción especificado por $id
 $app->get('/opDatosD/:id','sessionAlive',function($id) use ($app){
 
 	// Recupera los datos de la forma

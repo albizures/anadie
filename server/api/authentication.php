@@ -126,7 +126,7 @@ $app->get('/logout', function() use ($app){
     $response["message"] = "Se ha desconectado del sistema.";
     session_unset();
 	session_destroy();
-    echoResponse(401, $response);
+    echoResponse(200, $response);
 });
 
 ?>

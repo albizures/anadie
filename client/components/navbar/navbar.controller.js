@@ -2,7 +2,7 @@
  * Created by josec on 6/26/2015.
  */
 angular.module('anApp')
-    .controller('NavbarCtrl', ['$scope', '$location','$rootScope','Data',function ($scope, $location,$rootScope,Data) {
+    .controller('NavbarCtrl', ['$scope', '$location','$rootScope','Auth',function ($scope, $location,$rootScope,Auth) {
        /* $scope.opciones = [
             {'op':'Inicio'},
             {'op':'Preguntas y Respuestas'},
@@ -10,11 +10,13 @@ angular.module('anApp')
             {'op':'Administracion'},
             {'op':'Contacto'},
             {'op':'Acerca de'}];*/
+        $rootScope.$watch('usuario', function () {
+           // alert('cambio');
+        });
+        $scope.usuario = $rootScope.usuario;
        $scope.logout = function () {
-            Data.get('logout')
-                .then(function (results) {
-
-                    Data.toast(results);
-                });
+            Auth.logout(function () {
+                $location.path('/login');
+            });
        };
     }]);

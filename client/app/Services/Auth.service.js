@@ -2,8 +2,8 @@
  * Created by josec on 7/5/2015.
  */
 angular.module('anApp')
-    .factory('Auth',['$cookieStore','$rootScope','Data','$location',function ($cookieStore,$rootScope,Data,$location) {
-        $rootScope.currentUser = $cookieStore.get('user') || null;
+    .factory('Auth',['$cookieStore','$rootScope','Data','$location','utils',function ($cookieStore,$rootScope,Data,$location,utils) {
+        $rootScope.usuario = $cookieStore.get('user') || null;
         $cookieStore.remove('user');
         function informacionUsuario (data) {
             $rootScope.usuario = {
@@ -16,6 +16,9 @@ angular.module('anApp')
                 organizacion : data.organizacion,
                 email : data.email
             };
+            for(index in data.opciones){
+                data.opciones[index] = utils.convertNumber(data.opciones[index]);
+            }
             $rootScope.opciones = data.opciones;
         }
         return {
@@ -39,12 +42,12 @@ angular.module('anApp')
 
             logout: function(callback) {
                 var cb = callback || angular.noop;
-                Session.delete(function(res) {
-                        $rootScope.currentUser = null;
+                Data.get('logout')
+                    .then(function (results) {
+                        Data.toast(results);
+                        $rootScope.usuario = null;
+                        $rootScope.opciones = null;
                         return cb();
-                    },
-                    function(err) {
-                        return cb(err.data);
                     });
             },
             currentUser: function() {

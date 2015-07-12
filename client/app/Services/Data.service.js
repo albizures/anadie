@@ -8,7 +8,7 @@ angular.module('anApp').factory("Data", ['$http', 'toaster',
 
         var obj = {};
         obj.toast = function (data) {
-            toaster.pop(data.status, "", data.message);
+            toaster.pop(data.status, "", data.message,undefined,undefined,undefined,undefined,true);
         };
         obj.get = function (q) {
             return $http.get(serviceBase + q).then(function (results) {

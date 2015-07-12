@@ -1,23 +1,10 @@
 /**
- * Created by josec on 7/4/2015.
+ * Created by josec on 7/11/2015.
  */
 
-
 angular.module('anApp')
-    .controller('AdministracionCtrl',['$scope','Data','$rootScope','ngTableParams','$filter','$modal','utils',
-    function ($scope,Data,$rootScope, ngTableParams,$filter,$modal,utils) {
-        $rootScope.$watch('opciones', function (newValue, oldValue) {
-            if(newValue && newValue !== oldValue){
-                var id = $rootScope.opciones.filter(function (item) {return item.opcion == "Administracion";})[0].idopcion;
-                Data.get('opListaH/'+id)
-                    .then(function (result) {
-                        console.log(result);
-                        $scope.tabs = result;
-
-                    });
-            }
-        });
-/*
+    .controller('opcionesCtrl',['$scope','Data','$rootScope','ngTableParams','$filter','$modal','utils',
+    function ($scope,Data, $rootScope, ngTableParams, $filter , $modal, utils) {
         $scope.filtro = false;
         Data.get('opDatos')
             .then(function (results) {
@@ -25,7 +12,7 @@ angular.module('anApp')
 
                     results[index] = utils.convertNumber(results[index]);
                 }
-               // console.log(results);
+                // console.log(results);
                 $scope.opciones = results;
                 for(index in $scope.opciones){
 
@@ -111,5 +98,5 @@ angular.module('anApp')
                     $scope.tableOpciones.reload();
                     Data.toast(results);
                 })
-        };*/
+        };
     }]);

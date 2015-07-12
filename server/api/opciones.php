@@ -11,6 +11,7 @@
    fn_tipo()
    pg_tipo
    seg_opcion`
+   pg_estado
    
    sp_sel_seg_opcion( )
    fn_ins_seg_opcion( ? , ? ...)
@@ -27,6 +28,19 @@ $app->get('/opLista','sessionAlive', function() use ($app) {
 	$db = new DbHandler();
     $response = array();
 	$datos = $db->getAllRecord("call sp_sel_tipo_opcion()");
+    if ($datos != NULL) {
+			$response = $datos;
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No hay datos';
+    }
+    echoResponse(200, $response);
+});
+
+$app->get('/estadoLista','sessionAlive', function() use ($app) {
+	$db = new DbHandler();
+    $response = array();
+	$datos = $db->getAllRecord("call sp_sel_pg_estado()");
     if ($datos != NULL) {
 			$response = $datos;
     }else{

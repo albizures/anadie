@@ -15,11 +15,10 @@
   
 	sp_sel_seg_usuarios()    --- ojo: este debiera ser en singular pero tuve que dejarlo en ploural porque ya existe en singluar para pedir 1 usuario
                                      en las rutas de authentication.php
-	fn_ins_seg_usuario(
 	sp_sel_seg_usuario_id(?)
+	fn_ins_seg_usuario( ? , ? , ?, ? , ? , ? , ? , ? )
+	sp_upd_seg_usuario( ? , ? , ?, ? , ? , ? , ? , ?, ? )
 	sp_del_seg_usuario(?)
-	sp_upd_seg_usuario(
-	sp_ins_seg_usuario(
  **/
 
 // Opcion para obtener la totalidad de registros de la tabla usuarios
@@ -116,7 +115,8 @@ $app->post('/userU','sessionAlive',function() use ($app){
 	// Recupera los datos de la forma
 	//
     $r = json_decode($app->request->getBody());
-    verifyRequiredParams(array('nombre', 'nombres', 'apellidos', 'clave','idrol','idorganizacion','estado','email'),$r->user); // 
+    verifyRequiredParams(array('id','nombre', 'nombres', 'apellidos', 'clave','idrol','idorganizacion','estado','email'),$r->user); // 
+	$id = $r->user->id;
     $nombre = $r->user->nombre;
     $nombres = $r->user->nombres;
 	$apellidos = $r->user->apellidos;
@@ -134,9 +134,9 @@ $app->post('/userU','sessionAlive',function() use ($app){
 	// select fn_ins_seg_opcion('Ingresa opciones', 'ingreso de opciones', 'Opciones' , 0, 1, 1)
 	//
     $db = new DbHandler();
-    $column_names = array('nombre', 'nombres', 'apellidos', 'clave','idrol','idorganizacion','estado','email');
+    $column_names = array('id','nombre', 'nombres', 'apellidos', 'clave','idrol','idorganizacion','estado','email');
 	// $db->insertIntoTable($r->opcion, $column_names, 'seg_usuario' );
-	$resId = $db->updateRecord("call sp_upd_seg_usuario(?,?,?,?,?,?,?,?)", $r->user, $column_names,'ssssiiis');
+	$resId = $db->updateRecord("call sp_upd_seg_usuario(?,?,?,?,?,?,?,?,?)", $r->user, $column_names,'issssiiis');
 	
     if ($resId == 0) {
 		$response['status'] = "info";

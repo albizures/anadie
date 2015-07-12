@@ -1,38 +1,29 @@
 /**
- * Created by josec on 7/11/2015.
+ * Created by josec on 7/12/2015.
  */
-
 angular.module('anApp')
-    .controller('opcionesCtrl',['$scope','Data','$rootScope','ngTableParams','$filter','$modal','utils',
+    .controller('usuariosCtrl',['$scope','Data','$rootScope','ngTableParams','$filter','$modal','utils',
     function ($scope,Data, $rootScope, ngTableParams, $filter , $modal, utils) {
         $scope.filtro = false;
-        Data.get('opDatos')
+        Data.get('userDatos')
             .then(function (results) {
                 for(index in results){
 
                     results[index] = utils.convertNumber(results[index]);
                 }
                 // console.log(results);
-                $scope.opciones = results;
-                for(index in $scope.opciones){
-
-                    $scope.opciones[index].tipo = {
-                        codTipo : $scope.opciones[index].codTipo,
-                        id  : $scope.opciones[index].idTipo,
-                        nombreTipo : $scope.opciones[index].nombreTipo
-                    }
-                }
-                $scope.tableOpciones = new ngTableParams({
+                $scope.usuarios = results;
+                $scope.tableUsuarios = new ngTableParams({
                         page : 1,
                         count : 10,
                         sorting : {
                             nombre : 'asc'
                         }
                     },{
-                        total : $scope.opciones.length,
+                        total : $scope.usuarios.length,
                         filterDelay: 350,
                         getData : function ($defer, params) {
-                            var orderedData = params.sorting() ? $filter('orderBy')($scope.opciones, params.orderBy()) : $scope.opciones;
+                            var orderedData = params.sorting() ? $filter('orderBy')($scope.usuarios, params.orderBy()) : $scope.usuarios;
                             orderedData = params.filter() ? $filter('filter')(orderedData, params.filter()) : orderedData;
                             $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
                         }
@@ -45,23 +36,25 @@ angular.module('anApp')
             $scope.filtro = false;
         };
         $scope.editar = function (id) {
-            var modalOpciones = $modal.open({
-                templateUrl : 'modelOpciones',
-                controller : 'ModalOpcionesCtrl',
-                resolve : {
-                    opcion : function () {
-                        return $scope.opciones.filter(function(opcion){return opcion.id == id})[0];
+            var modalUsuarios = $modal.open({
+                templateUrl: 'modelUsuarios',
+                controller: 'ModalUsuariosCtrl',
+                resolve: {
+                    usuario : function () {
+                        return $scope.usuarios.filter(function (usuario) {
+                            return usuario.id == id;
+                        })[0];
                     }
                 }
             });
-            modalOpciones.result.then(function (opcion) {
-                Data.post('opDatosU',{'opcion':opcion})
+            modalUsuarios.result.then(function (usuario) {
+                Data.post('userU',{'user':usuario})
                     .then(function (results) {
                         if(results.status === "info") {
-                            for (index in $scope.opciones) {
-                                if ($scope.opciones[index].id == opcion.id) {
-                                    $scope.opciones[index] = opcion;
-                                    $scope.tableOpciones.reload();
+                            for (index in $scope.usuarios) {
+                                if ($scope.usuarios[index].id == usuario.id) {
+                                    $scope.usuarios[index] = usuario;
+                                    $scope.tableUsuarios.reload();
                                 }
                             }
                         }
@@ -72,35 +65,35 @@ angular.module('anApp')
         };
         $scope.agregar = function () {
             var modalOpciones = $modal.open({
-                templateUrl : 'modelOpciones',
-                controller : 'ModalOpcionesCtrl',
+                templateUrl : 'modelUsuarios',
+                controller : 'ModalUsuariosCtrl',
                 resolve : {
-                    opcion : function () {
+                    usuario : function () {
                         return {}
                     }
                 }
             });
-            modalOpciones.result.then(function (opcion) {
-                Data.post('opDatos',{'opcion':opcion})
+            modalOpciones.result.then(function (usuario) {
+                Data.post('userIn',{'user':usuario})
                     .then(function (results) {
                         if(results.status === "success"){
                             //debugger;
                             console.log(Number(results.data.id),results.data.id,results.data);
-                            opcion.id = Number(results.data.id);
-                            $scope.opciones.push(opcion);
-                            $scope.tableOpciones.reload();
+                            usuario.id = Number(results.data.id);
+                            $scope.usuarios.push(usuario);
+                            $scope.tableUsuarios.reload();
                         }
                         Data.toast(results);
                     });
             });
         };
         $scope.eliminar = function (id) {
-            Data.get('opDatosD/'+id)
+            Data.get('userD/'+id)
                 .then(function (results) {
-                    for(index in $scope.opciones){
-                        if($scope.opciones[index].id == id){
-                            $scope.opciones.splice(index,1);
-                            $scope.tableOpciones.reload();
+                    for(index in $scope.usuarios){
+                        if($scope.usuarios[index].id == id){
+                            $scope.usuarios.splice(index,1);
+                            $scope.tableUsuarios.reload();
                             Data.toast(results);
                             break;
                         }

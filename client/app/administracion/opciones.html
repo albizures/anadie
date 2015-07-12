@@ -7,7 +7,7 @@
         <button ng-click="agregar()" class="btn btn-primary pull-right"><i class="icon-white icon-plus"></i> Agregar opcion</button>
     </section>
     <br/>
-    <button ng-click="" class="btn btn-default pull-right">Limpiar filtro</button>
+    <button ng-click="tableOpciones.sorting({})" class="btn btn-default pull-right">Limpiar filtro</button>
     <table ng-table="tableOpciones"  show-filter="filtro" class="table table-striped">
         <tr ng-repeat="opcion in $data">
             <td data-title="'Nombre'" sortable="'nombre'" filter="{ 'nombre': 'text' }">

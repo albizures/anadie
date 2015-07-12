@@ -22,6 +22,7 @@ $user_id = NULL;
 
 require_once "authentication.php";
 require_once "opciones.php";
+require_once "usuarios.php";
 
 /**
  * Verifying required params posted or not

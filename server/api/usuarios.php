@@ -41,7 +41,7 @@ $app->get('/userDatos','sessionAlive', function() use ($app){
 });
 
 // Opcion para obtener un registro de la tabla usuarios
-$app->get('/userR/:id','sessionAlive', function($id) use ($app){
+$app->get('/userDatos/:id','sessionAlive', function($id) use ($app){
 
     $response = array();
 	//
@@ -99,7 +99,7 @@ $app->post('/userIn','sessionAlive',function() use ($app){
     if ($id != NULL) {
         $response['status'] = "success";
         $response['message'] = 'Se agrego correctamente';
-		$response['id'] = $id;
+		$response['data'] = $id;
 			
     }else{
         $response['status'] = "info";

@@ -37,10 +37,10 @@ $app->get('/opLista','sessionAlive', function() use ($app) {
     echoResponse(200, $response);
 });
 
-$app->get('/estadoLista','sessionAlive', function() use ($app) {
+$app->get('/estadoListaUser','sessionAlive', function() use ($app) {
 	$db = new DbHandler();
     $response = array();
-	$datos = $db->getAllRecord("call sp_sel_pg_estado()");
+	$datos = $db->getAllRecord("call sp_sel_pg_estado_usuario()");
     if ($datos != NULL) {
 			$response = $datos;
     }else{

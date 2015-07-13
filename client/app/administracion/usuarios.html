@@ -19,9 +19,9 @@
             <td data-title="'Apellidos'" sortable="'apellidos'" filter="{ 'apellidos': 'text' }">
                 <span >{{usuario.apellidos}}</span>
             </td>
-            <td data-title="'Contraseña'" sortable="'clave'" filter="{ 'clave': 'text' }">
+           <!-- <td data-title="'Contraseña'" sortable="'clave'" filter="{ 'clave': 'text' }">
                 <span >{{usuario.clave}}</span>
-            </td>
+            </td>-->
             <td data-title="'Rol'" sortable="'clave'" filter="{ 'rol': 'text' }">
                 <span >{{usuario.rol}}</span>
             </td>
@@ -37,7 +37,7 @@
             <td data-title="'Fecha'" sortable="'fecha'" filter="{ 'fecha': 'text' }">
                 <span >{{usuario.fecha | date:'dd-MM-yyyy HH:mm:ss'}}</span>
             </td>
-            <td data-title="'Acciones'" width="200">
+            <td data-title="'Acciones'" width="125">
                 <a ng-click="editar(usuario.id); usuario.$edit = true" class="btn btn-primary btn-xs" >Editar</a>
                 <a ng-click="eliminar(usuario.id,$index)" class="btn btn-default btn-xs">Eliminar</a>
             </td>

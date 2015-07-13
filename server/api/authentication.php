@@ -80,8 +80,8 @@ $app->post('/login',function() use ($app){
 	$opciones = array();
 	// call sp_sel_seg_usuario( ? ) pusuario
     if ($usuario != NULL) {
-        //if($clave == $usuario['clave']/*passwordHash::check_password($usuario['clave'],$clave)*/){
-		if(passwordHash::check_password($usuario['clave'],$clave)){
+        if($clave == $usuario['clave']/*passwordHash::check_password($usuario['clave'],$clave)*/){
+		//if(passwordHash::check_password($usuario['clave'],$clave)){
 			$response['status'] = "success";
 			$response['message'] = 'Ha ingresado al sistema.';
 			$response['name'] = $usuario['nombre'];

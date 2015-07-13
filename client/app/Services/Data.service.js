@@ -1,8 +1,8 @@
 /**
  * Created by josec on 6/27/2015.
  */
-angular.module('anApp').factory("Data", ['$http', 'toaster',
-    function ($http, toaster) { // This service connects to our REST API
+angular.module('anApp').factory("Data", ['$http', 'toaster','utils',
+    function ($http, toaster,utils) { // This service connects to our REST API
 
         var serviceBase = '/server/api/';
 

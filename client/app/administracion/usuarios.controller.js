@@ -8,8 +8,8 @@ angular.module('anApp')
         Data.get('userDatos')
             .then(function (results) {
                 for(index in results){
-
                     results[index] = utils.convertNumber(results[index]);
+                    results[index].fecha = Date.parse(new Date(results[index].fecha));
                 }
                 // console.log(results);
                 $scope.usuarios = results;
@@ -77,7 +77,6 @@ angular.module('anApp')
                 Data.post('userIn',{'user':usuario})
                     .then(function (results) {
                         if(results.status === "success"){
-                            //debugger;
                             console.log(Number(results.data.id),results.data.id,results.data);
                             usuario.id = Number(results.data.id);
                             $scope.usuarios.push(usuario);

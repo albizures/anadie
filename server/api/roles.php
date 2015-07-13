@@ -23,7 +23,7 @@ $app->get('/rolDatos','sessionAlive', function() use ($app){
     $response = array();
 	//
     $db = new DbHandler();
-    $datos = $db->getAllRecord("call sp_sel_roles( )");
+    $datos = $db->getAllRecord("call sp_sel_seg_rol( )");
     //var_dump($datos);
 	// call sp_sel_seg_usuario( ? ) pusuario
     if ($datos != NULL) {

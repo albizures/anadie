@@ -15,7 +15,7 @@
  **/
 
 // Opcion para obtener la totalidad de registros de la tabla opcion 
-$app->get('/organicazionDatos','sessionAlive', function() use ($app){
+$app->get('/organizacionesDatos','sessionAlive', function() use ($app){
 
     $response = array();
 	//

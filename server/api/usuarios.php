@@ -115,7 +115,7 @@ $app->post('/userU','sessionAlive',function() use ($app){
 	// Recupera los datos de la forma
 	//
     $r = json_decode($app->request->getBody());
-    verifyRequiredParams(array('id','nombre', 'nombres', 'apellidos', 'clave','idrol','idorganizacion','estado','email'),$r->user); // 
+    verifyRequiredParams(array('id','nombre', 'nombres', 'apellidos', 'idrol','idorganizacion','estado','email'),$r->user); // 
 	$id = $r->user->id;
     $nombre = $r->user->nombre;
     $nombres = $r->user->nombres;
@@ -134,9 +134,9 @@ $app->post('/userU','sessionAlive',function() use ($app){
 	// select fn_ins_seg_opcion('Ingresa opciones', 'ingreso de opciones', 'Opciones' , 0, 1, 1)
 	//
     $db = new DbHandler();
-    $column_names = array('id','nombre', 'nombres', 'apellidos', 'clave','idrol','idorganizacion','estado','email');
+    $column_names = array('id','nombre', 'nombres', 'apellidos', 'idrol','idorganizacion','estado','email');
 	// $db->insertIntoTable($r->opcion, $column_names, 'seg_usuario' );
-	$resId = $db->updateRecord("call sp_upd_seg_usuario(?,?,?,?,?,?,?,?,?)", $r->user, $column_names,'issssiiis');
+	$resId = $db->updateRecord("call sp_upd_seg_usuario(?,?,?,?,?,?,?,?)", $r->user, $column_names,'isssiiis');
 	
     if ($resId == 0) {
 		$response['status'] = "info";

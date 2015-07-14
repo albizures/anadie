@@ -22,7 +22,8 @@ $app->get('/perDatos/:id','sessionAlive', function($id) use ($app){
     $response = array();
 	//
     $db = new DbHandler();
-	echo "dato: " . $id;
+	//echo "dato: " . $id;
+	//var_dump($db);
     $datos = $db->getAllRecord("call sp_sel_seg_opcion_idRol( $id )");
     //var_dump($datos);
 	// call sp_sel_seg_usuario( ? ) pusuario
@@ -32,7 +33,7 @@ $app->get('/perDatos/:id','sessionAlive', function($id) use ($app){
         $response['status'] = "info";
         $response['message'] = 'No hay datos';
     }
-
+	
     echoResponse(200, $response);
 });
 
@@ -53,18 +54,17 @@ $app->post('/perIn','sessionAlive',function() use ($app){
 	// select fn_ins_seg_opcion('Ingresa opciones', 'ingreso de opciones', 'Opciones' , 0, 1, 1)
 	//
     $db = new DbHandler();
-	 $column_names = array('idrol', 'idopcion');
-	 $id = $db->insertIntoTable($r, $column_names, 'seg_rol_opcion' );
+	$column_names = array('idrol', 'idopcion');
+	//var_dump($db);
+	$result = $db->insertIntoTable($r, $column_names, 'seg_rol_opcion' );
 	//$id = $db->get1Record("call sp_ins_seg_opcion_idRol( '$idrol', '$idopcion' )");
-
-    if ($id != NULL) {
-        $response['status'] = "success";
-        $response['message'] = 'Se agrego correctamente';
-		$response['data'] = $id;
-			
-    }else{
+    if (is_null($result)) {
         $response['status'] = "info";
         $response['message'] = 'No fue posible agregar los datos';
+    }else{
+        $response['status'] = "success";
+        $response['message'] = 'Se agrego correctamente';
+		$response['data'] = $result;
     }
 	
     echoResponse(200, $response);

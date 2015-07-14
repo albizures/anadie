@@ -4,6 +4,15 @@
 angular.module('anApp')
     .controller('ModalOpcionesCtrl',["$scope", '$modalInstance','opcion','Data','tipoMenu','utils', function ($scope,$modalIntance,opcion, Data, tipoMenu, utils) {
         $scope.padres = undefined;
+        Data.get('opListaH/'+id)
+            .then(function (result) {
+
+                for(index in result){
+                    result[index] = utils.convertNumber(result[index]);
+                }
+
+                $scope.padres = result;
+            });
         Data.get('opLista')
             .then(function (result) {
 

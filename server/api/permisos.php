@@ -17,12 +17,13 @@
  **/
 
 // Opcion para obtener los registros asociados a opciones permitidas en un rol especifico
-$app->get('/perDatos','sessionAlive', function() use ($app){
+$app->get('/perDatos/:id','sessionAlive', function($id) use ($app){
 
     $response = array();
 	//
     $db = new DbHandler();
-    $datos = $db->getAllRecord("call sp_sel_seg_opcion_idRol( )");
+	echo "dato: " . $id;
+    $datos = $db->getAllRecord("call sp_sel_seg_opcion_idRol( $id )");
     //var_dump($datos);
 	// call sp_sel_seg_usuario( ? ) pusuario
     if ($datos != NULL) {
@@ -35,13 +36,15 @@ $app->get('/perDatos','sessionAlive', function() use ($app){
     echoResponse(200, $response);
 });
 
+
 //   Opción para ingresar un registro en la tabla seg_rol_opcion
 $app->post('/perIn','sessionAlive',function() use ($app){
 
 	// Recupera los datos de la forma
 	//
     $r = json_decode($app->request->getBody());
-	$nombre = $r->nombre;
+	$idrol = $r->idrol;
+	$idopcion = $r->idopcion;
     $response = array();
 	//
 	//
@@ -50,9 +53,9 @@ $app->post('/perIn','sessionAlive',function() use ($app){
 	// select fn_ins_seg_opcion('Ingresa opciones', 'ingreso de opciones', 'Opciones' , 0, 1, 1)
 	//
     $db = new DbHandler();
-	// $column_names = array('nombre', 'descripcion', 'titulo', 'idPadre','idTipo','orden');
-	// $db->insertIntoTable($r->opcion, $column_names, 'seg_usuario' );
-	$id = $db->get1Record("select sp_ins_seg_opcion_idRol( '$nombre' ) as id");
+	 $column_names = array('idrol', 'idopcion');
+	 $id = $db->insertIntoTable($r, $column_names, 'seg_rol_opcion' );
+	//$id = $db->get1Record("call sp_ins_seg_opcion_idRol( '$idrol', '$idopcion' )");
 
     if ($id != NULL) {
         $response['status'] = "success";
@@ -68,7 +71,7 @@ $app->post('/perIn','sessionAlive',function() use ($app){
 });
 
 //   Opción para eliminar un registro de la tabla seg_rol_opcion
-$app->post('/rolD/:id','sessionAlive',function($id) use ($app){
+$app->post('/perD/:id','sessionAlive',function($id) use ($app){
 
 	// Recupera los datos de la forma
 	//

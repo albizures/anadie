@@ -42,7 +42,7 @@ $app->post('/rolIn','sessionAlive',function() use ($app){
 	// Recupera los datos de la forma
 	//
     $r = json_decode($app->request->getBody());
-	$nombre = $r->nombre;
+	$nombre = $r->rol->nombre;
     $response = array();
 	//
 	//
@@ -89,7 +89,7 @@ $app->post('/rolU','sessionAlive',function() use ($app){
 	$resId = $db->updateRecord("call sp_upd_seg_rol(?,?)", $r->rol, $column_names,'is');
 
     if ($id != NULL) {
-        $response['status'] = "success";
+        $response['status'] = "info";
         $response['message'] = 'Datos actualizados';
 			
     }else{
@@ -101,7 +101,7 @@ $app->post('/rolU','sessionAlive',function() use ($app){
 });
 
 //   Opción para eliminar un registro de la tabla roles
-$app->post('/rolD/:id','sessionAlive',function($id) use ($app){
+$app->get('/rolD/:id','sessionAlive',function($id) use ($app){
 
 	// Recupera los datos de la forma
 	//

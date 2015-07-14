@@ -17,7 +17,7 @@
                                      en las rutas de authentication.php
 	sp_sel_seg_usuario_id(?)
 	fn_ins_seg_usuario( ? , ? , ?, ? , ? , ? , ? , ? )
-	sp_upd_seg_usuario( ? , ? , ?, ? , ? , ? , ? , ?, ? )
+	sp_upd_seg_usuario( ? , ? , ?, ? , ? , ? , ? , ? )
 	sp_del_seg_usuario(?)
  **/
 
@@ -120,7 +120,7 @@ $app->post('/userU','sessionAlive',function() use ($app){
     $nombre = $r->user->nombre;
     $nombres = $r->user->nombres;
 	$apellidos = $r->user->apellidos;
-	$clave = passwordHash::hash($r->user->clave);
+	
 	$idrol = $r->user->idrol;
 	$idorganizacion = $r->user->idorganizacion;
 	$estado = $r->user->estado;
@@ -161,6 +161,7 @@ $app->get('/userD/:id','sessionAlive',function($id) use ($app){
 	// select fn_ins_seg_opcion('Ingresa opciones', 'ingreso de opciones', 'Opciones' , 0, 1, 1)
 	//
     $db = new DbHandler();
+	
     $resId = $db->deleteRecord("call sp_del_seg_usuario(?)", $id);
     if ($resId == 0) {
 		$response['status'] = "info";

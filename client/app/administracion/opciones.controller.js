@@ -40,8 +40,8 @@ angular.module('anApp')
                 );
             });
         $scope.limpiar = function () {
-            tableOpciones.sorting({});
-            tableOpciones.filter({});
+            $scope.tableOpciones.sorting({});
+            $scope.tableOpciones.filter({});
             $scope.filtro = false;
         };
         $scope.editar = function (id) {

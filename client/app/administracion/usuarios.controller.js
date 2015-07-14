@@ -31,8 +31,8 @@ angular.module('anApp')
                 );
             });
         $scope.limpiar = function () {
-            tableOpciones.sorting({});
-            tableOpciones.filter({});
+			$scope.tableUsuarios.sorting({});
+            $scope.tableUsuarios.filter({});
             $scope.filtro = false;
         };
         $scope.editar = function (id) {

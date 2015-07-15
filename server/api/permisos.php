@@ -43,9 +43,16 @@ $app->post('/perIn','sessionAlive',function() use ($app){
 
 	// Recupera los datos de la forma
 	//
+	// el json debe venir de la forma:
+	//                                    { "idrol":1, "opciones": {"idopcion":[16, 17] }  }
+	//
+	$permiso = new stdClass();
+	$permiso->idrol = 0;
+	$permiso->idopcion = 0;
     $r = json_decode($app->request->getBody());
+	
 	$idrol = $r->idrol;
-	$idopcion = $r->idopcion;
+	$lista = $r->opciones->idopcion;
     $response = array();
 	//
 	//
@@ -55,8 +62,12 @@ $app->post('/perIn','sessionAlive',function() use ($app){
 	//
     $db = new DbHandler();
 	$column_names = array('idrol', 'idopcion');
-	//var_dump($db);
-	$result = $db->insertIntoTable($r, $column_names, 'seg_rol_opcion' );
+	foreach ($lista as $opcion) {
+		$permiso->idrol = $idrol;
+		$permiso->idopcion = $opcion;
+//		var_dump($column_names);
+	    $result = $db->insertIntoTable($permiso, $column_names, 'seg_rol_opcion' );
+	}
 	//$id = $db->get1Record("call sp_ins_seg_opcion_idRol( '$idrol', '$idopcion' )");
     if (is_null($result)) {
         $response['status'] = "info";

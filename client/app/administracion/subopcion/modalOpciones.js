@@ -5,7 +5,7 @@ angular.module('anApp')
     .controller('ModalOpcionesCtrl',["$scope", '$modalInstance','opcion','Data','tipoMenu','utils', function ($scope,$modalIntance,opcion, Data, tipoMenu, utils) {
         $scope.padres = undefined;
         if(opcion.id !== undefined){
-            Data.get('opListaH/'+id)
+            Data.get('opListaH/'+opcion.id)
                 .then(function (result) {
 
                     for(index in result){

@@ -50,9 +50,9 @@ $app->post('/perIn','sessionAlive',function() use ($app){
 	$permiso->idrol = 0;
 	$permiso->idopcion = 0;
     $r = json_decode($app->request->getBody());
-	
+	$lista = array();
 	$idrol = $r->idrol;
-	$lista = $r->opciones->idopcion;
+	$lista = $r->opciones;
     $response = array();
 	//
 	//
@@ -64,8 +64,7 @@ $app->post('/perIn','sessionAlive',function() use ($app){
 	$column_names = array('idrol', 'idopcion');
 	foreach ($lista as $opcion) {
 		$permiso->idrol = $idrol;
-		$permiso->idopcion = $opcion;
-//		var_dump($column_names);
+		$permiso->idopcion = $opcion->id;
 	    $result = $db->insertIntoTable($permiso, $column_names, 'seg_rol_opcion' );
 	}
 	//$id = $db->get1Record("call sp_ins_seg_opcion_idRol( '$idrol', '$idopcion' )");
@@ -82,15 +81,14 @@ $app->post('/perIn','sessionAlive',function() use ($app){
 });
 
 //   Opción para eliminar un registro de la tabla seg_rol_opcion
-$app->post('/perD/:id','sessionAlive',function($id) use ($app){
+$app->get('/perD/:idopcion/:idrol','sessionAlive',function($idopcion , $idrol) use ($app){
 
 	// Recupera los datos de la forma
 	//
-	
     $response = array();
 	//
     $db = new DbHandler();
-	$resId = $db->deleteRecord("call sp_del_seg_opcion_idRol( ? )",$id);
+	$resId = $db->deleteRecord2("call sp_del_seg_opcion_idRol( ? , ? )",$idrol, $idopcion);
 
     if ($resId == 0) {
         $response['status'] = "success";

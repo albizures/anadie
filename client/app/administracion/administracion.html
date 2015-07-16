@@ -1,6 +1,8 @@
 <div>
     <tabset>
-        <tab ng-repeat="tab in tabs" heading="{{tab.nombre}}"><div ng-include="'client/app/administracion/subopcion/' + tab.nombre.toLowerCase() + '.html'"></div></tab>
+        <tab select="tabSeleccionado(tab.nombre)" ng-repeat="tab in tabs" heading="{{tab.titulo}}">
+            <div ng-if="tabActive == tab.nombre" ng-include="'client/app/administracion/subopcion/' + tab.nombre.toLowerCase() + '.html'"></div>
+        </tab>
     </tabset>
     <script type="text/ng-template" id="modelOpciones">
         <div>
@@ -98,9 +100,30 @@
                 <form novalidate name="formRol" >
                     <div class="form-group">
                         <label for="nombre">Nombre de rol</label>
-                        <input ng-model="rol.nombre" type="text" class="form-control" id="nombre" placeholder="Nombre de rol" required/>
+                        <input ng-model="rol.nombre" name="nombre" type="text" class="form-control" id="nombre" placeholder="Nombre de rol" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="permiso">Permisos </label>
+                        <div class="input-group">
+                            <select name="permiso" class="form-control" ng-options="opcion.nombre for opcion in opciones  | filter: {visible : true}" id="permiso" ng-model="permiso"></select>
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" ng-disabled="permiso.id == undefined" ng-click="agregarOpcion(permiso)"><span class="glyphicon glyphicon-plus"></span></button>
+                            </span>
+                        </div>
                     </div>
                 </form>
+                <div>
+                    <ul class="list-group" >
+                       <li ng-if="opcionesRol.length > 0 " ng-repeat="opcion in opcionesRol" class="list-group-item">
+                            {{opcion.opcion}}
+                            <button type="button" ng-click="eliminarOpcion(opcion.idopcion)" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </li>
+                        <li ng-if="newOpcionesRol.length > 0" ng-repeat="opcion in newOpcionesRol" class="list-group-item">
+                            {{opcion.opcion}}
+                            <button type="button" ng-click="eliminarOpcion(opcion.idopcion)" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" ng-disabled="!formRol.$valid" ng-click="ok()">Aceptar</button>

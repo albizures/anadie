@@ -59,7 +59,19 @@ class DbHandler {
         $r = $this->conn->query($query.' LIMIT 1') or die($this->conn->error.__LINE__);
         return $result = $r->fetch_assoc();    
     }
+    public function deleteRecord2($sp_name,$id, $id2) {
+        $db = new dbConnect();
+        $this->conn = $db->connect();
 
+        $st = $this->conn->prepare($sp_name);
+        $st->bind_param('ii', $idvalue, $idvalue2);
+        $idvalue = $id;
+        $idvalue2 = $id2;
+        $st->execute();
+        $st->close();
+        $db->disconnect();
+        return 0;
+    }
     public function deleteRecord($sp_name,$id) {
 		$db = new dbConnect();
 		$this->conn = $db->connect();

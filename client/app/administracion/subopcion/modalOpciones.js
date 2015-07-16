@@ -4,15 +4,18 @@
 angular.module('anApp')
     .controller('ModalOpcionesCtrl',["$scope", '$modalInstance','opcion','Data','tipoMenu','utils', function ($scope,$modalIntance,opcion, Data, tipoMenu, utils) {
         $scope.padres = undefined;
-        Data.get('opListaH/'+id)
-            .then(function (result) {
+        if(opcion.id !== undefined){
+            Data.get('opListaH/'+id)
+                .then(function (result) {
 
-                for(index in result){
-                    result[index] = utils.convertNumber(result[index]);
-                }
+                    for(index in result){
+                        result[index] = utils.convertNumber(result[index]);
+                    }
 
-                $scope.padres = result;
-            });
+                    $scope.padres = result;
+                });
+        }
+
         Data.get('opLista')
             .then(function (result) {
 
@@ -32,6 +35,9 @@ angular.module('anApp')
             {id : 1,nombreTipo : 'Menu'}
         ];*/
         $scope.ok = function () {
+            if($scope.opcion.nombreTipo == undefined){
+                $scope.opcion.nombreTipo = $scope.tipos.filter(function(tipo){ return tipo.id == $scope.opcion.idTipo})[0].nombreTipo;
+            }
             if($scope.opcion.idPadre == undefined || $scope.opcion.idPadre == null || $scope.opcion.idPadre == ""){
                 $scope.opcion.idPadre = 0;
             }

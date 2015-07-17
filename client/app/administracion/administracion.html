@@ -30,6 +30,7 @@
                     <div class="form-group">
                         <label for="padre">Padre</label>
                         <select ng-disabled="!padres" ng-options="item.id as item.nombre for item in padres" ng-model="opcion.idPadre" id="padre" type="number" class="form-control" placeholder="Padre"></select>
+                        {{opcion}}
                     </div>
                     <div class="form-group">
                         <label for="orden">Orden</label>

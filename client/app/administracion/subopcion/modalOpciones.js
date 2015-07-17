@@ -4,16 +4,19 @@
 angular.module('anApp')
     .controller('ModalOpcionesCtrl',["$scope", '$modalInstance','opcion','Data','tipoMenu','utils', function ($scope,$modalIntance,opcion, Data, tipoMenu, utils) {
         $scope.padres = undefined;
-        if(opcion.id !== undefined){
-            Data.get('opListaH/'+opcion.id)
-                .then(function (result) {
+        if(opcion.idTipo !== undefined){
+            var id = tipoMenu[opcion.idTipo];
+            if(id !== false) {
+                Data.get('opListaH/' + id)
+                    .then(function (result) {
 
-                    for(index in result){
-                        result[index] = utils.convertNumber(result[index]);
-                    }
+                        for (index in result) {
+                            result[index] = utils.convertNumber(result[index]);
+                        }
 
-                    $scope.padres = result;
-                });
+                        $scope.padres = result;
+                    });
+            }
         }
 
         Data.get('opLista')
@@ -47,18 +50,20 @@ angular.module('anApp')
             $modalIntance.dismiss('cancel');
         };
         $scope.$watch('opcion.idTipo', function (newValue, oldValue) {
-            if(newValue !== undefined && newValue !== oldValue){
-                console.log($scope.opcion.idTipo);
+            if(newValue !== undefined && newValue !== oldValue && (!$scope.padres || $scope.opcion.idTipo != $scope.padres[0].id)){
                 var id = tipoMenu[$scope.opcion.idTipo];
                 if(id !== false){
                     Data.get('opListaH/'+id)
                         .then(function (result) {
-                            console.log(result);
+                            console.log(result,id,$scope.opcion.idTipo);
                             for(index in result){
                                 result[index] = utils.convertNumber(result[index]);
+                                if(result[index].id == $scope.opcion.id){
+                                    result.splice(index,1);
+                                }
                             }
-
                             $scope.padres = result;
+                            $scope.opcion.idPadre = $scope.padres[0].id;
                         });
                 }else{
                     $scope.padres = undefined;

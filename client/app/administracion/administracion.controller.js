@@ -4,8 +4,8 @@
 
 
 angular.module('anApp')
-    .controller('AdministracionCtrl',['$scope','Data','$rootScope','ngTableParams','$filter','$modal','utils',
-    function ($scope,Data,$rootScope, ngTableParams,$filter,$modal,utils) {
+    .controller('AdministracionCtrl',['$scope','Data','$rootScope','$location',
+    function ($scope,Data,$rootScope, $location) {
         var id = undefined;
         $rootScope.$watch('opciones', function (newValue, oldValue) {
             if(newValue && newValue !== oldValue){
@@ -14,13 +14,22 @@ angular.module('anApp')
                     Data.get('opListaH/'+id)
                         .then(function (result) {
                             console.log(result);
+                            for(index in result){
+                                if(result[index].nombre == $location.hash()){
+                                    result[index].active = true;
+                                    break;
+                                }
+                            }
                             $scope.tabs = result;
 
                         });
                 }
             }
         });
-        $scope.tabSeleccionado = function (tab) {
+        $scope.tabSeleccionado = function (tab,index) {
+            $location.hash(tab);
             $scope.tabActive = tab;
+            $scope.tabs[index].active = true;
+
         };
     }]);

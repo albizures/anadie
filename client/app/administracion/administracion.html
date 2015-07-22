@@ -1,11 +1,11 @@
 <div>
     <tabset>
-        <tab select="tabSeleccionado(tab.nombre)" ng-repeat="tab in tabs" heading="{{tab.titulo}}">
+        <tab select="tabSeleccionado(tab.nombre,$index)" active="tab.active" ng-repeat="tab in tabs" heading="{{tab.titulo}}">
             <div ng-if="tabActive == tab.nombre" ng-include="'client/app/administracion/subopcion/' + tab.nombre.toLowerCase() + '.html'"></div>
         </tab>
     </tabset>
     <script type="text/ng-template" id="modelOpciones">
-        <div>
+        <div>active
             <div class="modal-header">
                 <h3 class="modal-title">Ingrese los datos</h3>
             </div>

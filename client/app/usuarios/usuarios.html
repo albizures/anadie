@@ -1,0 +1,93 @@
+<div>
+    <br/>
+    <section class="form-inline">
+        <button ng-click="limpiar()" class="btn btn-default pull-right">Limpiar filtro</button>
+        <button type="button" class="btn btn-primary pull-right" ng-model="filtro" btn-checkbox>
+            <span class="glyphicon glyphicon-filter"></span>
+        </button>
+        <button ng-click="agregar()" class="btn btn-primary"><i class="icon-white icon-plus"></i> Agregar usuario</button>
+    </section>
+    <br/>
+    <table ng-table="tableUsuarios"  show-filter="filtro" class="table table-striped">
+        <tr ng-repeat="usuario in $data">
+            <td data-title="'Nombre usuario'" sortable="'nombre'" filter="{ 'nombre': 'text' }">
+                <span >{{usuario.nombre}}</span>
+            </td>
+            <td data-title="'Nombres'" sortable="'nombres'" filter="{ 'nombres': 'text' }">
+                <span >{{usuario.nombres}}</span>
+            </td>
+            <td data-title="'Apellidos'" sortable="'apellidos'" filter="{ 'apellidos': 'text' }">
+                <span >{{usuario.apellidos}}</span>
+            </td>
+           <!-- <td data-title="'Contraseña'" sortable="'clave'" filter="{ 'clave': 'text' }">
+                <span >{{usuario.clave}}</span>
+            </td>-->
+            <td data-title="'Rol'" sortable="'clave'" filter="{ 'rol': 'text' }">
+                <span >{{usuario.rol}}</span>
+            </td>
+            <td data-title="'Organizacion'" sortable="'clave'" filter="{ 'organizacion': 'text' }">
+                <span >{{usuario.organizacion}}</span>
+            </td>
+            <td data-title="'Estado'" sortable="'nombreEstado'" filter="{ 'nombreEstado': 'text' }">
+                <span >{{usuario.nombreEstado}}</span>
+            </td>
+            <td data-title="'Correo'" sortable="'email'" filter="{ 'email': 'text' }">
+                <span >{{usuario.email}}</span>
+            </td>
+            <td data-title="'Fecha'" sortable="'fecha'" filter="{ 'fecha': 'text' }">
+                <span >{{usuario.fecha | date:'dd-MM-yyyy HH:mm:ss'}}</span>
+            </td>
+            <td data-title="'Acciones'" width="125">
+                <a ng-click="editar(usuario.id); usuario.$edit = true" class="btn btn-primary btn-xs" >Editar</a>
+                <a ng-click="eliminar(usuario.id,$index)" class="btn btn-default btn-xs">Eliminar</a>
+            </td>
+        </tr>
+    </table>
+    <script type="text/ng-template" id="modelUsuarios">
+        <div>
+            <div class="modal-header">
+                <h3 class="modal-title">Ingrese los datos</h3>
+            </div>
+            <div class="modal-body">
+                <form novalidate name="formOpcion" >
+                    <div class="form-group">
+                        <label for="nombre">Nombre de usuario</label>
+                        <input ng-model="usuario.nombre" type="text" class="form-control" id="nombre" placeholder="Nombre de usuario" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="nombres">Nombres</label>
+                        <input ng-model="usuario.nombres" id="nombres" class="form-control" type="text" placeholder="Nombres" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="apellidos">Apellidos</label>
+                        <input ng-model="usuario.apellidos" id="apellidos" class="form-control" type="text" placeholder="Apellidos" required/>
+                    </div>
+                    <div class="form-group" ng-if="contrasena">
+                        <label for="clave">Contraseña</label>
+                        <input ng-model="usuario.clave" id="clave" class="form-control" type="text" placeholder="Contraseña" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="rol">Rol</label>
+                        <select class="form-control" ng-options="item.id as item.nombre for item in roles" ng-model="usuario.idrol" name="rol" id="rol" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="idorganizacion">Organizacion</label>
+                        <select  ng-model="usuario.idorganizacion" ng-options="item.id as item.nombre for item in organizaciones" id="idorganizacion" class="form-control" type="number" placeholder="Organizacion" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="estado">Estado</label>
+                        <select class="form-control" ng-options="item.id as item.nombre for item in estados" ng-model="usuario.estado" name="estado" id="estado" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Correo</label>
+                        <input ng-model="usuario.email" id="email" class="form-control" type="text" placeholder="Correo" required/>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-disabled="!formOpcion.$valid" ng-click="ok()">Aceptar</button>
+                <button class="btn btn-warning" ng-click="cancel()">Cancelar</button>
+            </div>
+        </div>
+    </script>
+</div>

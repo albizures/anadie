@@ -19,7 +19,30 @@ angular.module('anApp')
             for(index in data.opciones){
                 data.opciones[index] = utils.convertNumber(data.opciones[index]);
             }
-            $rootScope.opciones = data.opciones;
+            var temp = data.opciones.filter(function (item) {
+                return item.idPadre === 0;
+            });
+            for(index in temp){
+                var cont = 0;
+                while(cont < data.opciones.length ){
+                    if(temp[index].id === data.opciones[cont].id){
+                        data.opciones.splice(cont,1);
+                        cont--;
+                    }else{
+                        if(temp[index].id === data.opciones[cont].idPadre){
+                            if(!temp[index].submenu){
+                                temp[index].submenu = [];
+                            }
+                            temp[index].submenu.push(data.opciones.splice(cont,1)[0]);
+                            cont--;
+                        }
+                    }
+                    cont++;
+                }
+            }
+
+            //console.log(temp,data.opciones);
+            $rootScope.opciones = temp;//data.opciones;
         }
         return {
             login: function( user, callback) {

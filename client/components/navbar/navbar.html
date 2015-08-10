@@ -6,17 +6,21 @@
             <div>{{$root.usuario.nombre}}</div>
         </div>
     </div>
-    <nav >
+
+<!--    <nav >
         <ul>
             <li>
                 <a ui-sref="main">Inicio</a>
             </li>
             <li ng-repeat="opcion in $root.opciones">
-                <a ui-sref="{{opcion.opcion | lowercase}}">{{opcion.titulo}}</a>
+                <a ui-sref="{{opcion.nombre | lowercase}}">{{opcion.titulo}}</a>
             </li>
             <li class="pull-right">
                 <a ui-sref="contacto">Contacto</a>
             </li>
         </ul>
+    </nav>-->
+    <nav style="margin-top: 50px">
+        <div menu="$root.opciones"></div>
     </nav>
 </header>

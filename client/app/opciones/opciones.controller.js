@@ -1,14 +1,16 @@
 /**
- * Created by josec on 7/13/2015.
+ * Created by josec on 8/9/2015.
  */
+
+
 angular.module('anApp')
-    .controller('permisosCtrl',['$scope','Data','$rootScope','ngTableParams','$filter','$modal','utils',
+    .controller('OpcionesCtrl',['$scope','Data','$rootScope','ngTableParams','$filter','$modal','utils',
         function ($scope,Data, $rootScope, ngTableParams, $filter , $modal, utils) {
             $scope.filtro = false;
             $scope.$watch('filtro', function (newValue, oldValue) {
                 if(newValue !== undefined && newValue !== oldValue){
-                    if($scope.tablePermisos){
-                        $scope.tablePermisos.reload();
+                    if($scope.tableOpciones){
+                        $scope.tableOpciones.reload();
                     }
 
                 }
@@ -20,26 +22,26 @@ angular.module('anApp')
                         results[index] = utils.convertNumber(results[index]);
                     }
                     // console.log(results);
-                    $scope.permisos = results;
-                    for(index in $scope.permisos){
+                    $scope.opciones = results;
+                    for(index in $scope.opciones){
 
-                        $scope.permisos[index].tipo = {
-                            codTipo : $scope.permisos[index].codTipo,
-                            id  : $scope.permisos[index].idTipo,
-                            nombreTipo : $scope.permisos[index].nombreTipo
+                        $scope.opciones[index].tipo = {
+                            codTipo : $scope.opciones[index].codTipo,
+                            id  : $scope.opciones[index].idTipo,
+                            nombreTipo : $scope.opciones[index].nombreTipo
                         }
                     }
-                    $scope.tablePermisos = new ngTableParams({
+                    $scope.tableOpciones = new ngTableParams({
                             page : 1,
                             count : 10,
                             sorting : {
                                 nombre : 'asc'
                             }
                         },{
-                            total : $scope.permisos.length,
+                            total : $scope.opciones.length,
                             filterDelay: 350,
                             getData : function ($defer, params) {
-                                var orderedData = params.sorting() ? $filter('orderBy')($scope.permisos, params.orderBy()) : $scope.permisos;
+                                var orderedData = params.sorting() ? $filter('orderBy')($scope.opciones, params.orderBy()) : $scope.opciones;
                                 if($scope.filtro){
                                     orderedData = params.filter() ? $filter('filter')(orderedData, params.filter()) : orderedData;
                                 }
@@ -49,28 +51,28 @@ angular.module('anApp')
                     );
                 });
             $scope.limpiar = function () {
-                $scope.tablePermisos.sorting({});
-                $scope.tablePermisos.filter({});
+                $scope.tableOpciones.sorting({});
+                $scope.tableOpciones.filter({});
                 $scope.filtro = false;
             };
             $scope.editar = function (id) {
-                var modalpermisos = $modal.open({
-                    templateUrl : 'modelPermisos',
-                    controller : 'ModalPermisosCtrl',
+                var modalOpciones = $modal.open({
+                    templateUrl : 'modelOpciones',
+                    controller : 'ModalOpcionesCtrl',
                     resolve : {
-                        permiso : function () {
-                            return $scope.permisos.filter(function(permiso){return permiso.id == id})[0];
+                        opcion : function () {
+                            return $scope.opciones.filter(function(opcion){return opcion.id == id})[0];
                         }
                     }
                 });
-                modalpermisos.result.then(function (permiso) {
-                    Data.post('opDatosU',{'permiso':permiso})
+                modalOpciones.result.then(function (opcion) {
+                    Data.post('opDatosU',{'opcion':opcion})
                         .then(function (results) {
                             if(results.status === "info") {
-                                for (index in $scope.permisos) {
-                                    if ($scope.permisos[index].id == permiso.id) {
-                                        $scope.permisos[index] = permiso;
-                                        $scope.tablePermisos.reload();
+                                for (index in $scope.opciones) {
+                                    if ($scope.opciones[index].id == opcion.id) {
+                                        $scope.opciones[index] = opcion;
+                                        $scope.tableOpciones.reload();
                                     }
                                 }
                             }
@@ -80,24 +82,24 @@ angular.module('anApp')
                 });
             };
             $scope.agregar = function () {
-                var modalpermisos = $modal.open({
-                    templateUrl : 'modelPermisos',
-                    controller : 'ModalPermisosCtrl',
+                var modalOpciones = $modal.open({
+                    templateUrl : 'modelOpciones',
+                    controller : 'ModalOpcionesCtrl',
                     resolve : {
-                        permiso : function () {
+                        opcion : function () {
                             return {}
                         }
                     }
                 });
-                modalpermisos.result.then(function (permiso) {
-                    Data.post('perIn',{'permiso':permiso})
+                modalOpciones.result.then(function (opcion) {
+                    Data.post('opDatos',{'opcion':opcion})
                         .then(function (results) {
                             if(results.status === "success"){
                                 //debugger;
                                 console.log(Number(results.data.id),results.data.id,results.data);
-                                permiso.id = Number(results.data.id);
-                                $scope.permisos.push(permiso);
-                                $scope.tablePermisos.reload();
+                                opcion.id = Number(results.data.id);
+                                $scope.opciones.push(opcion);
+                                $scope.tableOpciones.reload();
                             }
                             Data.toast(results);
                         });
@@ -106,10 +108,10 @@ angular.module('anApp')
             $scope.eliminar = function (id) {
                 Data.get('opDatosD/'+id)
                     .then(function (results) {
-                        for(index in $scope.permisos){
-                            if($scope.permisos[index].id == id){
-                                $scope.permisos.splice(index,1);
-                                $scope.tablePermisos.reload();
+                        for(index in $scope.opciones){
+                            if($scope.opciones[index].id == id){
+                                $scope.opciones.splice(index,1);
+                                $scope.tableOpciones.reload();
                                 Data.toast(results);
                                 break;
                             }

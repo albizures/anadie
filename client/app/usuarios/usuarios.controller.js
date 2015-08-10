@@ -2,7 +2,7 @@
  * Created by josec on 7/12/2015.
  */
 angular.module('anApp')
-    .controller('usuariosCtrl',['$scope','Data','$rootScope','ngTableParams','$filter','$modal','utils',
+    .controller('UsuariosCtrl',['$scope','Data','$rootScope','ngTableParams','$filter','$modal','utils',
     function ($scope,Data, $rootScope, ngTableParams, $filter , $modal, utils) {
         $scope.filtro = false;
         $scope.$watch('filtro', function (newValue, oldValue) {

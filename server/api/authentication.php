@@ -34,7 +34,7 @@ $app->get('/session',function() use ($app){
         $response['status'] = "success";
         //$response['message'] = 'Ha ingresado al sistema.';
         $response['name'] = $usuario['nombre'];
-        $response['uid'] = $usuario['id'];
+        $id = $response['uid'] = $usuario['id'];
         $response['email'] = $usuario['email'];
         $response['nombres'] = $usuario['nombres'];
         $response['apellidos'] = $usuario['apellidos'];
@@ -49,7 +49,7 @@ $app->get('/session',function() use ($app){
         $response['fecha'] = $usuario['fecha'];
 
         // Ya tiene los datos , ahora busca las opciones asignadas de acuerdo a su rol
-        $res = $db->getAllRecord("call sp_sel_rol_opcion( '$idrol' )" );
+        $res = $db->getAllRecord("call sp_sel_opciones_menu( '$id' )" );
         $response['opciones'] = $res;
         $code = 200;
     }else{
@@ -85,7 +85,7 @@ $app->post('/login',function() use ($app){
 			$response['status'] = "success";
 			$response['message'] = 'Ha ingresado al sistema.';
 			$response['name'] = $usuario['nombre'];
-			$response['uid'] = $usuario['id'];
+			$id = $response['uid'] = $usuario['id'];
 			$response['email'] = $usuario['email'];
 			$response['nombres'] = $usuario['nombres'];
 			$response['apellidos'] = $usuario['apellidos'];
@@ -105,7 +105,7 @@ $app->post('/login',function() use ($app){
 			$_SESSION['name'] = $usuario['nombre'];
 			// 
 			// Ya tiene los accesos , ahora busca las opciones asignadas de acuerdo a su rol
-			$res = $db->getAllRecord("call sp_sel_rol_opcion( '$idrol' )" );
+			$res = $db->getAllRecord("call sp_sel_opciones_menu( '$id' )" );
 			
 			$response['opciones'] = $res;
 			

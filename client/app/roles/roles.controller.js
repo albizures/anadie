@@ -4,7 +4,7 @@
 
 
 angular.module('anApp')
-    .controller('rolesCtrl',['$scope','Data','$rootScope','ngTableParams','$filter','$modal','utils',
+    .controller('RolesCtrl',['$scope','Data','$rootScope','ngTableParams','$filter','$modal','utils',
         function ($scope,Data, $rootScope, ngTableParams, $filter , $modal, utils) {
             $scope.filtro = false;
             $scope.$watch('filtro', function (newValue, oldValue) {

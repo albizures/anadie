@@ -58,6 +58,7 @@ $app->get('/userDatos/:id','sessionAlive', function($id) use ($app){
 		$response['idorganizacion'] = $datos['idorganizacion'];
 		$response['estado'] = $datos['estado'];
 		$response['email'] = $datos['email'];
+		$response['cargo'] = $datos['cargo'];
     }else{
         $response['status'] = "info";
         $response['message'] = 'No hay datos';
@@ -74,7 +75,7 @@ $app->post('/userIn','sessionAlive',function() use ($app){
     $r = json_decode($app->request->getBody());
 	//SELECT `id`, `nombre`, `nombres`, `apellidos`, `clave`, `idrol`, `idorganizacion`, `estado`, `email`, `fecha` FROM `seg_usuario` WHERE 1
 	// la fecha la vamos a guardar desde el store procedure
-    verifyRequiredParams(array('nombre', 'nombres', 'apellidos', 'clave','idrol','idorganizacion','estado','email'),$r->user); // 
+    verifyRequiredParams(array('nombre', 'nombres', 'apellidos', 'clave','idrol','idorganizacion','estado','email','cargo'),$r->user); // 
     $nombre = $r->user->nombre;
     $nombres = $r->user->nombres;
 	$apellidos = $r->user->apellidos;
@@ -83,6 +84,7 @@ $app->post('/userIn','sessionAlive',function() use ($app){
 	$idorganizacion = $r->user->idorganizacion;
 	$estado = $r->user->estado;
 	$email = $r->user->email;
+	$cargo = $r->user->cargo;
 	
     $response = array();
 	//
@@ -94,7 +96,7 @@ $app->post('/userIn','sessionAlive',function() use ($app){
     $db = new DbHandler();
 	// $column_names = array('nombre', 'descripcion', 'titulo', 'idPadre','idTipo','orden');
 	// $db->insertIntoTable($r->opcion, $column_names, 'seg_usuario' );
-	$id = $db->get1Record("select fn_ins_seg_usuario( '$nombre','$nombres','$apellidos', '$clave', $idrol , $idorganizacion, $estado, '$email' ) as id");
+	$id = $db->get1Record("select fn_ins_seg_usuario( '$nombre','$nombres','$apellidos', '$clave', $idrol , $idorganizacion, $estado, '$email', 'cargo' ) as id");
 
     if ($id != NULL) {
         $response['status'] = "success";
@@ -115,7 +117,7 @@ $app->post('/userU','sessionAlive',function() use ($app){
 	// Recupera los datos de la forma
 	//
     $r = json_decode($app->request->getBody());
-    verifyRequiredParams(array('id','nombre', 'nombres', 'apellidos', 'idrol','idorganizacion','estado','email'),$r->user); // 
+    verifyRequiredParams(array('id','nombre', 'nombres', 'apellidos', 'idrol','idorganizacion','estado','email','cargo'),$r->user); // 
 	$id = $r->user->id;
     $nombre = $r->user->nombre;
     $nombres = $r->user->nombres;
@@ -125,6 +127,7 @@ $app->post('/userU','sessionAlive',function() use ($app){
 	$idorganizacion = $r->user->idorganizacion;
 	$estado = $r->user->estado;
 	$email = $r->user->email;
+	$cargo = $r->user->cargo;
 
     $response = array();
 	//
@@ -134,9 +137,9 @@ $app->post('/userU','sessionAlive',function() use ($app){
 	// select fn_ins_seg_opcion('Ingresa opciones', 'ingreso de opciones', 'Opciones' , 0, 1, 1)
 	//
     $db = new DbHandler();
-    $column_names = array('id','nombre', 'nombres', 'apellidos', 'idrol','idorganizacion','estado','email');
+    $column_names = array('id','nombre', 'nombres', 'apellidos', 'idrol','idorganizacion','estado','email','cargo');
 	// $db->insertIntoTable($r->opcion, $column_names, 'seg_usuario' );
-	$resId = $db->updateRecord("call sp_upd_seg_usuario(?,?,?,?,?,?,?,?)", $r->user, $column_names,'isssiiis');
+	$resId = $db->updateRecord("call sp_upd_seg_usuario(?,?,?,?,?,?,?,?,?)", $r->user, $column_names,'isssiiiss');
 	
     if ($resId == 0) {
 		$response['status'] = "info";

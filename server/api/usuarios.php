@@ -96,7 +96,7 @@ $app->post('/userIn','sessionAlive',function() use ($app){
     $db = new DbHandler();
 	// $column_names = array('nombre', 'descripcion', 'titulo', 'idPadre','idTipo','orden');
 	// $db->insertIntoTable($r->opcion, $column_names, 'seg_usuario' );
-	$id = $db->get1Record("select fn_ins_seg_usuario( '$nombre','$nombres','$apellidos', '$clave', $idrol , $idorganizacion, $estado, '$email', 'cargo' ) as id");
+	$id = $db->get1Record("select fn_ins_seg_usuario( '$nombre','$nombres','$apellidos', '$clave', $idrol , $idorganizacion, $estado, '$email', '$cargo' ) as id");
 
     if ($id != NULL) {
         $response['status'] = "success";

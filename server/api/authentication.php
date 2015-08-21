@@ -31,22 +31,22 @@ $app->get('/session',function() use ($app){
         $db = new DbHandler();
         $usuario = $db->get1Record("call sp_sel_seg_usuario( '".$_SESSION['name']."' )");
         //$usuario = $db->get1Record("call sp_sel_seg_usuario( 'lalbizures' )");
-        $response['status'] = "success";
-        //$response['message'] = 'Ha ingresado al sistema.';
-        $response['name'] = $usuario['nombre'];
-        $id = $response['uid'] = $usuario['id'];
-        $response['email'] = $usuario['email'];
-        $response['nombres'] = $usuario['nombres'];
-        $response['apellidos'] = $usuario['apellidos'];
-        $response['idrol'] = $usuario['idrol'];
-        $idrol = $usuario['idrol'];
-        $response['rol'] = $usuario['rol'];
+        $response['status']         = "success";
+        //$response['message']      = 'Ha ingresado al sistema.';
+        $response['name']           = $usuario['nombre'];
+        $id = $response['uid']      = $usuario['id'];
+        $response['email']          = $usuario['email'];
+        $response['nombres']        = $usuario['nombres'];
+        $response['apellidos']      = $usuario['apellidos'];
+        $response['idrol']          = $usuario['idrol'];
+        $idrol                      = $usuario['idrol'];
+        $response['rol']            = $usuario['rol'];
         $response['idorganizacion'] = $usuario['idorganizacion'];
-        $response['organizacion'] = $usuario['organizacion'];
-        $response['idestado'] = $usuario['idestado'];
-        $response['estado'] = $usuario['estado'];
+        $response['organizacion']   = $usuario['organizacion'];
+        $response['idestado']       = $usuario['idestado'];
+        $response['estado']         = $usuario['estado'];
 
-        $response['fecha'] = $usuario['fecha'];
+        $response['fecha']          = $usuario['fecha'];
 
         // Ya tiene los datos , ahora busca las opciones asignadas de acuerdo a su rol
         $res = $db->getAllRecord("call sp_sel_opciones_menu( '$id' )" );

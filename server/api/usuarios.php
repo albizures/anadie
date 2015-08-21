@@ -13,9 +13,9 @@
    seg_usuario
    
   
-	sp_sel_seg_usuarios()    --- ojo: este debiera ser en singular pero tuve que dejarlo en ploural porque ya existe en singluar para pedir 1 usuario
-                                     en las rutas de authentication.php
-	sp_sel_seg_usuario_id(?)
+	sp_sel_seg_usuarios()    --- ojo: este debiera ser en singular pero tuve que dejarlo en plural porque ya existe en singular 
+	                         --- para pedir 1 usuario en las rutas de authentication.php
+	sp_sel_seg_usuarioId(?)
 	fn_ins_seg_usuario( ? , ? , ?, ? , ? , ? , ? , ? )
 	sp_upd_seg_usuario( ? , ? , ?, ? , ? , ? , ? , ? )
 	sp_del_seg_usuario(?)

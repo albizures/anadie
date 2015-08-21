@@ -6,13 +6,17 @@ angular.module('anApp')
     .controller('ModalUsuariosCtrl',["$scope", '$modalInstance','usuario','Data','utils', function ($scope,$modalIntance,usuario, Data, utils) {
         $scope.roles = undefined;
         $scope.contrasena = usuario.nombre == undefined;
-
+        console.log(usuario);
+        $scope.usuario = angular.copy(usuario);
         Data.get('organizacionesDatos')
             .then(function (result) {
                 for(index in result){
                     result[index] = utils.convertNumber(result[index]);
                 }
                 $scope.organizaciones = result;
+                if(!$scope.usuario.idorganizacion){
+                    $scope.usuario.idorganizacion = $scope.organizaciones[0].id
+                }
             });
         Data.get('rolDatos')
             .then(function (result) {
@@ -20,6 +24,9 @@ angular.module('anApp')
                     result[index] = utils.convertNumber(result[index]);
                 }
                 $scope.roles = result;
+                if(!$scope.usuario.idrol){
+                    $scope.usuario.idrol = $scope.roles[0].id
+                }
             });
         Data.get('estadoListaUser')
             .then(function (result) {
@@ -27,9 +34,10 @@ angular.module('anApp')
                     result[index] = utils.convertNumber(result[index]);
                 }
                 $scope.estados = result;
+                if(!$scope.usuario.estado){
+                    $scope.usuario.estado = $scope.estados[0].id
+                }
             });
-        console.log(usuario);
-        $scope.usuario = angular.copy(usuario);
         $scope.ok = function () {
             if($scope.usuario.nombreEstado == undefined){
                 $scope.usuario.nombreEstado = $scope.estados.filter(function(estado){ return estado.id == $scope.usuario.estado})[0].nombre;
@@ -43,6 +51,7 @@ angular.module('anApp')
             if($scope.usuario.fecha == undefined){
                 $scope.usuario.fecha = Date.now();
             }
+            console.log($scope.usuario);
             $modalIntance.close($scope.usuario);
         };
         $scope.cancel = function () {

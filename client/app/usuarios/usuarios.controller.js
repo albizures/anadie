@@ -84,6 +84,7 @@ angular.module('anApp')
                 }
             });
             modalOpciones.result.then(function (usuario) {
+                console.log(usuario);
                 Data.post('userIn',{'user':usuario})
                     .then(function (results) {
                         if(results.status === "success"){

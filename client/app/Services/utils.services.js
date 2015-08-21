@@ -6,7 +6,7 @@ angular.module('anApp').factory("utils", function () {
     return {
         convertNumber : function(obj){
             for(var index in obj){
-                if(!isNaN(Number(obj[index]))){
+                if(obj[index] !== null && obj[index] !== undefined && !isNaN(Number(obj[index]))){
                     obj[index] = Number(obj[index]);
                 }
             }

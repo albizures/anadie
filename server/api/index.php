@@ -26,6 +26,7 @@ require_once "usuarios.php";
 require_once "organizaciones.php";
 require_once "roles.php";
 require_once "permisos.php";
+require_once "proyectos.php";
 
 /**
  * Verifying required params posted or not

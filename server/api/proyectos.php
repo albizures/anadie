@@ -38,20 +38,20 @@ $app->post('/proyectoIn','sessionAlive',function() use ($app){
 	
 	$dictamentecref= $r->proyecto->dictamen_tec_ref;
 	$dictamentecfec= $r->proyecto->dictamen_tec_fec;
-	$dictamentecdoc= $r->proyecto->dictamen_tec_doc;
+	$dictamentecdoc= "";//$r->proyecto->dictamen_tec_doc;
 	
 	$dictamenlegref= $r->proyecto->dictamen_leg_ref;
 	$dictamenlegfec= $r->proyecto->dictamen_leg_fec;
-	$dictamenlegdoc= $r->proyecto->dictamen_leg_doc;
+	$dictamenlegdoc= "";//$r->proyecto->dictamen_leg_doc;
 	
 	$resdirejeref  = $r->proyecto->res_dir_eje_ref;
 	$resdirejefec  = $r->proyecto->res_dir_eje_fec;
-	$resdirejedoc  = $r->proyecto->res_dir_eje_doc;
+	$resdirejedoc  = "";//$r->proyecto->res_dir_eje_doc;
 	
 	$resconadieref  = $r->proyecto->res_conadie_ref;
-	$resconadiefec  = $r->proyecto->res_conadie_fed;
-	$resconadiedoc  = $r->proyecto->res_conadie_doc;
-	
+	$resconadiefec  = $r->proyecto->res_conadie_fec;
+	$resconadiedoc  = "";//$r->proyecto->res_conadie_doc;
+	var_dump($r->proyecto);
 	//					   dictamen_tec_doc, dictamen_leg_ref, dictamen_leg_fec, dictamen_leg_doc, res_dir_eje_ref , res_dir_eje_fec , 
 	//					   res_dir_eje_doc ,res_conadie_ref , res_conadie_fec , res_conadie_doc
     $response = array();

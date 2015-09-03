@@ -31,7 +31,7 @@ $app->get('/iceSel','sessionAlive', function() use ($app){
 			$response = $datos;
     }else{
         $response['status'] = "info";
-        $response['message'] = 'No hay datos';
+        $response['message'] = "No hay ICE's";
     }
 
     echoResponse(200, $response);

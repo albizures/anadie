@@ -25,9 +25,9 @@
             <td data-title="'Padre'"  sortable="'idPadre'" width="50" filter="{ 'idPadre': 'text' }">
                 <span >{{opcion.idPadre}}</span>
             </td>
-            <td data-title="'Acciones'" width="125">
-                <a ng-click="editar(opcion.id); opcion.$edit = true" class="btn btn-primary btn-xs" >Editar</a>
-                <a ng-click="eliminar(opcion.id,$index)" class="btn btn-default btn-xs">Eliminar</a>
+            <td data-title="'Acciones'" width="50">
+                <a ng-click="editar(opcion.id); opcion.$edit = true" class="btn btn-primary btn-xs" ><span class="glyphicon glyphicon-pencil"></span></a>
+                <a ng-click="eliminar(opcion.id,$index)" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span></a>
             </td>
         </tr>
     </table>

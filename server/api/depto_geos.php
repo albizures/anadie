@@ -20,20 +20,20 @@
 // Opción para ingresar un registro a la tabla cat_depto_geo
 
 // Opcion para obtener la totalidad de registros de la tabla cat_depto_geo
-$app->get('/deptogeoSel','sessionAlive', function() use ($app){
+$app->get('/deptogeoSel/:id','sessionAlive', function($id) use ($app){
 
-    $r = json_decode($app->request->getBody());
+    //$r = json_decode($app->request->getBody());
 
     $response = array();
 	//
     $db = new DbHandler();
-    $datos = $db->getAllRecord("call sp_sel_cat_depto_geo( $r->idPais )");
+    $datos = $db->getAllRecord("call sp_sel_cat_depto_geo( $id )");
     //var_dump($datos);
     if ($datos != NULL) {
 			$response = $datos;
     }else{
         $response['status'] = "info";
-        $response['message'] = 'No hay datos';
+        $response['message'] = 'No hay departamentos';
     }
 
     echoResponse(200, $response);

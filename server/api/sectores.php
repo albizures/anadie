@@ -31,7 +31,7 @@ $app->get('/sectorSel','sessionAlive', function() use ($app){
 			$response = $datos;
     }else{
         $response['status'] = "info";
-        $response['message'] = 'No hay datos';
+        $response['message'] = 'No hay sectores';
     }
 
     echoResponse(200, $response);

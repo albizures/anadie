@@ -19,9 +19,35 @@ angular.module('anApp')
             for(index in data.opciones){
                 data.opciones[index] = utils.convertNumber(data.opciones[index]);
             }
-            var temp = data.opciones.filter(function (item) {
+            var temp = [];
+            for(index in data.opciones){
+                if(data.opciones[index].Titulo_padre === null){
+                    anidacion(data.opciones[index]);
+                }
+            }
+            function anidacion (opcion,padre) {
+                if(opcion.Titulo_padre === null && padre === undefined){
+                    temp.push(opcion);
+                }
+                var hijos = data.opciones.filter(function (item) {
+                   return item.Titulo_padre == opcion.titulo;
+                });
+                if(hijos.length !== 0){
+                    for(index2 in hijos){
+                        anidacion(hijos[index2],opcion)
+                    }
+                }
+                if(padre){
+                    if(!padre.submenu){
+                        padre.submenu = [];
+                    }
+                    padre.submenu.push(opcion);
+                }
+            }
+            /*var temp = data.opciones.filter(function (item) {
                 return item.idPadre === 0;
             });
+            console.log(data.opciones);
             for(index in temp){
                 var cont = 0;
                 while(cont < data.opciones.length ){
@@ -41,8 +67,8 @@ angular.module('anApp')
                 }
             }
 
-            //console.log(temp,data.opciones);
-            $rootScope.opciones = temp;//data.opciones;
+             */
+            $rootScope.opciones = temp;
         }
         return {
             login: function( user, callback) {

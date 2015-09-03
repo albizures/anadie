@@ -20,20 +20,20 @@
 // Opción para ingresar un registro a la tabla cat_municipio
 
 // Opcion para obtener la totalidad de registros de la tabla cat_municipio
-$app->get('/municipioSel','sessionAlive', function() use ($app){
+$app->get('/municipioSel/:id','sessionAlive', function($id) use ($app){
 
-    $r = json_decode($app->request->getBody());
+    //$r = json_decode($app->request->getBody());
 
     $response = array();
 	//
     $db = new DbHandler();
-    $datos = $db->getAllRecord("call sp_sel_cat_municipio( $r->idDeptoGeo )");
+    $datos = $db->getAllRecord("call sp_sel_cat_municipio( $id )");
     //var_dump($datos);
     if ($datos != NULL) {
 			$response = $datos;
     }else{
         $response['status'] = "info";
-        $response['message'] = 'No hay datos';
+        $response['message'] = 'No hay municipios';
     }
 
     echoResponse(200, $response);

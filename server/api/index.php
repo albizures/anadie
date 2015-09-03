@@ -27,7 +27,12 @@ require_once "organizaciones.php";
 require_once "roles.php";
 require_once "permisos.php";
 require_once "proyectos.php";
-
+require_once "sectores.php";
+require_once "paises.php";
+require_once "depto_geos.php";
+require_once "municipios.php";
+require_once "ices.php";
+require_once "upload_files.php";
 /**
  * Verifying required params posted or not
  */

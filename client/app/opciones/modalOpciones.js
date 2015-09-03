@@ -7,6 +7,7 @@ angular.module('anApp')
         if(opcion.idTipo !== undefined){
             var id = tipoMenu[opcion.idTipo];
             if(id !== false) {
+                id = 1 ; //se cambio al tipo de opcion para traer todos los menus
                 Data.get('opListaH/' + id)
                     .then(function (result) {
 
@@ -68,7 +69,9 @@ angular.module('anApp')
                 }else{
                     $scope.padres = undefined;
                 }
-            }
+            }/*else{
+                $scope.padres = undefined;
+            }*/
 
         });
     }]);

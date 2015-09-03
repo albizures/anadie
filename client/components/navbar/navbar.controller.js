@@ -4,8 +4,8 @@
 angular.module('anApp')
     .controller('NavbarCtrl', ['$scope', '$location','$rootScope','Auth',function ($scope, $location,$rootScope,Auth) {
 
-        $rootScope.$watch('usuario', function () {
-            // alert('cambio');
+        $rootScope.$watch('opciones', function () {
+            //console.log($rootScope.opciones); // alert('cambio');
         });
         $scope.usuario = $rootScope.usuario;
         $scope.logout = function () {
@@ -90,7 +90,7 @@ angular.module('anApp')
                         '</li>'+
                        '</ul>',
             link: function(scope, element, attrs) {
-                console.log(scope.empty);
+                //console.log(scope.empty);
                 if(scope.empty){
                     $(element).children('.inicio,.contacto').remove();
                 }

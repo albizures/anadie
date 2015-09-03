@@ -11,7 +11,8 @@ var anApp = angular.module("anApp",[
     'ngAnimate',
     'ngTable',
     'http-auth-interceptor',
-    'toaster'
+    'toaster',
+    'angularFileUpload'
 ])
     .constant('tipoMenu',{
         1 : false,

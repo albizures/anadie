@@ -31,7 +31,7 @@ $app->get('/paisSel','sessionAlive', function() use ($app){
 			$response = $datos;
     }else{
         $response['status'] = "info";
-        $response['message'] = 'No hay datos';
+        $response['message'] = 'No hay paises';
     }
 
     echoResponse(200, $response);

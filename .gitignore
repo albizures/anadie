@@ -3,3 +3,5 @@ server/api/Slim
 server/api/config.php
 client/bower_components
 node_modules
+server/api/dbConnect.php
+server/api/config.php

@@ -20,9 +20,9 @@
 -->*/
 
 $app->post('/uploadFile','sessionAlive',function() use ($app){
-//    var_dump($_POST); // aqui viene la infomacion para ingresar el documento, id del proyecto y a que registro pertenece
-//    var_dump($_FILES);// aqui te paso el documento pero siempre va a venir con un nombre diferente dependiendo el documento
-	                  // para saber el nombre del documento es de contaquetar el id y el nombre del campo.
+    //var_dump($_POST); // aqui viene la infomacion para ingresar el documento, id del proyecto y a que registro pertenece
+    //var_dump($_FILES);// aqui te paso el documento pero siempre va a venir con un nombre diferente dependiendo el documento
+	//var_dump($app->request);             // para saber el nombre del documento es de contaquetar el id y el nombre del campo.
 //    $target_dir = "D:/wamp/www/anadie/server/files/";
 
     // en este caso lo hice quemado, pero el id seria 3 y el campo seria dictamen_leg_doc

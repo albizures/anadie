@@ -3,9 +3,40 @@
  */
 
 angular.module('anApp')
-    .controller('ModalProyectosCtrl',["$scope", '$modalInstance','Data','utils',
-        function ($scope,$modalIntance, Data, utils) {
+    .controller('ModalProyectosCtrl',["$scope", '$modalInstance','Data','utils','proyecto',
+        function ($scope,$modalIntance, Data, utils,proyecto) {
+            $scope.proyecto = {};
+            if(proyecto){
+                $scope.disable = true;
 
+                var date = moment(proyecto.fecha_present_p);
+                proyecto.dia = date.date();
+                proyecto.mes = date.month();
+                proyecto.anio = date.year();
+
+                var dateDicTec = moment(proyecto.dictamen_tec_fec);
+                proyecto.diaDicTec = dateDicTec.date();
+                proyecto.mesDicTec = dateDicTec.month();
+                proyecto.anioDicTec = dateDicTec.year();
+
+                var dateDicLeg = moment(proyecto.dictamen_leg_fec);
+                proyecto.diaDicLeg = dateDicLeg.date();
+                proyecto.mesDicLeg = dateDicLeg.month();
+                proyecto.anioDicLeg = dateDicLeg.year();
+
+                var dateResDir = moment(proyecto.res_dir_eje_fec);
+                proyecto.diaResDir = dateResDir.date();
+                proyecto.mesResDir = dateResDir.month();
+                proyecto.anioResDir = dateResDir.year();
+
+                var dateResCon = moment(proyecto.fecha_present_p);
+                proyecto.diaResCon = dateResCon.date();
+                proyecto.mesResCon = dateResCon.month();
+                proyecto.anioResCon = dateResCon.year();
+
+                console.log(proyecto);
+                $scope.proyecto = proyecto;
+            }
             $scope.dias = utils.dias;
             $scope.meses = utils.meses;
             $scope.anios = utils.anios;
@@ -15,13 +46,21 @@ angular.module('anApp')
                         Data.toast(result);
                         return;
                     }
+                    for(var i in result){
+                        utils.convertNumber(result[i]);
+                    }
+                    //result =
                     $scope.sectores = result;
+                    //console.log(result,$scope.proyecto,'lala');
                 });
             Data.get('iceSel')
                 .then(function (result) {
                     if(result.message){
                         Data.toast(result);
                         return;
+                    }
+                    for(var i in result){
+                        utils.convertNumber(result[i]);
                     }
                     $scope.ices = result;
                 });
@@ -31,6 +70,9 @@ angular.module('anApp')
                         Data.toast(result);
                         return;
                     }
+                    for(var i in result){
+                        utils.convertNumber(result[i]);
+                    }
                     $scope.paises = result;
                 });
 
@@ -39,27 +81,36 @@ angular.module('anApp')
                 $modalIntance.dismiss('cancel');
             };
             $scope.$watch('proyecto.id_pais', function (newValue, oldValue) {
-                if(newValue && newValue != oldValue){
+                console.log(newValue,'afuera',oldValue);
+                if(newValue && ((newValue == oldValue && !$scope.departamentos) || (newValue != oldValue))){
+                    console.log('cambio pais');
                     Data.get('deptogeoSel/'+newValue)
                         .then(function (result) {
                             if(result.message){
                                 Data.toast(result);
                                 return;
                             }
+                            for(var i in result){
+                                utils.convertNumber(result[i]);
+                            }
+                            console.log('ya llego ', result,proyecto);
                             $scope.departamentos = result;
                         });
                 }
             });
             $scope.$watch('proyecto.id_munic', function (newValue, oldValue) {
-                console.log('cambio munic',$scope.proyecto);
+                //console.log('cambio munic',$scope.proyecto);
             });
             $scope.$watch('proyecto.id_depto', function (newValue, oldValue) {
-                if(newValue && newValue != oldValue){
+                if(newValue && ((newValue == oldValue && !$scope.municipios) || (newValue != oldValue))){
                     Data.get('municipioSel/'+ newValue)
                         .then(function (result) {
                             if(result.message){
                                 Data.toast(result);
                                 return;
+                            }
+                            for(var i in result){
+                                utils.convertNumber(result[i]);
                             }
                             $scope.municipios = result;
                         });

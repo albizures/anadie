@@ -3,8 +3,8 @@
  */
 
 angular.module('anApp').controller('InscripcionCtrl',
-    ['$scope','Data','$rootScope','ngTableParams','$filter','$modal','utils','FileUploader',
-    function ($scope,Data, $rootScope, ngTableParams, $filter , $modal, utils,FileUploader) {
+    ['$scope','Data','$rootScope','ngTableParams','$filter','$modal','utils','FileUploader','$http',
+    function ($scope,Data, $rootScope, ngTableParams, $filter , $modal, utils,FileUploader,$http) {
         $scope.filtro = false;
         $scope.$watch('filtro', function (newValue, oldValue) {
             if(newValue !== undefined && newValue !== oldValue){
@@ -53,12 +53,12 @@ angular.module('anApp').controller('InscripcionCtrl',
             });
 
         $scope.agregar = function () {
-            var modalOpciones = $modal.open({
+            var modalProyectos = $modal.open({
                 templateUrl : 'modalProyectos',
                 controller : 'ModalProyectosCtrl',
                 size : 'lg'
             });
-            modalOpciones.result.then(function (proyecto) {
+            modalProyectos.result.then(function (proyecto) {
                 Data.post('proyectoIn',{'proyecto':proyecto})
                     .then(function (results) {
                         if(results.status === "success"){
@@ -70,6 +70,18 @@ angular.module('anApp').controller('InscripcionCtrl',
                         }
                         Data.toast(results);
                     });
+            });
+        };
+        $scope.ver = function (item) {
+            var modalProyectos = $modal.open({
+                templateUrl : 'modalProyectos',
+                controller : 'ModalProyectosCtrl',
+                size : 'lg',
+                resolve: {
+                    proyecto: function () {
+                        return item;
+                    }
+                }
             });
         };
         $scope.limpiar = function () {
@@ -96,19 +108,36 @@ angular.module('anApp').controller('InscripcionCtrl',
         });
         $scope.uploader.onAfterAddingFile = function(fileItem) {
             fileItem.alias =  currentName;
-            console.info('onAfterAddingFile', fileItem);
+            //console.info('onAfterAddingFile', fileItem);
             var data = {
                 id : currentId,
                 nombre : currentDoc
             };
             fileItem.formData.push(data);
-            console.log($scope.seledPDf(currentName));
+            //console.log($scope.seledPDf(currentName));
         };
+        $scope.uploader.onBeforeUploadItem(function (item) {
+            //console.log('onBefore',item);
+        });
         $scope.subir = function (name) {
             var result = $scope.uploader.queue.filter(function (item) {
                 return item.alias == name;
             })[0];
+            //result.formData.push({nana : 1});
+            /*result.headers = {
+                'Content-Type': 'multipart/form-data'
+            };*/
+            console.log(result,$scope.uploader,name);
             result.upload();
+
+            /*$http({
+                method : 'POST',
+                url : 'server/api/uploadFile',
+                headers : "Content-type:application/pdf",
+                data : result._file
+            }).then(function (res) {
+                console.log(res);
+            });*/
             console.log(result);
         };
         $scope.seledPDf = function (name) {
@@ -116,5 +145,18 @@ angular.module('anApp').controller('InscripcionCtrl',
                 return item.alias == name;
             });
             return result.length != 0;
+        };
+        $scope.verPDF = function (proyecto,name) {
+            var modalVisor = $modal.open({
+                templateUrl : 'modalVisor',
+                controller : 'ModalVisorCtrl',
+                windowClass : 'visor',
+                size : 'lg',
+                resolve: {
+                    url: function () {
+                        return proyecto[name];
+                    }
+                }
+            });
         };
 }]);

@@ -42,7 +42,7 @@ $app->post('/uploadFile','sessionAlive',function() use ($app){
 
 		$db = new DbHandler();
 		$column_names = array('id','field_name','target_file');
-		$resId = $db->updateRecord("call sp_upd_proyecto_archivo(?,?,?)", $r->opcion, $column_names,'is');
+		$resId = $db->updateRecord("call sp_upd_proyecto_archivo(?,?,?)", $r->opcion, $column_names,'iss');
 		
 		$response['status'] = "ok";
 		$response['message'] = "archivo recibido";

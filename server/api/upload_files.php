@@ -34,7 +34,8 @@ $app->post('/uploadFile','sessionAlive',function() use ($app){
 	$fname = $_POST['id'] . $_POST['nombre'] . ".pdf";
 	$target_file = $target_dir . $fname;
 
-	$response = array();
+	$response = array("status" => "", "message" => "", "data" => "");
+	
 	$r = array ( "opcion" => [ "id" => $_POST['id'], "field_name" => $_POST['nombre'], "target_file" => $target_file, ] );
 
     if (move_uploaded_file($_FILES[$fname1]["tmp_name"], $target_file)){
@@ -46,11 +47,13 @@ $app->post('/uploadFile','sessionAlive',function() use ($app){
 		
 		$response['status'] = "ok";
 		$response['message'] = "archivo recibido";
+		$response['target_file'] = $target_file;
 	}
 	else { 
 		//echo "hubo error\n" ;
         $response['status'] = "info";
         $response['message'] = 'No pudo recibirse el archivo ';
+		$response['target_file'] = "";
 		 }
 
     echoResponse(200, $response);

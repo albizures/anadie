@@ -20,6 +20,15 @@
 -->*/
 
 $app->post('/uploadFile','sessionAlive',function() use ($app){
+
+class R {
+	
+	public $id = "";
+	public $field_name = "";
+	public $target_file = "";
+	
+}
+
     //var_dump($_POST); // aqui viene la infomacion para ingresar el documento, id del proyecto y a que registro pertenece
     //var_dump($_FILES);// aqui te paso el documento pero siempre va a venir con un nombre diferente dependiendo el documento
 	//var_dump($app->request);             // para saber el nombre del documento es de contaquetar el id y el nombre del campo.
@@ -36,14 +45,21 @@ $app->post('/uploadFile','sessionAlive',function() use ($app){
 
 	$response = array("status" => "", "message" => "", "data" => "");
 	
-	$r = array ( "opcion" => [ "id" => $_POST['id'], "field_name" => $_POST['nombre'], "target_file" => $target_file, ] );
+	$r = new R;
+//	$r = array ( "opcion" => [ "id" => $_POST['id'], "field_name" => $_POST['nombre'], "target_file" => $target_file, ] );
+	$r->id = $_POST['id'];
+	$r->field_name = $_POST['nombre'];
+	$r->target_file = $target_file;
+	
+//	$r->field_name = "dictamen_tec_doc";
+//	$r->target_file = $target_file;
 
     if (move_uploaded_file($_FILES[$fname1]["tmp_name"], $target_file)){
 		//echo "el archivo vino bien\n";
 
 		$db = new DbHandler();
 		$column_names = array('id','field_name','target_file');
-		$resId = $db->updateRecord("call sp_upd_proyecto_archivo(?,?,?)", $r->opcion, $column_names,'iss');
+		$resId = $db->updateRecord("call sp_upd_proyecto_archivo(?,?,?)", $r, $column_names,'iss');
 		
 		$response['status'] = "ok";
 		$response['message'] = "archivo recibido";

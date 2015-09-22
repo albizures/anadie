@@ -42,14 +42,14 @@ class R {
 	$fname1 = $_POST['id'] . $_POST['nombre'];
 	$fname = $_POST['id'] . $_POST['nombre'] . ".pdf";
 	$target_file = $target_dir . $fname;
-
+    $relative_dir =  "/server/uploaded_files/" . $fname;
 	$response = array("status" => "", "message" => "", "data" => "");
 	
 	$r = new R;
 //	$r = array ( "opcion" => [ "id" => $_POST['id'], "field_name" => $_POST['nombre'], "target_file" => $target_file, ] );
 	$r->id = $_POST['id'];
 	$r->field_name = $_POST['nombre'];
-	$r->target_file = $target_file;
+	$r->target_file = $relative_dir;//$target_file;
 	
 //	$r->field_name = "dictamen_tec_doc";
 //	$r->target_file = $target_file;
@@ -63,7 +63,7 @@ class R {
 		
 		$response['status'] = "ok";
 		$response['message'] = "archivo recibido";
-		$response['target_file'] = $target_file;
+		$response['target_file'] = $relative_dir;//$target_file;
 	}
 	else { 
 		//echo "hubo error\n" ;

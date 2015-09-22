@@ -9,37 +9,39 @@
     </section>
     <br/>
     <table ng-table="tableProyectos"  show-filter="filtro" class="table table-striped">
-        <tr ng-repeat="proyecto in $data">
+        <tr ng-repeat="p in $data">
             <td data-title="'Nombre'" sortable="'nombre'" width="400" filter="{ 'nombre': 'text' }">
-                <span >{{proyecto.nombre}}</span>
+                <span >{{p.nombre}}</span>
             </td>
             <td data-title="'Prestaciones'" sortable="'prestaciones'" width="330" filter="{ 'prestaciones': 'text' }">
-                <span >{{proyecto.prestaciones}}</span>
+                <span >{{p.prestaciones}}</span>
             </td>
             <td data-title="'Dic Leg'" width="80">
-                <button ng-if="proyecto.dictamen_leg_doc !=''" ng-click="verPDF(proyecto,'dictamen_leg_doc')" class="btn btn-default btn-xs">ver</button>
-                <label ng-if="proyecto.dictamen_leg_doc ==''" for="dicleg" ng-show="!seledPDf(proyecto.id+'dictamen_leg_doc')" class="btn btn-default btn-xs" ng-click="agregarPDF(proyecto.id,'dictamen_leg_doc')">agregar PDF</label>
-                <input ng-if="proyecto.dictamen_leg_doc ==''" style="display: none" id="dicleg" class="btn btn-default btn-xs" type="file" nv-file-select="" uploader="uploader" />
-                <button ng-if="proyecto.dictamen_leg_doc ==''" ng-show="seledPDf(proyecto.id+'dictamen_leg_doc')" ng-click="subir(proyecto.id+'dictamen_leg_doc')" class="btn btn-primary btn-xs">subir PDF</button>
+                <button ng-if="p.dictamen_leg_doc !=''" ng-click="verPDF(p,'dictamen_leg_doc')" class="btn btn-default btn-xs">ver PDF</button>
+                <label ng-if="p.dictamen_leg_doc ==''" for="dicleg" ng-show="!seledPDf(p.id+'dictamen_leg_doc')" class="btn btn-default btn-xs" ng-click="agregarPDF(p.id,'dictamen_leg_doc')">agregar PDF</label>
+                <input ng-if="p.dictamen_leg_doc ==''" style="display: none" id="dicleg" type="file" nv-file-select="" uploader="uploader" />
+                <button ng-if="p.dictamen_leg_doc ==''" ng-show="seledPDf(p.id+'dictamen_leg_doc')" ng-click="subir(p.id,'dictamen_leg_doc',p)" class="btn btn-primary btn-xs">subir PDF</button>
             </td>
             <td data-title="'Dic Tec'"  width="80" >
-                <button ng-if="proyecto.dictamen_tec_doc !=''" ng-click="verPDF(proyecto,'dictamen_tec_doc')" class="btn btn-default btn-xs">Ver PDF</button>
-                <label ng-if="proyecto.dictamen_tec_doc ==''" for="dictec" ng-show="!seledPDf(proyecto.id+'dictamen_tec_doc')" class="btn btn-default btn-xs" ng-click="agregarPDF(proyecto.id,'dictamen_tec_doc')">agregar PDF</label>
-                <input ng-if="proyecto.dictamen_tec_doc ==''" style="display: none" id="dictec" class="btn btn-default btn-xs" type="file" nv-file-select="" uploader="uploader" />
-                <button ng-if="proyecto.dictamen_tec_doc ==''" ng-show="seledPDf(proyecto.id+'dictamen_tec_doc')" ng-click="subir(proyecto.id+'dictamen_tec_doc')" class="btn btn-primary btn-xs">subir PDF</button>
+                <button ng-if="p.dictamen_tec_doc !=''" ng-click="verPDF(p,'dictamen_tec_doc')" class="btn btn-default btn-xs">Ver PDF</button>
+                <label ng-if="p.dictamen_tec_doc ==''" for="dictec" ng-show="!seledPDf(p.id+'dictamen_tec_doc')" class="btn btn-default btn-xs" ng-click="agregarPDF(p.id,'dictamen_tec_doc')">agregar PDF</label>
+                <input ng-if="p.dictamen_tec_doc ==''" style="display: none" id="dictec" type="file" nv-file-select="" uploader="uploader" />
+                <button ng-if="p.dictamen_tec_doc ==''" ng-show="seledPDf(p.id+'dictamen_tec_doc')" ng-click="subir(p.id,'dictamen_tec_doc', p)" class="btn btn-primary btn-xs">subir PDF</button>
             </td>
             <td data-title="'Res Conadie'"  width="90" >
-                <label for="rescon" ng-show="!seledPDf(proyecto.id+'res_conadie_doc')" class="btn btn-default btn-xs" ng-click="agregarPDF(proyecto.id,'res_conadie_doc')">agregar PDF</label>
-                <input style="display: none" id="rescon" class="btn btn-default btn-xs" type="file" nv-file-select="" uploader="uploader" />
-                <button ng-show="seledPDf(proyecto.id+'res_conadie_doc')" ng-click="subir(proyecto.id+'res_conadie_doc')" class="btn btn-primary btn-xs">subir PDF</button>
+                <button ng-if="p.res_conadie_doc !=''" ng-click="verPDF(p,'res_conadie_doc')" class="btn btn-default btn-xs">ver PDF</button>
+                <label ng-if="p.res_conadie_doc ==''" for="rescon" ng-show="!seledPDf(p.id+'res_conadie_doc')" class="btn btn-default btn-xs" ng-click="agregarPDF(p.id,'res_conadie_doc')">agregar PDF</label>
+                <input ng-if="p.res_conadie_doc ==''" style="display: none" id="rescon" type="file" nv-file-select="" uploader="uploader" />
+                <button ng-if="p.res_conadie_doc ==''" ng-show="seledPDf(p.id+'res_conadie_doc')" ng-click="subir(p.id,'res_conadie_doc',p)" class="btn btn-primary btn-xs">subir PDF</button>
             </td>
             <td data-title="'Res Ejecutivo'"  width="90">
-                <label for="reseje" ng-show="!seledPDf(proyecto.id+'res_dir_eje_doc')" class="btn btn-default btn-xs" ng-click="agregarPDF(proyecto.id,'res_dir_eje_doc')">agregar PDF</label>
-                <input style="display: none" id="reseje" class="btn btn-default btn-xs" type="file" nv-file-select="" uploader="uploader" />
-                <button ng-show="seledPDf(proyecto.id+'res_dir_eje_doc')" ng-click="subir(proyecto.id+'res_dir_eje_doc')" class="btn btn-primary btn-xs">subir PDF</button>
+                <button ng-if="p.res_dir_eje_doc !=''" ng-click="verPDF(p,'res_dir_eje_doc')" class="btn btn-default btn-xs">ver PDF</button>
+                <label ng-if="p.res_dir_eje_doc ==''"  for="reseje" ng-show="!seledPDf(p.id+'res_dir_eje_doc')" class="btn btn-default btn-xs" ng-click="agregarPDF(p.id,'res_dir_eje_doc')">agregar PDF</label>
+                <input ng-if="p.res_dir_eje_doc ==''" style="display: none" id="reseje" type="file" nv-file-select="" uploader="uploader" />
+                <button  ng-if="p.res_dir_eje_doc ==''" ng-show="seledPDf(p.id+'res_dir_eje_doc')" ng-click="subir(p.id,'res_dir_eje_doc',p)" class="btn btn-primary btn-xs">subir PDF</button>
             </td>
             <td width="50">
-                <button ng-click="ver(proyecto)"  class="btn btn-default btn-xs">Ver</button>
+                <button ng-click="ver(p)"  class="btn btn-default btn-xs">Ver</button>
             </td>
         </tr>
     </table>

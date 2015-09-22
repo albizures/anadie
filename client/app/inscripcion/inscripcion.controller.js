@@ -119,26 +119,17 @@ angular.module('anApp').controller('InscripcionCtrl',
         $scope.uploader.onBeforeUploadItem(function (item) {
             //console.log('onBefore',item);
         });
-        $scope.subir = function (name) {
+        $scope.uploader.onCompleteItem = function(fileItem, response, status, headers) {
+            console.info('onCompleteItem', fileItem, response, status, headers);
+            fileItem.proyecto[fileItem.documento] = response.target_file;
+        };
+        $scope.subir = function (id,name,proyecto) {
             var result = $scope.uploader.queue.filter(function (item) {
-                return item.alias == name;
+                return item.alias == id + name;
             })[0];
-            //result.formData.push({nana : 1});
-            /*result.headers = {
-                'Content-Type': 'multipart/form-data'
-            };*/
-            console.log(result,$scope.uploader,name);
+            result.documento = name;
+            result.proyecto = proyecto;
             result.upload();
-
-            /*$http({
-                method : 'POST',
-                url : 'server/api/uploadFile',
-                headers : "Content-type:application/pdf",
-                data : result._file
-            }).then(function (res) {
-                console.log(res);
-            });*/
-            console.log(result);
         };
         $scope.seledPDf = function (name) {
             var result = $scope.uploader.queue.filter(function (item) {

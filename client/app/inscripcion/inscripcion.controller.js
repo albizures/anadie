@@ -56,7 +56,10 @@ angular.module('anApp').controller('InscripcionCtrl',
             var modalProyectos = $modal.open({
                 templateUrl : 'modalProyectos',
                 controller : 'ModalProyectosCtrl',
-                size : 'lg'
+                size : 'lg',
+                proyecto: function () {
+                    return undefined;
+                }
             });
             modalProyectos.result.then(function (proyecto) {
                 Data.post('proyectoIn',{'proyecto':proyecto})

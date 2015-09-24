@@ -51,7 +51,7 @@ $app->post('/proyectoIn','sessionAlive',function() use ($app){
 	$resconadieref  = $r->proyecto->res_conadie_ref;
 	$resconadiefec  = $r->proyecto->res_conadie_fec;
 	$resconadiedoc  = "";//$r->proyecto->res_conadie_doc;
-	var_dump($r->proyecto);
+	//var_dump($r->proyecto);
 	//					   dictamen_tec_doc, dictamen_leg_ref, dictamen_leg_fec, dictamen_leg_doc, res_dir_eje_ref , res_dir_eje_fec , 
 	//					   res_dir_eje_doc ,res_conadie_ref , res_conadie_fec , res_conadie_doc
     $response = array();

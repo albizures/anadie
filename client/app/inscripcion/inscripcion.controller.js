@@ -57,8 +57,10 @@ angular.module('anApp').controller('InscripcionCtrl',
                 templateUrl : 'modalProyectos',
                 controller : 'ModalProyectosCtrl',
                 size : 'lg',
-                proyecto: function () {
-                    return undefined;
+                resolve :{
+                    proyecto: function () {
+                        return undefined;
+                    }
                 }
             });
             modalProyectos.result.then(function (proyecto) {

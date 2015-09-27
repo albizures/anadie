@@ -57,20 +57,11 @@ angular.module('anApp').controller('InscripcionCtrl',
                 templateUrl : 'modalProyectos',
                 controller : 'ModalProyectosCtrl',
                 size : 'lg',
-<<<<<<< HEAD
-
-				resolve: {
-					proyecto: function () {
-						return undefined;
-					}
-				}
-=======
                 resolve :{
                     proyecto: function () {
                         return undefined;
                     }
                 }
->>>>>>> 77943d955d7cae62cc7c48658992e1c59689ec12
             });
             modalProyectos.result.then(function (proyecto) {
                 Data.post('proyectoIn',{'proyecto':proyecto})

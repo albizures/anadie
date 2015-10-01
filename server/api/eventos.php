@@ -20,13 +20,13 @@
  **/
 
 // Opción para ingresar un registro a la tabla pyr_evento
-CREATE DEFINER=`root`@`localhost` PROCEDURE `fn_ins_pyr_evento`( IN pnombre varchar(200), IN pdescripcion varchar(500), IN pfecha_inicio date,
+/*CREATE DEFINER=`root`@`localhost` PROCEDURE `fn_ins_pyr_evento`( IN pnombre varchar(200), IN pdescripcion varchar(500), IN pfecha_inicio date,
                                                                  IN pfecha_final date ) RETURN INT
 begin
 insert into pyr_evento ( nombre, descripcion, fecha_inicio, fecha_final, estado )
    values ( pnombre, pdescripcion, pfecha_inicio, pfecha_final, 1 );
 select last_insert_id();
-end$$
+end$$*/
 
 $app->post('/eventoIn','sessionAlive',function() use ($app){
 
@@ -39,14 +39,14 @@ $app->post('/eventoIn','sessionAlive',function() use ($app){
 	$fecha_inicio = $r->evento->fecha_inicio;
 	$fecha_final  = $r->evento->fecha_final;
 
-	$fechapresentp = $r->proyecto->fecha_present_p;
+	//$fechapresentp = $r->proyecto->fecha_present_p;
 	
-	var_dump($r->evento);
+	//var_dump($r->evento);
     $response = array();
 	//
 	//
     $db = new DbHandler();
-	$id = $db->get1Record("select fn_ins_pyr_proyecto( '$nombre', '$descripcion', '$fecha_inicio', '$fecha_final' ) as id");
+	$id = $db->get1Record("select fn_ins_pyr_evento( '$nombre', '$descripcion', '$fecha_inicio', '$fecha_final' ) as id");
 
     if ($id != NULL) {
         $response['status'] = "success";
@@ -62,7 +62,7 @@ $app->post('/eventoIn','sessionAlive',function() use ($app){
 });
 
 // Opcion para obtener la totalidad de registros de la tabla pyr_evento
-$app->get('/sectorSel','sessionAlive', function() use ($app){
+$app->get('/eventoSel','sessionAlive', function() use ($app){
 
     $response = array();
 	//

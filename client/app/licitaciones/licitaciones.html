@@ -1,0 +1,78 @@
+<div>
+    <br/>
+    <section class="form-inline">
+        <button ng-click="limpiar()" class="btn btn-default pull-right">Limpiar filtro</button>
+        <button type="button" class="btn btn-primary pull-right" ng-model="filtro" btn-checkbox>
+            <span class="glyphicon glyphicon-filter"></span>
+        </button>
+        <button ng-click="agregar()" class="btn btn-primary"><i class="icon-white icon-plus"></i> Agregar lictaciones</button>
+    </section>
+    <br/>
+    <table ng-table="tableLicitaciones"  show-filter="filtro" class="table table-striped">
+        <tr ng-repeat="l in $data">
+            <td data-title="'Nombre'" sortable="'nombre'" width="400" filter="{ 'nombre': 'text' }">
+                <span >{{l.nombre}}</span>
+            </td>
+            <td data-title="'Description'" sortable="'description'" width="330" filter="{ 'description': 'text' }">
+                <span >{{l.description}}</span>
+            </td>
+            <td data-title="'Fecha inicio'" sortable="'fecha_inicio'" width="100" filter="{ 'fecha_inicio': 'text' }">
+                <span >{{l.fecha_inicio | date:'dd/MM/yyyy'}}</span>
+            </td>
+            <td data-title="'Fecha final'" sortable="'fecha_final'" width="100" filter="{ 'fecha_final': 'text' }">
+                <span >{{l.fecha_final | date:'dd/MM/yyyy'}}</span>
+            </td>
+            <td data-title="'Acciones'" width="100" >
+                <button ng-click="ver(p)"  class="btn btn-default btn-xs">Ver</button>
+                <button ng-click="documentos(p)" class="btn btn-primary btn-xs">Documentos</button>
+            </td>
+        </tr>
+    </table>
+</div>
+<script type="text/ng-template" id="modalLicitaciones">
+    <div>
+        <div class="modal-header">
+            <h3 class="modal-title">Ingrese los datos</h3>
+        </div>
+        <div class="modal-body">
+            <form novalidate name="formOpcion" >
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input ng-disabled="disable" ng-model="evento.nombre" type="text" class="form-control" id="nombre" placeholder="Nombre" required/>
+                        </div>
+                        <div class="form-group">
+                            <label for="descripcion">Descripcion</label>
+                            <input ng-disabled="disable" ng-model="evento.descripcion" type="text" class="form-control" id="descripcion" placeholder="descripcion" required/>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label >Fecha inicio</label>
+                            </div>
+                            <div class="col-md-12 fecha">
+                                <select ng-disabled="!dias || disable" ng-options="i for i in dias" ng-model="evento.diaI" id="diaI" class="form-control"></select>
+                                <select ng-disabled="!meses || disable" ng-options="i.id as i.nombre for i in meses" ng-model="evento.mesI" id="mesI" class="form-control"></select>
+                                <select ng-disabled="!anios || disable" ng-options="i for i in anios" ng-model="evento.anioI" id="anioI" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <label >Fecha final</label>
+                            </div>
+                            <div class="col-md-12 fecha">
+                                <select ng-disabled="!dias || disable" ng-options="i for i in dias" ng-model="evento.diaF" id="diaF" class="form-control"></select>
+                                <select ng-disabled="!meses || disable" ng-options="i.id as i.nombre for i in meses" ng-model="evento.mesF" id="mes" class="form-control"></select>
+                                <select ng-disabled="!anios || disable" ng-options="i for i in anios" ng-model="evento.anioF" id="anioF" class="form-control"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-disabled="!formOpcion.$valid && !validarFechas()" ng-click="ok()">Aceptar</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancelar</button>
+        </div>
+    </div>
+</script>

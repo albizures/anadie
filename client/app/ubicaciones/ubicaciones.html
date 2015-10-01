@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-md-4">
+        <table ng-table="tablePaises"  show-filter="filtro" class="table table-striped">
+            <tr ng-repeat="p in $data">
+                <td data-title="'Nombre'" sortable="'nombre'" width="400" filter="{ 'nombre': 'text' }">
+                    <span >{{p.nombre}}</span>
+                </td>
+
+                <td data-title="'Acciones'" width="100" >
+                    <button ng-click="ver(p)"  class="btn btn-default btn-xs">Ver</button>
+                    <button ng-click="documentos(p)" class="btn btn-primary btn-xs">Documentos</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-4">
+        <table ng-table="tableDepartamentos"  show-filter="filtro" class="table table-striped">
+            <tr ng-repeat="p in $data">
+                <td data-title="'Nombre'" sortable="'nombre'" width="400" filter="{ 'nombre': 'text' }">
+                    <span >{{p.nombre}}</span>
+                </td>
+
+                <td data-title="'Acciones'" width="100" >
+                    <button ng-click="ver(p)"  class="btn btn-default btn-xs">Ver</button>
+                    <button ng-click="documentos(p)" class="btn btn-primary btn-xs">Documentos</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-4">
+        <table ng-table="tableMunicipios"  show-filter="filtro" class="table table-striped">
+            <tr ng-repeat="p in $data">
+                <td data-title="'Nombre'" sortable="'nombre'" width="400" filter="{ 'nombre': 'text' }">
+                    <span >{{p.nombre}}</span>
+                </td>
+
+                <td data-title="'Acciones'" width="100" >
+                    <button ng-click="ver(p)"  class="btn btn-default btn-xs">Ver</button>
+                    <button ng-click="documentos(p)" class="btn btn-primary btn-xs">Documentos</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

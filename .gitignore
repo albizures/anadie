@@ -1,7 +1,7 @@
 .idea
 server/api/Slim
-server/api/files
-server/api/uploaded_files
+server/files
+server/uploaded_files
 server/api/config.php
 client/bower_components
 node_modules

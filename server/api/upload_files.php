@@ -71,8 +71,8 @@ class R {
 		$column_names = array('id','field_name','target_file','ref','fec');
 		$resId = $db->updateRecord("call sp_upd_proyecto_archivo(?,?,?,?,?)", $r, $column_names,'issss');
 		
-		$response['status'] = "ok";
-		$response['message'] = "archivo recibido";
+		$response['status'] = "success";
+		$response['message'] = "Archivo recibido";
 		$response['target_file'] = $relative_dir;//$target_file;
 	}
 	else { 

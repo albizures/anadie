@@ -24,12 +24,21 @@ var anApp = angular.module("anApp",[
 
         $locationProvider.html5Mode(true);
     })
-    .run(['$rootScope', '$location', 'Auth','$state',function ($rootScope, $location, Auth,$state) {
+    .run(['$rootScope', '$location', 'Auth','utils',function ($rootScope, $location, Auth,utils) {
         $rootScope.$watch('usuario', function(currentUser) {
             if (!currentUser && (['/', '/login', '/logout', '/signup'].indexOf($location.path()) == -1 )) {
                 Auth.currentUser();
             }
         });
+        $rootScope.today = {
+            day : moment().date(),
+            month : moment().month(),
+            year : moment().year()
+        };
+
+        $rootScope.dias = utils.dias;
+        $rootScope.meses = utils.meses;
+        $rootScope.anios = utils.anios;
         $rootScope.$on('$stateChangeSuccess', function (event, next, current) {
 
         });

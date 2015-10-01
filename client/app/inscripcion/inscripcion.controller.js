@@ -3,8 +3,8 @@
  */
 
 angular.module('anApp').controller('InscripcionCtrl',
-    ['$scope','Data','$rootScope','ngTableParams','$filter','$modal','utils','FileUploader','$http',
-    function ($scope,Data, $rootScope, ngTableParams, $filter , $modal, utils,FileUploader,$http) {
+    ['$scope','Data','$rootScope','ngTableParams','$filter','$modal','utils',
+    function ($scope,Data, $rootScope, ngTableParams, $filter , $modal, utils) {
         $scope.filtro = false;
         $scope.$watch('filtro', function (newValue, oldValue) {
             if(newValue !== undefined && newValue !== oldValue){
@@ -57,6 +57,7 @@ angular.module('anApp').controller('InscripcionCtrl',
                 templateUrl : 'modalProyectos',
                 controller : 'ModalProyectosCtrl',
                 size : 'lg',
+                backdrop : 'static',
                 resolve :{
                     proyecto: function () {
                         return undefined;
@@ -77,6 +78,41 @@ angular.module('anApp').controller('InscripcionCtrl',
                     });
             });
         };
+        $scope.documentos = function (proyecto) {
+            var modalDocumentos = $modal.open({
+                templateUrl : 'modalDocumentos',
+                controller : 'ModalDocumentosCtrl',
+                size : 'lg',
+                backdrop : 'static',
+                resolve: {
+                    proyecto: function () {
+                        return angular.copy(proyecto);
+                    }
+                }
+            });
+            modalDocumentos.result.then(function (newProyecto) {
+                if(newProyecto.dictamen_tec_doc){
+                    proyecto.dictamen_tec_doc = newProyecto.dictamen_tec_doc;
+                    proyecto.dictamen_tec_ref = newProyecto.dictamen_tec_ref;
+                    proyecto.dictamen_tec_fec = newProyecto.dictamen_tec_fec;
+                }
+                if(newProyecto.dictamen_leg_doc){
+                    proyecto.dictamen_leg_doc = newProyecto.dictamen_leg_doc;
+                    proyecto.dictamen_leg_ref = newProyecto.dictamen_leg_ref;
+                    proyecto.dictamen_leg_fec = newProyecto.dictamen_leg_fec;
+                }
+                if(newProyecto.res_dir_eje_doc){
+                    proyecto.res_dir_eje_doc = newProyecto.res_dir_eje_doc;
+                    proyecto.res_dir_eje_ref = newProyecto.res_dir_eje_ref;
+                    proyecto.res_dir_eje_fec = newProyecto.res_dir_eje_fec;
+                }
+                if(newProyecto.res_conadie_doc){
+                    proyecto.res_conadie_doc = newProyecto.res_conadie_doc;
+                    proyecto.res_conadie_ref = newProyecto.res_conadie_ref;
+                    proyecto.res_conadie_fec = newProyecto.res_conadie_fec;
+                }
+            });
+        };
         $scope.ver = function (item) {
             var modalProyectos = $modal.open({
                 templateUrl : 'modalProyectos',
@@ -94,7 +130,7 @@ angular.module('anApp').controller('InscripcionCtrl',
             $scope.tableProyectos.filter({});
             $scope.filtro = false;
         };
-        var currentName = '';
+        /*var currentName = '';
         var currentId;
         var currentDoc;
         $scope.agregarPDF = function (id,doc) {
@@ -107,7 +143,7 @@ angular.module('anApp').controller('InscripcionCtrl',
         });
         $scope.uploader.filters.push({
             name: 'pdf',
-            fn: function(item /*{File|FileLikeObject}*/, options) {
+            fn: function(item *//*{File|FileLikeObject}*//*, options) {
                 return item.type.indexOf('pdf') != -1;
             }
         });
@@ -154,5 +190,5 @@ angular.module('anApp').controller('InscripcionCtrl',
                     }
                 }
             });
-        };
+        };*/
 }]);

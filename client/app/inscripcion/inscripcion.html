@@ -16,32 +16,12 @@
             <td data-title="'Prestaciones'" sortable="'prestaciones'" width="330" filter="{ 'prestaciones': 'text' }">
                 <span >{{p.prestaciones}}</span>
             </td>
-            <td data-title="'Dic Leg'" width="80">
-                <button ng-if="p.dictamen_leg_doc !=''" ng-click="verPDF(p,'dictamen_leg_doc')" class="btn btn-default btn-xs">ver PDF</button>
-                <label ng-if="p.dictamen_leg_doc ==''" for="dicleg" ng-show="!seledPDf(p.id+'dictamen_leg_doc')" class="btn btn-default btn-xs" ng-click="agregarPDF(p.id,'dictamen_leg_doc')">agregar PDF</label>
-                <input ng-if="p.dictamen_leg_doc ==''" style="display: none" id="dicleg" type="file" nv-file-select="" uploader="uploader" />
-                <button ng-if="p.dictamen_leg_doc ==''" ng-show="seledPDf(p.id+'dictamen_leg_doc')" ng-click="subir(p.id,'dictamen_leg_doc',p)" class="btn btn-primary btn-xs">subir PDF</button>
+            <td data-title="'Fecha'" sortable="'fecha_present_p'" width="100" filter="{ 'fecha_present_p': 'text' }">
+                <span >{{p.fecha_present_p | date:'dd/MM/yyyy'}}</span>
             </td>
-            <td data-title="'Dic Tec'"  width="80" >
-                <button ng-if="p.dictamen_tec_doc !=''" ng-click="verPDF(p,'dictamen_tec_doc')" class="btn btn-default btn-xs">Ver PDF</button>
-                <label ng-if="p.dictamen_tec_doc ==''" for="dictec" ng-show="!seledPDf(p.id+'dictamen_tec_doc')" class="btn btn-default btn-xs" ng-click="agregarPDF(p.id,'dictamen_tec_doc')">agregar PDF</label>
-                <input ng-if="p.dictamen_tec_doc ==''" style="display: none" id="dictec" type="file" nv-file-select="" uploader="uploader" />
-                <button ng-if="p.dictamen_tec_doc ==''" ng-show="seledPDf(p.id+'dictamen_tec_doc')" ng-click="subir(p.id,'dictamen_tec_doc', p)" class="btn btn-primary btn-xs">subir PDF</button>
-            </td>
-            <td data-title="'Res Conadie'"  width="90" >
-                <button ng-if="p.res_conadie_doc !=''" ng-click="verPDF(p,'res_conadie_doc')" class="btn btn-default btn-xs">ver PDF</button>
-                <label ng-if="p.res_conadie_doc ==''" for="rescon" ng-show="!seledPDf(p.id+'res_conadie_doc')" class="btn btn-default btn-xs" ng-click="agregarPDF(p.id,'res_conadie_doc')">agregar PDF</label>
-                <input ng-if="p.res_conadie_doc ==''" style="display: none" id="rescon" type="file" nv-file-select="" uploader="uploader" />
-                <button ng-if="p.res_conadie_doc ==''" ng-show="seledPDf(p.id+'res_conadie_doc')" ng-click="subir(p.id,'res_conadie_doc',p)" class="btn btn-primary btn-xs">subir PDF</button>
-            </td>
-            <td data-title="'Res Ejecutivo'"  width="90">
-                <button ng-if="p.res_dir_eje_doc !=''" ng-click="verPDF(p,'res_dir_eje_doc')" class="btn btn-default btn-xs">ver PDF</button>
-                <label ng-if="p.res_dir_eje_doc ==''"  for="reseje" ng-show="!seledPDf(p.id+'res_dir_eje_doc')" class="btn btn-default btn-xs" ng-click="agregarPDF(p.id,'res_dir_eje_doc')">agregar PDF</label>
-                <input ng-if="p.res_dir_eje_doc ==''" style="display: none" id="reseje" type="file" nv-file-select="" uploader="uploader" />
-                <button  ng-if="p.res_dir_eje_doc ==''" ng-show="seledPDf(p.id+'res_dir_eje_doc')" ng-click="subir(p.id,'res_dir_eje_doc',p)" class="btn btn-primary btn-xs">subir PDF</button>
-            </td>
-            <td width="50">
+            <td data-title="'Acciones'" width="100" >
                 <button ng-click="ver(p)"  class="btn btn-default btn-xs">Ver</button>
+                <button ng-click="documentos(p)" class="btn btn-primary btn-xs">Documentos</button>
             </td>
         </tr>
     </table>
@@ -69,20 +49,20 @@
                             </div>
                             <div class="form-group">
                                 <label for="pais">Pais</label>
-                                <select ng-disabled="disable" ng-disabled="!paises" ng-options="item.id as item.nombre for item in paises" ng-model="proyecto.id_pais" id="pais" class="form-control"></select>
+                                <select ng-disabled="!paises || disable" ng-options="item.id as item.nombre for item in paises" ng-model="proyecto.id_pais" id="pais" class="form-control"></select>
                             </div>
                             <div class="form-group">
                                 <label for="municipio">Municipio</label>
-                                <select ng-disabled="disable" ng-disabled="!municipios" ng-options="item.id as item.nombre for item in municipios" ng-model="proyecto.id_munic" id="municipio" class="form-control"></select>
+                                <select  ng-disabled="!municipios || disable" ng-options="item.id as item.nombre for item in municipios" ng-model="proyecto.id_munic" id="municipio" class="form-control"></select>
                             </div>
                             <div class="row form-group">
                                 <div class="col-md-12">
                                     <label >Fecha presentacion</label>
                                 </div>
                                 <div class="col-md-12 fecha">
-                                    <select ng-disabled="!dias || disable" ng-options="item for item in dias" ng-model="proyecto.dia" id="dia" class="form-control"></select>
-                                    <select ng-disabled="!meses || disable" ng-options="item.id as item.nombre for item in meses" ng-model="proyecto.mes" id="mes" class="form-control"></select>
-                                    <select ng-disabled="!anios || disable" ng-options="item for item in anios" ng-model="proyecto.anio" id="anios" class="form-control"></select>
+                                    <select ng-disabled="!dias || disable" ng-options="i for i in dias" ng-model="proyecto.dia" id="dia" class="form-control"></select>
+                                    <select ng-disabled="!meses || disable" ng-options="i.id as i.nombre for i in meses" ng-model="proyecto.mes" id="mes" class="form-control"></select>
+                                    <select ng-disabled="!anios || disable" ng-options="i for i in anios" ng-model="proyecto.anio" id="anios" class="form-control"></select>
                                 </div>
 
                             </div>
@@ -110,69 +90,116 @@
                         <label for="objetivo">Objetivo</label>
                         <textarea ng-disabled="disable" ng-model="proyecto.objetivo" type="text" class="form-control" id="objetivo" required></textarea>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="row form-group">
-                                <div class="col-md-12">
-                                    <label >Dictamen tecnico</label>
-                                </div>
-                                <div class="col-md-4">
-                                    <input ng-disabled="disable" ng-model="proyecto.dictamen_tec_ref" type="number" class="form-control"  placeholder="No." required/>
-                                </div>
-                                <div class="col-md-8 fecha">
-                                    <select ng-disabled="!dias || disable" ng-options="item for item in dias" ng-model="proyecto.diaDicTec" class="form-control"></select>
-                                    <select ng-disabled="!meses || disable" ng-options="item.id as item.nombre for item in meses" ng-model="proyecto.mesDicTec"  class="form-control"></select>
-                                    <select ng-disabled="!anios || disable" ng-options="item for item in anios" ng-model="proyecto.anioDicTec"  class="form-control"></select>
-                                </div>
-                            </div>
-                            <div class="row form-group">
-                                <div class="col-md-12 fecha">
-                                    <label>Resolucion de direccion ejecutiva</label>
-                                </div>
-                                <div class="col-md-4">
-                                    <input ng-disabled="disable" ng-model="proyecto.res_dir_eje_ref" type="number" class="form-control"  placeholder="No." required/>
-                                </div>
-                                <div class="col-md-8 fecha">
-                                    <select ng-disabled="!dias || disable" ng-options="item for item in dias" ng-model="proyecto.diaResDir" class="form-control"></select>
-                                    <select ng-disabled="!meses || disable" ng-options="item.id as item.nombre for item in meses" ng-model="proyecto.mesResDir"  class="form-control"></select>
-                                    <select ng-disabled="!anios || disable" ng-options="item for item in anios" ng-model="proyecto.anioResDir"  class="form-control"></select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row form-group">
-                                <div class="col-md-12 fecha">
-                                    <label >Dictamen legal</label>
-                                </div>
-                                <div class="col-md-4">
-                                    <input ng-disabled="disable" ng-model="proyecto.dictamen_leg_ref" type="number" class="form-control"  placeholder="No." required/>
-                                </div>
-                                <div class="col-md-8 fecha">
-                                    <select ng-disabled="!dias || disable" ng-options="item for item in dias" ng-model="proyecto.diaDicLeg" class="form-control"></select>
-                                    <select ng-disabled="!meses || disable" ng-options="item.id as item.nombre for item in meses" ng-model="proyecto.mesDicLeg"  class="form-control"></select>
-                                    <select ng-disabled="!anios || disable" ng-options="item for item in anios" ng-model="proyecto.anioDicLeg"  class="form-control"></select>
-                                </div>
-                            </div>
-                            <div class="row form-group">
-                                <div class="col-md-12">
-                                    <label >Resolucion de CONADIE</label>
-                                </div>
-                                <div class="col-md-4">
-                                    <input ng-disabled="disable" ng-model="proyecto.res_conadie_ref" type="number" class="form-control"  placeholder="No." required/>
-                                </div>
-                                <div class="col-md-8 fecha">
-                                    <select ng-disabled="!dias || disable" ng-options="item for item in dias" ng-model="proyecto.diaResCon" class="form-control"></select>
-                                    <select ng-disabled="!meses || disable" ng-options="item.id as item.nombre for item in meses" ng-model="proyecto.mesResCon"  class="form-control"></select>
-                                    <select ng-disabled="!anios || disable" ng-options="item for item in anios" ng-model="proyecto.anioResCon"  class="form-control"></select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" ng-disabled="!formOpcion.$valid && !validarFechas()" ng-click="ok()">Aceptar</button>
                 <button class="btn btn-warning" ng-click="cancel()">Cancelar</button>
+            </div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="modalDocumentos">
+        <div>
+            <div class="modal-header">
+                Documentos por proyecto
+            </div>
+            <div class="modal-body">
+                <h4>Proyecto: {{proyecto.nombre}}</h4>
+                <div class="row">
+                    <div class="col-lg-12">
+                        Dictamen Tecnico
+                        <div class="row form-group">
+                            <div class="col-md-2">
+                                <input ng-disabled="dictamenTecnico" ng-model="proyecto.dictamen_tec_ref" type="number" class="form-control"  placeholder="No." required/>
+                            </div>
+                            <div class="col-md-6 fecha">
+                                <select ng-disabled="!dias || dictamenTecnico" ng-options="item for item in dias" ng-model="proyecto.diaDicTec" class="form-control"></select>
+                                <select ng-disabled="!meses || dictamenTecnico" ng-options="item.id as item.nombre for item in meses" ng-model="proyecto.mesDicTec"  class="form-control"></select>
+                                <select ng-disabled="!anios || dictamenTecnico" ng-options="item for item in anios" ng-model="proyecto.anioDicTec"  class="form-control"></select>
+                            </div>
+                            <div class="col-md-4">
+                                <span ng-if="!dictamenTecnico">
+                                    <label ng-click="agregarPDF('dictamen_tec_doc')" for="dictamenTecnico" ng-class="proyecto['dictamen_tec_']? 'btn-success' : 'btn-default' "  class="btn">PDF</label>
+                                    <input nv-file-select="" uploader="uploader" style="display : none" id="dictamenTecnico" type="file"/>
+                                </span>
+                                <button ng-if="dictamenTecnico" ng-click="ver(proyecto.dictamen_tec_doc)" class="btn btn-default">ver</button>
+                                <button ng-if="!dictamenTecnico" class="btn btn-primary" ng-click="guardar('dictamen_tec_')">Guardar</button>
+                            </div>
+                        </div>
+                        <hr/>
+                    </div>
+                    <div class="col-lg-12">
+                        Dictamen legal
+                        <div class="row form-group">
+                            <div class="col-md-2">
+                                <input ng-disabled="dictamenLegal" ng-model="proyecto.dictamen_leg_ref" type="number" class="form-control"  placeholder="No." required/>
+                            </div>
+                            <div class="col-md-6 fecha">
+                                <select ng-disabled="!dias || dictamenLegal" ng-options="item for item in dias" ng-model="proyecto.diaDicLeg" class="form-control"></select>
+                                <select ng-disabled="!meses || dictamenLegal" ng-options="item.id as item.nombre for item in meses" ng-model="proyecto.mesDicLeg"  class="form-control"></select>
+                                <select ng-disabled="!anios || dictamenLegal" ng-options="item for item in anios" ng-model="proyecto.anioDicLeg"  class="form-control"></select>
+                            </div>
+                            <div class="col-md-4">
+                                <span ng-if="!dictamenLegal">
+                                    <label for="dictamenLegal" ng-click="agregarPDF('dictamen_leg_doc')" ng-class="proyecto['dictamen_leg_']? 'btn-success' : 'btn-default' "  class="btn">PDF</label>
+                                    <input nv-file-select="" uploader="uploader" style="display : none" id="dictamenLegal" type="file"/>
+                                </span>
+
+                                <button ng-if="dictamenLegal" ng-click="ver(proyecto.dictamen_leg_doc)" class="btn btn-default">ver</button>
+                                <button ng-if="!dictamenLegal" class="btn btn-primary"  ng-click="guardar('dictamen_leg_')">Guardar</button>
+
+                            </div>
+                        </div>
+                        <hr/>
+                    </div>
+                    <div class="col-lg-12">
+                        Resolucion ejecutiva
+                        <div class="row form-group">
+                            <div class="col-md-2">
+                                <input ng-disabled="resolucionEjecutiva" ng-model="proyecto.res_dir_eje_ref" type="number" class="form-control"  placeholder="No." required/>
+                            </div>
+                            <div class="col-md-6 fecha">
+                                <select ng-disabled="!dias || resolucionEjecutiva" ng-options="item for item in dias" ng-model="proyecto.diaResDir" class="form-control"></select>
+                                <select ng-disabled="!meses ||resolucionEjecutiva" ng-options="item.id as item.nombre for item in meses" ng-model="proyecto.mesResDir"  class="form-control"></select>
+                                <select ng-disabled="!anios || resolucionEjecutiva" ng-options="item for item in anios" ng-model="proyecto.anioResDir"  class="form-control"></select>
+                            </div>
+                            <div class="col-md-4">
+                                <span ng-if="!resolucionEjecutiva" >
+                                    <label  ng-click="agregarPDF('res_dir_eje_doc')" for="resolucionEjecutiva" class="btn" ng-class="proyecto['res_dir_eje_']? 'btn-success' : 'btn-default' " >PDF</label>
+                                    <input nv-file-select="" uploader="uploader" style="display : none" id="resolucionEjecutiva" type="file"/>
+                                </span>
+                                <button ng-if="resolucionEjecutiva" ng-click="ver(proyecto.res_dir_eje_doc)" class="btn btn-default">ver</button>
+                                <button ng-if="!resolucionEjecutiva" class="btn btn-primary"  ng-click="guardar('res_dir_eje_')">Guardar</button>
+                            </div>
+                        </div>
+                        <hr/>
+                    </div>
+                    <div class="col-lg-12">
+                        Resolucion Conadie
+                        <div class="row form-group">
+                            <div class="col-md-2">
+                                <input ng-disabled="resolucionConadie" ng-model="proyecto.res_conadie_ref" type="number" class="form-control"  placeholder="No." required/>
+                            </div>
+                            <div class="col-md-6 fecha">
+                                <select ng-disabled="!dias || resolucionConadie" ng-options="item for item in dias" ng-model="proyecto.diaResCon" class="form-control"></select>
+                                <select ng-disabled="!meses || resolucionConadie" ng-options="item.id as item.nombre for item in meses" ng-model="proyecto.mesResCon"  class="form-control"></select>
+                                <select ng-disabled="!anios || resolucionConadie" ng-options="item for item in anios" ng-model="proyecto.anioResCon"  class="form-control"></select>
+                            </div>
+                            <div class="col-md-4">
+                                <span  ng-if="!resolucionConadie">
+                                    <label ng-click="agregarPDF('res_conadie_doc')" for="resolucionConadie" ng-class="proyecto['res_conadie_']? 'btn-success' : 'btn-default' " class="btn">PDF</label>
+                                    <input nv-file-select="" uploader="uploader" style="display : none" id="resolucionConadie" type="file"/>
+                                </span>
+                                <button ng-if="resolucionConadie" ng-click="ver(proyecto.res_conadie_doc)" class="btn btn-default">ver</button>
+                                <button ng-if="!resolucionConadie" class="btn btn-primary" ng-click="guardar('res_conadie_')">Guardar</button>
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="ok()">Aceptar</button>
             </div>
         </div>
     </script>

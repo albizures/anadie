@@ -7,6 +7,18 @@
 [x-ng-click]
   cursor pointer
 
+.load
+  transform-origin 50%
+.load.active
+  animation load infinite 1s
+
+@keyframes load
+  0%
+    transform  rotate(0deg)
+  100%
+    transform  rotate(360deg)
+
+
 html
   margin 0
   padding 0

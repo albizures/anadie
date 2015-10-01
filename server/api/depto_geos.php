@@ -18,6 +18,32 @@
  **/
 
 // Opción para ingresar un registro a la tabla cat_depto_geo
+$app->post('/deptogeoIn','sessionAlive',function() use ($app){
+
+	// Recupera los datos de la forma
+	//
+    $r = json_decode($app->request->getBody());
+	
+	$nombre       = $r->evento->nombre;
+	$idPais       = $r->evento->idPais;
+    $response = array();
+	//
+	//
+    $db = new DbHandler();
+	$id = $db->get1Record("select fn_ins_cat_depto_geo( '$idPais','$nombre' ) as id");
+
+    if ($id != NULL) {
+        $response['status'] = "success";
+        $response['message'] = 'Se agrego correctamente';
+		$response['data'] = $id;
+			
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No fue posible agregar los datos';
+    }
+	
+    echoResponse(200, $response);
+});
 
 // Opcion para obtener la totalidad de registros de la tabla cat_depto_geo
 $app->get('/deptogeoSel/:id','sessionAlive', function($id) use ($app){
@@ -42,5 +68,27 @@ $app->get('/deptogeoSel/:id','sessionAlive', function($id) use ($app){
 // Opción para actualizar un registro de la tabla cat_depto_geo
 
 // Opción para eliminar un registro de la tabla cat_depto_geo
+$app->get('/deptogeoD/:id','sessionAlive',function($id) use ($app){
+
+	// Recupera los datos de la forma
+	//
+	
+    $response = array();
+	//
+	//
+    $db = new DbHandler();
+    $resId = $db->deleteRecord("call sp_del_cat_depto_geo(?)", $id);
+    if ($resId == 0) {
+		$response['status'] = "info";
+		$response['message'] = 'Datos eliminados';
+	}else{
+		if ($resId < 0) {
+				$response['status'] = "error " . $resId;
+				$response['message'] = 'No pudo eliminar los Datos';
+			}
+	}
+	
+    echoResponse(200, $response);
+});
 
 ?>

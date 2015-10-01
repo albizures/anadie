@@ -47,6 +47,7 @@ angular.module('anApp')
                     }
                     $scope.ices = result;
                 });
+
             Data.get('paisSel')
                 .then(function (result) {
                     if(result.message){

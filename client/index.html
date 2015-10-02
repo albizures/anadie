@@ -72,6 +72,9 @@
         <script src="/client/app/roles/modalRoles.js"></script>
         <script src="/client/app/roles/roles.controller.js"></script>
         <script src="/client/app/roles/roles.js"></script>
+        <script src="/client/app/ubicaciones/depar.modal.js"></script>
+        <script src="/client/app/ubicaciones/muni.modal.js"></script>
+        <script src="/client/app/ubicaciones/pais.modal.js"></script>
         <script src="/client/app/ubicaciones/ubicaciones.controller.js"></script>
         <script src="/client/app/ubicaciones/ubicaciones.js"></script>
         <script src="/client/app/usuarios/modalUsuarios.js"></script>
@@ -80,5 +83,16 @@
         <script src="/client/components/navbar/navbar.controller.js"></script>
         <script src="/client/components/panel/panel.controller.js"></script>
         <!-- endinjector -->
+        <script type="text/ng-template" id="confirm.modal">
+            <div class="modal-body row">
+                <div class="col-lg-12">{{msg}}</div>
+                <br/>
+                <div class="col-lg-12">
+                    <br/>
+                    <button class="btn btn2 btn-default pull-right" ng-click="ok(false)">cancelar</button>
+                    <button class="btn btn2 btn-primary pull-right" ng-click="ok(true)">aceptar</button>
+                </div>
+            </div>
+        </script>
 	</body>
 </html>

@@ -24,12 +24,15 @@ var anApp = angular.module("anApp",[
 
         $locationProvider.html5Mode(true);
     })
-    .run(['$rootScope', '$location', 'Auth','utils',function ($rootScope, $location, Auth,utils) {
+    .run(['$rootScope', '$location', 'Auth','utils','$modal',function ($rootScope, $location, Auth,utils,$modal) {
         $rootScope.$watch('usuario', function(currentUser) {
             if (!currentUser && (['/', '/login', '/logout', '/signup'].indexOf($location.path()) == -1 )) {
                 Auth.currentUser();
             }
         });
+        window.hasVal = function (val) {
+            return typeof val !== 'undefined' && val !== null;
+        };
         $rootScope.today = {
             day : moment().date(),
             month : moment().month(),
@@ -51,4 +54,32 @@ var anApp = angular.module("anApp",[
             $location.path('/login');
             return false;
         });
+        $rootScope.confirm = function (msg,cb) {
+            if(!hasVal(msg)) return console.error('msg undefined');
+            var modal = $modal.open({
+                templateUrl : 'confirm.modal',
+                controller : 'ModalConfirmCtrl',
+                backdrop : 'static',
+                size : 'sm',
+                resolve : {
+                    msg : function () {
+                        return msg;
+                    }
+                }
+            });
+            modal.result.then(function (result) {
+                if(cb) cb(result);
+            });
+        }
+    }]).filter('capitalize', function() {
+        return function(input, scope) {
+            if (input!=null)
+                input = input.toLowerCase();
+            return input.substring(0,1).toUpperCase()+input.substring(1);
+        }
+    }).controller('ModalConfirmCtrl', ['$scope','$modalInstance','msg',function ($scope,$modalInstance,msg) {
+        $scope.msg = msg;
+        $scope.ok = function (result) {
+            $modalInstance.close(result);
+        };
     }]);

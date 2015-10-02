@@ -24,7 +24,7 @@ $app->post('/paisIn','sessionAlive',function() use ($app){
 	//
     $r = json_decode($app->request->getBody());
 	
-	$nombre       = $r->evento->nombre;
+	$nombre   = $r->nombre;
     $response = array();
 	//
 	//
@@ -34,7 +34,7 @@ $app->post('/paisIn','sessionAlive',function() use ($app){
     if ($id != NULL) {
         $response['status'] = "success";
         $response['message'] = 'Se agrego correctamente';
-		$response['data'] = $id;
+		$response['data'] = $id['id'];
 			
     }else{
         $response['status'] = "info";
@@ -76,7 +76,7 @@ $app->get('/paisD/:id','sessionAlive',function($id) use ($app){
     $db = new DbHandler();
     $resId = $db->deleteRecord("call sp_del_cat_pais(?)", $id);
     if ($resId == 0) {
-		$response['status'] = "info";
+		$response['status'] = "success";
 		$response['message'] = 'Datos eliminados';
 	}else{
 		if ($resId < 0) {

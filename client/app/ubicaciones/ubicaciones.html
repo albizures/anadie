@@ -1,44 +1,138 @@
-<div class="row">
+<div class="row ubicaciones">
     <div class="col-md-4">
+        <div class="col-lg-6">
+            <h3>Paises</h3>
+        </div>
+        <button class="btn btn2 btn-primary pull-right" ng-click="createPais()">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+        <br/>
         <table ng-table="tablePaises"  show-filter="filtro" class="table table-striped">
-            <tr ng-repeat="p in $data">
+            <tr ng-repeat="p in $data" ng-click="selPais(p)" ng-class="{info : paisSel == p}">
                 <td data-title="'Nombre'" sortable="'nombre'" width="400" filter="{ 'nombre': 'text' }">
                     <span >{{p.nombre}}</span>
                 </td>
 
-                <td data-title="'Acciones'" width="100" >
-                    <button ng-click="ver(p)"  class="btn btn-default btn-xs">Ver</button>
-                    <button ng-click="documentos(p)" class="btn btn-primary btn-xs">Documentos</button>
+                <td data-title="''" width="20" >
+                    <button type="button" class="close" aria-label="Close" ng-click="eliminarPais(p.id)">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </td>
             </tr>
         </table>
     </div>
     <div class="col-md-4">
-        <table ng-table="tableDepartamentos"  show-filter="filtro" class="table table-striped">
-            <tr ng-repeat="p in $data">
+        <div class="col-lg-6">
+            <h3>Departamentos</h3>
+        </div>
+        <button class="btn btn2 btn-primary pull-right"  ng-click="createDepar()">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+        <br/>
+        <table ng-table="tableDepar"  show-filter="filtro" class="table table-striped">
+            <tr ng-repeat="p in $data" ng-click="selDepar(p)" ng-animate>
                 <td data-title="'Nombre'" sortable="'nombre'" width="400" filter="{ 'nombre': 'text' }">
                     <span >{{p.nombre}}</span>
                 </td>
-
-                <td data-title="'Acciones'" width="100" >
-                    <button ng-click="ver(p)"  class="btn btn-default btn-xs">Ver</button>
-                    <button ng-click="documentos(p)" class="btn btn-primary btn-xs">Documentos</button>
+                <td data-title="''" width="20" >
+                    <button type="button" class="close" aria-label="Close" ng-click="eliminarDepar(p.id)">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </td>
             </tr>
         </table>
     </div>
     <div class="col-md-4">
-        <table ng-table="tableMunicipios"  show-filter="filtro" class="table table-striped">
-            <tr ng-repeat="p in $data">
+        <div class="col-lg-6">
+            <h3>Municipios</h3>
+        </div>
+        <button class="btn btn2 btn-primary pull-right"  ng-click="createMuni()">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+        <br/>
+        <table ng-table="tableMuni"  show-filter="filtro" class="table table-striped">
+            <tr ng-repeat="p in $data" ng-click="selMuni(p)" ng-animate=" 'animate' " >
                 <td data-title="'Nombre'" sortable="'nombre'" width="400" filter="{ 'nombre': 'text' }">
                     <span >{{p.nombre}}</span>
                 </td>
 
-                <td data-title="'Acciones'" width="100" >
-                    <button ng-click="ver(p)"  class="btn btn-default btn-xs">Ver</button>
-                    <button ng-click="documentos(p)" class="btn btn-primary btn-xs">Documentos</button>
+                <td data-title="''" width="20" >
+                    <button type="button" class="close" aria-label="Close" ng-click="eliminarMuni(p.id)">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </td>
             </tr>
         </table>
     </div>
 </div>
+
+
+<script type="text/ng-template" id="pais.modal">
+    <div class="modal-header">
+        <h3 class="modal-title">Ingrese paises</h3>
+    </div>
+    <div class="modal-body">
+        <form class="input-group" ng-submit="agregar()" novalidate="">
+            <input type="text" class="form-control"  autofocus="" ng-model="pais.nombre" placeholder="Nombre">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </span>
+        </form>
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="p in newPaises">
+                {{p.nombre}}
+            </li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">Aceptar</button>
+    </div>
+</script>
+<script type="text/ng-template" id="depar.modal">
+    <div class="modal-header">
+        <h3 class="modal-title">Ingrese los departamentos de {{pais.nombre}}</h3>
+    </div>
+    <div class="modal-body">
+        <form class="input-group" ng-submit="agregar()" novalidate="">
+            <input type="text" class="form-control" autofocus="" placeholder="Nombre" ng-model="depar.nombre">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </span>
+        </form>
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="p in newDepar">
+                {{p.nombre}}
+            </li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">Aceptar</button>
+    </div>
+</script>
+<script type="text/ng-template" id="muni.modal">
+    <div class="modal-header">
+        <h3 class="modal-title">Ingrese los municipios de {{depar.nombre}}</h3>
+    </div>
+    <div class="modal-body">
+        <form class="input-group" ng-submit="agregar()" novalidate="">
+            <input type="text" class="form-control" autofocus="" placeholder="Nombre"  ng-model="muni.nombre">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </span>
+        </form>
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="p in newMuni">
+                {{p.nombre}}
+            </li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">Aceptar</button>
+    </div>
+</script>

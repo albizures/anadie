@@ -24,8 +24,8 @@ $app->post('/municipioIn','sessionAlive',function() use ($app){
 	//
     $r = json_decode($app->request->getBody());
 	
-	$nombre       = $r->evento->nombre;
-	$idDeptogeo       = $r->evento->idDeptogeo;
+	$nombre       = $r->nombre;
+	$idDeptogeo       = $r->idDeptogeo;
     $response = array();
 	//
 	//
@@ -35,7 +35,7 @@ $app->post('/municipioIn','sessionAlive',function() use ($app){
     if ($id != NULL) {
         $response['status'] = "success";
         $response['message'] = 'Se agrego correctamente';
-		$response['data'] = $id;
+		$response['data'] = $id['id'];;
 			
     }else{
         $response['status'] = "info";
@@ -56,7 +56,9 @@ $app->get('/municipioSel/:id','sessionAlive', function($id) use ($app){
     $datos = $db->getAllRecord("call sp_sel_cat_municipio( $id )");
     //var_dump($datos);
     if ($datos != NULL) {
-			$response = $datos;
+		$response['data'] = $datos;
+        $response['status'] = "success";
+        $response['message'] = '';
     }else{
         $response['status'] = "info";
         $response['message'] = 'No hay municipios';
@@ -79,7 +81,7 @@ $app->get('/municipioD/:id','sessionAlive',function($id) use ($app){
     $db = new DbHandler();
     $resId = $db->deleteRecord("call sp_del_cat_municipio(?)", $id);
     if ($resId == 0) {
-		$response['status'] = "info";
+		$response['status'] = "success";
 		$response['message'] = 'Datos eliminados';
 	}else{
 		if ($resId < 0) {

@@ -6,7 +6,6 @@
 [data-ng-click],
 [x-ng-click]
   cursor pointer
-
 .load
   transform-origin 50%
 .load.active
@@ -16,31 +15,7 @@
 .btn.btn2
   border-radius: 2px;
   border 0
-table.table
-  margin-top 20px
-  background white;
-  border-radius: 3px;
-  tr
-    border-bottom: 2px solid #DDDDDD;
-    transition transform 0.5s
-    .ng-enter {
-      transform scaleX(0)
-    }
-
-    .ng-enter-active {
-      transform scaleX(1)
-    }
-
-    .ng-leave {
-      -webkit-transition: 1s;
-      transition: 1s;
-
-      margin-left: 0;
-    }
-
-    .ng-leave-active {
-      margin-left: 100%;
-    }
+  outline none
 
 @keyframes load
   0%
@@ -114,6 +89,7 @@ body
 @import 'main/main.styl';
 @import 'opciones/opciones.styl';
 @import 'organizaciones/organizaciones.styl';
+@import 'table.styl';
 @import 'ubicaciones/ubicaciones.styl';
 @import 'usuarios/usuarios.styl';
 // endinjector

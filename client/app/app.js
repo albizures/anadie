@@ -16,7 +16,7 @@ var anApp = angular.module("anApp",[
 ])
     .constant('tipoMenu',{
         1 : false,
-        2 : 0
+        2 : 1
     })
     .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
         $urlRouterProvider

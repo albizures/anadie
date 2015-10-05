@@ -5,7 +5,7 @@ angular.module('anApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('licitaciones', {
-                url: '/',
+                url: '/licitaciones',
                 templateUrl: 'client/app/licitaciones/licitaciones.html',
                 controller: 'LicitacionesCtrl'
             });

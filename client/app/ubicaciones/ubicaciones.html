@@ -30,7 +30,7 @@
         </button>
         <br/>
         <table ng-table="tableDepar"  show-filter="filtro" class="table table-striped">
-            <tr ng-repeat="p in $data" ng-click="selDepar(p)" ng-animate>
+            <tr ng-repeat="p in $data" ng-click="selDepar(p)" ng-class="{info : deparSel == p}" ng-animate>
                 <td data-title="'Nombre'" sortable="'nombre'" width="400" filter="{ 'nombre': 'text' }">
                     <span >{{p.nombre}}</span>
                 </td>

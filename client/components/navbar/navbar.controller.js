@@ -81,19 +81,19 @@ angular.module('anApp')
             },
             replace: true,
             template: '<ul>' +
-                        '<li  class="inicio">' +
-                            '<a ui-sref="main">Inicio</a>' +
-                        '</li>' +
+                        //'<li  class="inicio">' +
+                        //    '<a ui-sref="main">Inicio</a>' +
+                        //'</li>' +
                         '<li ng-repeat="item in menu" menu-item="item">{{item}}</li>' +
-                        '<li class="contacto pull-right">'+
-                            '<a ui-sref="contacto">Contacto</a>'+
-                        '</li>'+
+                        //'<li class="contacto pull-right">'+
+                        //    '<a ui-sref="contacto">Contacto</a>'+
+                        //'</li>'+
                        '</ul>',
             link: function(scope, element, attrs) {
-                //console.log(scope.empty);
-                if(scope.empty){
-                    $(element).children('.inicio,.contacto').remove();
-                }
+                console.warn(element.html());
+                //if(scope.empty){
+                //    $(element).children('.inicio,.contacto').remove();
+                //}
                 element.addClass(attrs.class);
                 element.addClass(scope.cls);
             }

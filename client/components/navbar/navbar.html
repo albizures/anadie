@@ -1,4 +1,4 @@
-<header class="navbar" ng-controller="NavbarCtrl">
+<header class="head navbar" ng-controller="NavbarCtrl">
     <div class="logotipo">
         <img src="client/assets/imagenes/logo1.png" width="200" alt="">
         <div class="pull-right">
@@ -6,21 +6,15 @@
             <div>{{$root.usuario.nombre}}</div>
         </div>
     </div>
-
-<!--    <nav >
+    <nav>
         <ul>
-            <li>
+            <li class="inicio">
                 <a ui-sref="main">Inicio</a>
             </li>
-            <li ng-repeat="opcion in $root.opciones">
-                <a ui-sref="{{opcion.nombre | lowercase}}">{{opcion.titulo}}</a>
-            </li>
-            <li class="pull-right">
+            <li ng-repeat="item in $root.opciones" menu-item="item">{{item}}</li>
+            <li class="contacto pull-right">
                 <a ui-sref="contacto">Contacto</a>
             </li>
         </ul>
-    </nav>-->
-    <nav>
-        <div menu="$root.opciones"></div>
     </nav>
 </header>

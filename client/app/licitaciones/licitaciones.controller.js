@@ -44,7 +44,7 @@ angular.module('anApp')
                 templateUrl : 'modalLicitaciones',
                 controller : 'ModalDocumentosCtrl',
                 //size : 'lg',
-                //backdrop : 'static',
+                backdrop : 'static',
                 resolve :{
                     evento: function () {
                         return undefined;

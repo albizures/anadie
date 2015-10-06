@@ -1,11 +1,11 @@
 <div>
     <br/>
     <section class="form-inline">
-        <button ng-click="limpiar()" class="btn btn-default pull-right">Limpiar filtro</button>
-        <button type="button" class="btn btn-primary pull-right" ng-model="filtro" btn-checkbox>
+        <button ng-click="limpiar()" class="btn btn2 btn-default pull-right">Limpiar filtro</button>
+        <button type="button" class="btn btn2 btn-primary pull-right" ng-model="filtro" btn-checkbox>
             <span class="glyphicon glyphicon-filter"></span>
         </button>
-        <button ng-click="agregar()" class="btn btn-primary"><i class="icon-white icon-plus"></i> Agregar lictaciones</button>
+        <button ng-click="agregar()" class="btn btn2 btn-primary"><i class="icon-white icon-plus"></i> Agregar lictaciones</button>
     </section>
     <br/>
     <table ng-table="tableLicitaciones"  show-filter="filtro" class="table table-striped">
@@ -23,8 +23,8 @@
                 <span >{{l.fecha_final | date:'dd/MM/yyyy'}}</span>
             </td>
             <td data-title="'Acciones'" width="100" >
-                <button ng-click="ver(p)"  class="btn btn-default btn-xs">Ver</button>
-                <button ng-click="documentos(p)" class="btn btn-primary btn-xs">Documentos</button>
+                <!--<button ng-click="ver(p)"  class="btn btn-default btn-xs">Ver</button>-->
+                <!--<button ng-click="documentos(p)" class="btn btn-primary btn-xs">Documentos</button>-->
             </td>
         </tr>
     </table>

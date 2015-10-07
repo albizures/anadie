@@ -145,4 +145,26 @@ class R {
     echoResponse(200, $response);
 });
 
+// Opcion para obtener la totalidad de registros de documentos del evento de licitacion
+$app->get('/eventoFileSel','sessionAlive', function() use ($app){
+
+    $r = json_decode($app->request->getBody());
+	$idEvento = $r->idEvento;
+	
+    $response = array();
+	//
+    $db = new DbHandler();
+    $datos = $db->getAllRecord("call sp_sel_pyr_evento_doc_det( '$idEvento' )");
+    //var_dump($datos);
+    if ($datos != NULL) {
+			$response = $datos;
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No hay datos';
+    }
+
+    echoResponse(200, $response);
+});
+
+
 ?>

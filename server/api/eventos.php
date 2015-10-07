@@ -83,4 +83,59 @@ $app->get('/eventoSel','sessionAlive', function() use ($app){
 
 // Opción para eliminar un registro de la tabla pyr_evento
 
+// Carga de archvios asociados al evento de licitación
+
+$app->post('/uploadFileEvento','sessionAlive',function() use ($app){
+
+class R {
+	
+	public $idEvento = 0;
+	public $nombre_doc = "";
+	public $ubicacion = "";
+	public $usuario = 0;
+	
+}
+
+	$target_dir = $_SERVER['DOCUMENT_ROOT'] . "/server/uploaded_files/";
+	$idEvento   = $_POST['idEvento'];
+	$nombre_doc = $idEvento . '_' . $_POST['nombre_doc'] . ".pdf";
+	$ubicacion  = $target_dir . $nombre_doc;
+	$usuario    = $_POST['id_usuario'];
+	
+	$response = array("status" => "", "message" => "", "id" => 0);
+	
+	$r = new R;
+//	$r = array ( "opcion" => [ "id" => $_POST['id'], "field_name" => $_POST['nombre'], "target_file" => $target_file, ] );
+	$r->idEvento    = $idEvento;
+	$r->nombre_doc  = $nombre_doc;
+	$r->ubicacion   = $ubicacion;
+	$r->usuario     = $usuario;
+/* create table pyr_evento_doc_det (
+ id            int not null auto_increment,
+ id_evento     int not null,
+ nombre_doc    varchar(100) not null,
+ ubicacion     varchar(100) not null,
+ fecha_carga   date not null,
+ usuario_carga int not null, primary key (id) );   */	
+
+    if (move_uploaded_file($_FILES[$nombre_doc]["tmp_name"], $ubicacion)){
+		//echo "el archivo vino bien\n";
+
+		$db = new DbHandler();
+		$id = $db->get1Record("select fn_ins_pyr_evento_doc_det( '$idEvento', '$nombre_doc', '$ubicacion', '$usuario' ) as id");
+
+		$response['status'] = "success";
+		$response['message'] = "Archivo recibido";
+		$response['id'] = $id;//$target_file;
+	}
+	else { 
+		//echo "hubo error\n" ;
+        $response['status'] = "info";
+        $response['message'] = 'No pudo recibirse el archivo ';
+		$response['id'] = 0;
+		 }
+
+    echoResponse(200, $response);
+});
+
 ?>

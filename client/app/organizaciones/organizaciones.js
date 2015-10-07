@@ -9,6 +9,6 @@ angular.module('anApp')
             .state('organizaciones', {
                 url: '/organizaciones',
                 templateUrl: 'client/app/organizaciones/organizaciones.html',
-                controller: 'PermisosCtrl'
+                controller: 'organizacionCtrl'
             });
     });

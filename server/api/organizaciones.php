@@ -49,7 +49,7 @@ $app->post('/orgU','sessionAlive',function() use ($app){
 });
 
 // Opcion para obtener la totalidad de registros de la tabla cat_organizacion
-$app->get('/organizacionesDatos','sessionAlive', function() use ($app){
+$app->get('/orgDatos','sessionAlive', function() use ($app){
 
     $response = array();
 	//
@@ -73,7 +73,8 @@ $app->post('/orgIn','sessionAlive',function() use ($app){
 	// Recupera los datos de la forma
 	//
     $r = json_decode($app->request->getBody());
-	$nombre = $r->rol->nombre;
+	//var_dump($r);
+	$nombre = $r->nombre;
     $response = array();
 	//
 	//

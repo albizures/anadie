@@ -1,4 +1,4 @@
-<div >
+<div ng-controller="organizacionCtrl">
     <br/>
     <section class="form-inline">
         <button ng-click="limpiar()" class="btn btn-default pull-right">Limpiar filtro</button>
@@ -9,14 +9,30 @@
     </section>
     <br/>
     <table ng-table="tableOrganizacion"  show-filter="filtro" class="table table-striped">
-        <tr ng-repeat="rol in $data">
+        <tr ng-repeat="i in $data">
             <td data-title="'Nombre'" sortable="'nombre'" filter="{ 'nombre': 'text' }">
-                <span >{{organizacion.nombre}}</span>
+                <span >{{i.nombre}}</span>
             </td>
             <td data-title="'Acciones'" width="125">
-                <a ng-click="editar(organizacion.id); organizcion.$edit = true" class="btn btn-primary btn-xs" >Editar</a>
-                <a ng-click="eliminar(organizacion.id,$index)" class="btn btn-default btn-xs">Eliminar</a>
+                <a ng-click="eliminar(i.id)" class="btn btn-default btn-xs">Eliminar</a>
             </td>
         </tr>
     </table>
+
 </div>
+
+<script type="text/ng-template" id="modalOrganizaciones.html" >
+    <div class="modal-header" >
+        <h3 class="modal-title">Ingrese los datos</h3>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="organizacion">Nombre de Organización</label>
+            <input ng-model="organizacion.nombre" type="text" class="form-control" id="nombre" placeholder="nombre" required/>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn2 btn-primary" ng-disabled="!organizacion.nombre" ng-click="ok()">Aceptar</button>
+        <button class="btn btn2 btn-warning" ng-click="cancel()">Cancelar</button>
+    </div>
+</script>

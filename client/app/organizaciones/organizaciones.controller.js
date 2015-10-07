@@ -21,7 +21,7 @@ angular.module('anApp')
 
                         results[index] = utils.convertNumber(results[index]);
                     }
-                    // console.log(results);
+                     console.log(results);
                     $scope.organizacion = results;
                     $scope.tableOrganizacion = new ngTableParams({
                             page : 1,
@@ -75,23 +75,27 @@ angular.module('anApp')
             };
             $scope.agregar = function () {
                 var modalorganizacion = $modal.open({
-                    templateUrl : 'modelOrganizacion',
+                    templateUrl : 'modalOrganizaciones.html',
                     controller : 'ModalOrganizacionCtrl',
+					backdrop : 'static',
                     resolve : {
-                        rol : function () {
+                        organizacion : function () {
                             return {}
                         }
                     }
                 });
                 modalorganizacion.result.then(function (organizacion) {
-                    Data.post('orgIn',{organizacion:organizacion})
+                    Data.post('orgIn',{'nombre':organizacion.nombre})
                         .then(function (results) {
+							console.log(results);
                             if(results.status === "success"){
                                 //debugger;
                                 console.log(Number(results.data.id),results.data.id,results.data);
                                 organizacion.id = Number(results.data.id);
                                 $scope.organizacion.push(organizacion);
                                 $scope.tableOrganizacion.reload();
+								
+
                             }
                             Data.toast(results);
                         });
@@ -112,3 +116,5 @@ angular.module('anApp')
                     })
             };
         }]);
+		
+		

@@ -22,7 +22,6 @@ angular.module('anApp').controller('InscripcionCtrl',
                 for(index in results){
                     results[index] = utils.convertNumber(results[index]);
                 }
-                console.log(results);
                 $scope.proyectos = results;
                 for(index in $scope.proyectos){
 

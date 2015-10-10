@@ -3,7 +3,7 @@
  */
 
 angular.module('anApp')
-    .controller('ModalDocumentosCtrl',["$scope", '$modalInstance','Data','utils','evento','FileUploader','$modal',
+    .controller('ModalLicitacionesCtrl',["$scope", '$modalInstance','Data','utils','evento','FileUploader','$modal',
         function ($scope,$modalIntance, Data, utils,evento,FileUploader,$modal) {
             if(evento){
                 var date = moment(evento.fecha_present_p);

@@ -90,7 +90,6 @@ angular.module('anApp')
                         //'</li>'+
                        '</ul>',
             link: function(scope, element, attrs) {
-                console.warn(element.html());
                 //if(scope.empty){
                 //    $(element).children('.inicio,.contacto').remove();
                 //}

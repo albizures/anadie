@@ -23,6 +23,11 @@
             <div class="articles" ui-view="" class="view"></div>
             <!--<div  ng-include="'client/components/panel/panel.html'"></div>-->
         </section>
+        <script type="text/ng-template" id="modalVisor">
+            <div style="height: 100%">
+                <embed src="{{url}}" width="100%" height="100%"></embed>
+            </div>
+        </script>
 		<footer>
 			<p>Luis Albizures - la-innovagt.com</p>
 		</footer>
@@ -59,6 +64,7 @@
         <script src="/client/app/inscripcion/inscripcion.js"></script>
         <script src="/client/app/inscripcion/proyectos.modal.js"></script>
         <script src="/client/app/inscripcion/visor.model.js"></script>
+        <script src="/client/app/licitaciones/documentos.modal.js"></script>
         <script src="/client/app/licitaciones/licitaciones.controller.js"></script>
         <script src="/client/app/licitaciones/licitaciones.js"></script>
         <script src="/client/app/licitaciones/licitaciones.modal.js"></script>

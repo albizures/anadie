@@ -97,6 +97,7 @@ class R {
 }
 
 	$target_dir = $_SERVER['DOCUMENT_ROOT'] . "/server/uploaded_files/";
+    $target_dir_rel = "/server/uploaded_files/";
 	$idEvento   = $_POST['idEvento'];
 	$nombre_doc = $_POST['nombre_doc'];  // Nombre descriptivo que le pone el usuario
 	$tipo_doc   = $_POST['tipo'];       // Espera la extensión pudiendo ser PDF o HTML
@@ -105,9 +106,10 @@ class R {
 	if (strtoupper($tipo_doc) == "PDF") 
 		 { $fname      = $idEvento . '_' . str_replace(' ', '',$_POST['nombre_doc']) . ".pdf"; }
 	else { $fname      = $idEvento . '_' . str_replace(' ', '',$_POST['nombre_doc']) . ".html";}
-	
+
 	$ubicacion  = $target_dir . $fname;
-	$usuario    = $_POST['id_usuario'];
+    $ubicacion_rel  = $target_dir_rel . $fname;
+	$usuario    = $_SESSION['uid'];//$_POST['id_usuario'];
 	
 	$response = array("status" => "", "message" => "", "id" => 0);
 	
@@ -125,11 +127,11 @@ class R {
  fecha_carga   date not null,
  usuario_carga int not null, primary key (id) );   */	
 
-    if (move_uploaded_file($_FILES[$nombre_doc]["tmp_name"], $ubicacion)){
+    if (move_uploaded_file($_FILES["file"]["tmp_name"], $ubicacion)){
 		//echo "el archivo vino bien\n";
 
 		$db = new DbHandler();
-		$id = $db->get1Record("select fn_ins_pyr_evento_doc_det( '$idEvento', '$nombre_doc', '$ubicacion', '$usuario' ) as id");
+		$id = $db->get1Record("select fn_ins_pyr_evento_doc_det( '$idEvento', '$nombre_doc', '$ubicacion_rel', '$usuario' ) as id");
 
 		$response['status'] = "success";
 		$response['message'] = "Archivo recibido";
@@ -146,10 +148,10 @@ class R {
 });
 
 // Opcion para obtener la totalidad de registros de documentos del evento de licitacion
-$app->get('/eventoFileSel','sessionAlive', function() use ($app){
+$app->get('/eventoFileSel/:id','sessionAlive', function($id) use ($app){
 
     $r = json_decode($app->request->getBody());
-	$idEvento = $r->idEvento;
+	$idEvento = $id;//$r->idEvento;
 	
     $response = array();
 	//

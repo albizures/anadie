@@ -12,11 +12,10 @@
   animation load infinite 1s
 .close
   outline 0
-.btn.btn2
-  border-radius: 2px;
-  border 0
-  outline none
-
+.list-group
+  max-height 300px;
+  overflow-y scroll
+  
 @keyframes load
   0%
     transform  rotate(0deg)
@@ -40,7 +39,9 @@
 
 .z-depth-5 {
   box-shadow: 0 27px 24px 0 rgba(0, 0, 0, 0.2), 0 40px 77px 0 rgba(0, 0, 0, 0.22); }
-
+.truncate
+  overflow: hidden
+  text-overflow: ellipsis
 html
   margin 0
   padding 0
@@ -91,6 +92,7 @@ body
 @import 'main/main.styl';
 @import 'opciones/opciones.styl';
 @import 'organizaciones/organizaciones.styl';
+@import 'style/btn.styl';
 @import 'style/card.styl';
 @import 'style/header.styl';
 @import 'style/menu.styl';

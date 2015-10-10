@@ -134,17 +134,7 @@ angular.module('anApp')
             }
         }
         $scope.ver = function (name) {
-            var modalVisor = $modal.open({
-                templateUrl : 'modalVisor',
-                controller : 'ModalVisorCtrl',
-                windowClass : 'visor',
-                size : 'lg',
-                resolve: {
-                    url: function () {
-                        return name;
-                    }
-                }
-            });
+            $scope.openVisor(name);
         };
 
         //validas = validas && moment($scope.proyecto.dictamen_tec_fec).isValid();

@@ -70,7 +70,20 @@ var anApp = angular.module("anApp",[
             modal.result.then(function (result) {
                 if(cb) cb(result);
             });
-        }
+        };
+        $rootScope.openVisor = function (name) {
+            var modalVisor = $modal.open({
+                templateUrl : 'modalVisor',
+                controller : 'ModalVisorCtrl',
+                windowClass : 'visor',
+                size : 'lg',
+                resolve: {
+                    url: function () {
+                        return name;
+                    }
+                }
+            });
+        };
     }]).filter('capitalize', function() {
         return function(input, scope) {
             if (input!=null)

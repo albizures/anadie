@@ -25,11 +25,6 @@
             </td>
         </tr>
     </table>
-    <script type="text/ng-template" id="modalVisor">
-        <div style="height: 100%">
-            <embed src="{{url}}" width="100%" height="100%"></embed>
-        </div>
-    </script>
     <script type="text/ng-template" id="modalProyectos">
         <div>
             <div class="modal-header">
@@ -120,7 +115,7 @@
                             <div class="col-md-4">
                                 <span ng-if="!dictamenTecnico">
                                     <label ng-click="agregarPDF('dictamen_tec_doc')" for="dictamenTecnico" ng-class="proyecto['dictamen_tec_']? 'btn-success' : 'btn-default' "  class="btn">PDF</label>
-                                    <input nv-file-select="" uploader="uploader" style="display : none" id="dictamenTecnico" type="file"/>
+                                    <input nv-file-select="" uploader="uploader" accept="application/pdf" style="display : none" id="dictamenTecnico" type="file"/>
                                 </span>
                                 <button ng-if="dictamenTecnico" ng-click="ver(proyecto.dictamen_tec_doc)" class="btn btn-default">ver</button>
                                 <button ng-if="!dictamenTecnico" class="btn btn-primary" ng-click="guardar('dictamen_tec_')">Guardar</button>
@@ -142,7 +137,7 @@
                             <div class="col-md-4">
                                 <span ng-if="!dictamenLegal">
                                     <label for="dictamenLegal" ng-click="agregarPDF('dictamen_leg_doc')" ng-class="proyecto['dictamen_leg_']? 'btn-success' : 'btn-default' "  class="btn">PDF</label>
-                                    <input nv-file-select="" uploader="uploader" style="display : none" id="dictamenLegal" type="file"/>
+                                    <input nv-file-select="" uploader="uploader" accept="application/pdf" style="display : none" id="dictamenLegal" type="file"/>
                                 </span>
 
                                 <button ng-if="dictamenLegal" ng-click="ver(proyecto.dictamen_leg_doc)" class="btn btn-default">ver</button>
@@ -166,7 +161,7 @@
                             <div class="col-md-4">
                                 <span ng-if="!resolucionEjecutiva" >
                                     <label  ng-click="agregarPDF('res_dir_eje_doc')" for="resolucionEjecutiva" class="btn" ng-class="proyecto['res_dir_eje_']? 'btn-success' : 'btn-default' " >PDF</label>
-                                    <input nv-file-select="" uploader="uploader" style="display : none" id="resolucionEjecutiva" type="file"/>
+                                    <input nv-file-select="" uploader="uploader" accept="application/pdf" style="display : none" id="resolucionEjecutiva" type="file"/>
                                 </span>
                                 <button ng-if="resolucionEjecutiva" ng-click="ver(proyecto.res_dir_eje_doc)" class="btn btn-default">ver</button>
                                 <button ng-if="!resolucionEjecutiva" class="btn btn-primary"  ng-click="guardar('res_dir_eje_')">Guardar</button>
@@ -188,7 +183,7 @@
                             <div class="col-md-4">
                                 <span  ng-if="!resolucionConadie">
                                     <label ng-click="agregarPDF('res_conadie_doc')" for="resolucionConadie" ng-class="proyecto['res_conadie_']? 'btn-success' : 'btn-default' " class="btn">PDF</label>
-                                    <input nv-file-select="" uploader="uploader" style="display : none" id="resolucionConadie" type="file"/>
+                                    <input nv-file-select="" uploader="uploader" accept="application/pdf" style="display : none" id="resolucionConadie" type="file"/>
                                 </span>
                                 <button ng-if="resolucionConadie" ng-click="ver(proyecto.res_conadie_doc)" class="btn btn-default">ver</button>
                                 <button ng-if="!resolucionConadie" class="btn btn-primary" ng-click="guardar('res_conadie_')">Guardar</button>

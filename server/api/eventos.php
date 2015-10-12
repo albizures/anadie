@@ -103,9 +103,19 @@ class R {
 	$tipo_doc   = $_POST['tipo'];       // Espera la extensión pudiendo ser PDF o HTML
 	                                    // El nombre del archivo lo realiza concatenando el ID del evento mas el nombre que le dio el usuario sin espacios
 										//                y adjuntando la extensión 
+/*		
+	$extension = explode(".",$archivo_name);
+	if (count($extension) == 2) {
+		$base = $extension[0];
+		$tipo = $extension[1];
+	}
+
+
 	if (strtoupper($tipo_doc) == "PDF") 
 		 { $fname      = $idEvento . '_' . str_replace(' ', '',$_POST['nombre_doc']) . ".pdf"; }
 	else { $fname      = $idEvento . '_' . str_replace(' ', '',$_POST['nombre_doc']) . ".html";}
+*/
+	$fname = $nombre_doc;
 
 	$ubicacion  = $target_dir . $fname;
     $ubicacion_rel  = $target_dir_rel . $fname;

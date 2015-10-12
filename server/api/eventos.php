@@ -168,5 +168,99 @@ $app->get('/eventoFileSel/:id','sessionAlive', function($id) use ($app){
     echoResponse(200, $response);
 });
 
+// create table pyr_precalificado_licitacion ( id int not null auto_increment,
+//                                            id_proyecto_licitacion int not null,   -- Id del evento de licitación respectivo
+//											id_precalificado int not null,         -- Id del precalificado ???
+											//primary key(id) );   
+											
+// Opcion para ingresar a la lista de eventos asociados a un usuario (precalificado) en particular
+$app->post('/eventoUserIn','sessionAlive',function() use ($app){
 
+	// Recupera los datos de la forma
+	//
+    $r = json_decode($app->request->getBody());
+	
+	$idUser    = $r->idUser;
+	$idEVento  = $r->idEvento;
+
+	//var_dump($r->evento);
+    $response = array();
+	//
+    $db = new DbHandler();
+	$id = $db->get1Record("select fn_ins_pyr_precalificado_licitacion( '$idUser', '$idEvento' ) as id");
+
+    if ($id != NULL) {
+        $response['status'] = "success";
+        $response['message'] = 'Se agrego correctamente';
+		$response['data'] = $id;
+			
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No fue posible agregar los datos';
+    }
+	
+    echoResponse(200, $response);
+});
+
+// Opcion para obtener la lista de eventos asociados a un usuario (precalificado) en particular
+$app->get('/eventoUserSel/:id','sessionAlive', function($id) use ($app){
+    $r = json_decode($app->request->getBody());
+	$idUser = $r->idUser;
+	
+    $response = array();
+	//
+    $db = new DbHandler();
+    $datos = $db->getAllRecord("call sp_sel_pyr_precalificado_licitacion( '$idUser' )");
+    //var_dump($datos);
+    if ($datos != NULL) {
+			$response = $datos;
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No hay datos';
+    }
+
+    echoResponse(200, $response);
+});
+
+// Opcion para obtener la lista de usuarios asignados a un evento específico
+$app->get('/userEventoSel/:id','sessionAlive', function($id) use ($app){
+    $r = json_decode($app->request->getBody());
+	$idEvento = $r->idEvento;
+	
+    $response = array();
+	//
+    $db = new DbHandler();
+    $datos = $db->getAllRecord("call sp_sel_pyr_licitacion_precalificados( '$idEvento' )");
+    //var_dump($datos);
+    if ($datos != NULL) {
+			$response = $datos;
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No hay datos';
+    }
+
+    echoResponse(200, $response);
+});
+											
+// Opcion para obtener la lista de los usuarios que no han sido asignados a un evento en particular.
+$app->get('/userAllEventoSel/:id','sessionAlive', function($id) use ($app){
+    $r = json_decode($app->request->getBody());
+	$idEvento = $r->idEvento;
+	
+    $response = array();
+	//
+    $db = new DbHandler();
+    $datos = $db->getAllRecord("call sp_sel_pyr_licitacion_precalificados_ALL( '$idEvento' )");
+    //var_dump($datos);
+    if ($datos != NULL) {
+			$response = $datos;
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No hay datos';
+    }
+
+    echoResponse(200, $response);
+});
+
+											
 ?>

@@ -12,8 +12,33 @@
  *
    pyr_evento
    
-   sp_sel_pyr_evento()
-   fn_ins_pyr_evento( ?, ?, ?, ? )
+   $app->post('/eventoIn'   
+		fn_ins_pyr_evento( ?, ?, ?, ? )
+		
+   $app->get('/eventoSel'		
+		sp_sel_pyr_evento()
+		
+   $app->post('/uploadFileEvento'
+	    fn_ins_pyr_evento_doc_det
+		
+   $app->get('/eventoFileSel/:id'
+		sp_sel_pyr_evento_doc_det
+
+   $app->get('/eventoFileSelHTML/:id'
+        sp_sel_pyr_evento_doc_detHTML
+		
+   $app->post('/eventoUserIn'
+		fn_ins_pyr_precalificado_licitacion
+   
+   $app->get('/eventoUserSel/:id
+		sp_sel_pyr_precalificado_licitacion
+   
+   $app->get('/userEventoSel/:id'
+		sp_sel_pyr_licitacion_precalificados
+		
+   $app->get('/userAllEventoSel/:id'   
+		sp_sel_pyr_licitacion_precalificados_ALL
+
    sp_upd_pyr_evento( ?, ?, ?, ?, ?, ? )
    sp_del_pyr_evento( ? )
    
@@ -139,15 +164,15 @@ class R {
 
     if (move_uploaded_file($_FILES["file"]["tmp_name"], $ubicacion)){
 		//echo "el archivo vino bien\n";
-		if (strtoupper($tipo_doc) == "ZIP") 
-		{
-			$z = new ZipArchive(); 
-			$z->open($ubicacion); 
-			$z->extractTo($target_dir_rel);
-			$z->close($ubicacion);
+		//if (strtoupper($tipo_doc) == "MHT")
+		//{
+		//	$z = new ZipArchive(); 
+		//	$z->open($ubicacion); 
+		//	$z->extractTo($target_dir_rel);
+		//	$z->close($ubicacion);
 			
-			$nombre_doc = str_replace('pdf','html',$nombre_doc);
-		}
+		//	$nombre_doc = str_replace('pdf','html',$nombre_doc);
+		//}
 		
 		$db = new DbHandler();
 		$id = $db->get1Record("select fn_ins_pyr_evento_doc_det( '$idEvento', '$nombre_doc', '$ubicacion_rel', '$usuario' ) as id");
@@ -176,6 +201,27 @@ $app->get('/eventoFileSel/:id','sessionAlive', function($id) use ($app){
 	//
     $db = new DbHandler();
     $datos = $db->getAllRecord("call sp_sel_pyr_evento_doc_det( '$idEvento' )");
+    //var_dump($datos);
+    if ($datos != NULL) {
+			$response = $datos;
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No hay datos';
+    }
+
+    echoResponse(200, $response);
+});
+// Recupera solo los HTML asociados a un evento.
+
+$app->get('/eventoFileSelHTML/:id','sessionAlive', function($id) use ($app){
+
+    $r = json_decode($app->request->getBody());
+	$idEvento = $id;//$r->idEvento;
+	
+    $response = array();
+	//
+    $db = new DbHandler();
+    $datos = $db->getAllRecord("call sp_sel_pyr_evento_doc_detHTML( '$idEvento' )");
     //var_dump($datos);
     if ($datos != NULL) {
 			$response = $datos;

@@ -1,0 +1,63 @@
+<div class="row precalificaciones">
+    <div class="col-md-6">
+        <div class="col-lg-6">
+            <h3>Licitaciones</h3>
+        </div>
+        <br/>
+        <table ng-table="tableLicitaciones"  show-filter="filtro" class="table table-striped">
+            <tr ng-repeat="l in $data" ng-click="selLicitacion(l)" ng-class="{info : licitacionSel == l}">
+                <td data-title="'Nombre'" sortable="'nombre'" width="400" filter="{ 'nombre': 'text' }">
+                    <span >{{l.nombre}}</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <div class="col-lg-6">
+            <h3>Usuarios</h3>
+        </div>
+        <button class="btn btn2 btn-primary pull-right" ng-click="agregarUsuario()">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+        <br/>
+        <table ng-table="tablePrecalificados"  show-filter="filtro" class="table table-striped">
+            <tr ng-repeat="p in $data">
+                <td data-title="'Nombre usuario'" sortable="'nombre'" filter="{ 'nombre': 'text' }">
+                    <span >{{p.nombre}}</span>
+                </td>
+                <td data-title="'Nombres'" sortable="'nombres'" filter="{ 'nombres': 'text' }">
+                    <span >{{p.nombres}}</span>
+                </td>
+                <td data-title="'Apellidos'" sortable="'apellidos'" filter="{ 'apellidos': 'text' }">
+                    <span >{{p.apellidos}}</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script type="text/ng-template" id="usuario.licitacion.modal">
+    <div class="modal-header">
+        <h3 class="modal-title">Ingrese los usuarios para {{licitacion.nombre}}</h3>
+    </div>
+    <div class="modal-body">
+        <form class="input-group" ng-submit="agregar()" novalidate="">
+            <select ng-model="usuario" ng-options="idx as u.nombreCompleto for (idx,u) in usuarios" class="form-control"></select>
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </span>
+        </form>
+        <br/>
+        <span ng-if="newUsuarios.length !== 0">Usuario agregados recientemente</span>
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="p in newUsuarios">
+                {{p.nombreCompleto}}
+            </li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn2 btn-warning" ng-click="ok()">Salir</button>
+    </div>
+</script>

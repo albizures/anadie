@@ -156,7 +156,7 @@ class R {
 		$response['message'] = "Archivo recibido";
 		$response['id'] = $id;//$target_file;
 	}
-	else { 
+	else {
 		//echo "hubo error\n" ;
         $response['status'] = "info";
         $response['message'] = 'No pudo recibirse el archivo ';
@@ -171,7 +171,7 @@ $app->get('/eventoFileSel/:id','sessionAlive', function($id) use ($app){
 
     $r = json_decode($app->request->getBody());
 	$idEvento = $id;//$r->idEvento;
-	
+
     $response = array();
 	//
     $db = new DbHandler();
@@ -199,8 +199,8 @@ $app->post('/eventoUserIn','sessionAlive',function() use ($app){
 	//
     $r = json_decode($app->request->getBody());
 	
-	$idUser    = $r->idUser;
-	$idEVento  = $r->idEvento;
+	$idUser    = $r->id;
+	$idEvento  = $r->idEvento;
 
 	//var_dump($r->evento);
     $response = array();
@@ -243,8 +243,7 @@ $app->get('/eventoUserSel/:id','sessionAlive', function($id) use ($app){
 
 // Opcion para obtener la lista de usuarios asignados a un evento específico
 $app->get('/userEventoSel/:id','sessionAlive', function($id) use ($app){
-    $r = json_decode($app->request->getBody());
-	$idEvento = $r->idEvento;
+	$idEvento = $id;
 	
     $response = array();
 	//
@@ -263,8 +262,7 @@ $app->get('/userEventoSel/:id','sessionAlive', function($id) use ($app){
 											
 // Opcion para obtener la lista de los usuarios que no han sido asignados a un evento en particular.
 $app->get('/userAllEventoSel/:id','sessionAlive', function($id) use ($app){
-    $r = json_decode($app->request->getBody());
-	$idEvento = $r->idEvento;
+	$idEvento = $id;
 	
     $response = array();
 	//
@@ -275,7 +273,7 @@ $app->get('/userAllEventoSel/:id','sessionAlive', function($id) use ($app){
 			$response = $datos;
     }else{
         $response['status'] = "info";
-        $response['message'] = 'No hay datos';
+        $response['message'] = 'No usuarios para agregar';
     }
 
     echoResponse(200, $response);

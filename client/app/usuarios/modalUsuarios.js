@@ -8,7 +8,7 @@ angular.module('anApp')
         $scope.contrasena = usuario.nombre == undefined;
         console.log(usuario);
         $scope.usuario = angular.copy(usuario);
-        Data.get('organizacionesDatos')
+        Data.get('orgDatos')
             .then(function (result) {
                 for(index in result){
                     result[index] = utils.convertNumber(result[index]);

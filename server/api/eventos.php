@@ -6,15 +6,19 @@
  *
  * eventos.php
  
- * server CRUD para la tabla de pyr_evento de Eventos de licitación de la ANADIE.
+ * server CRUD para la tabla de pyr_evento de Eventos de licitación de la ANADIE y servicios adicionales asociados al evento y documentos.
  
  * Entidades de DB que se utilizan:
  *
    pyr_evento
+   pyr_evento_doc_det
+   pyr_precalificado_licitacion
    
+   -- Inserta un evento
    $app->post('/eventoIn'   
 		fn_ins_pyr_evento( ?, ?, ?, ? )
 		
+	-- Selecciona un evento
    $app->get('/eventoSel'		
 		sp_sel_pyr_evento()
 		
@@ -26,6 +30,10 @@
 
    $app->get('/eventoFileSelHTML/:id'
         sp_sel_pyr_evento_doc_detHTML
+		
+    -- Obtiene datos de un documento, basado en el ID del documento.		
+   $app->get('/eventoFileSelID/:id'
+        sp_sel_pyr_evento_doc_detID
 		
    $app->post('/eventoUserIn'
 		fn_ins_pyr_precalificado_licitacion
@@ -222,6 +230,28 @@ $app->get('/eventoFileSelHTML/:id','sessionAlive', function($id) use ($app){
 	//
     $db = new DbHandler();
     $datos = $db->getAllRecord("call sp_sel_pyr_evento_doc_detHTML( '$idEvento' )");
+    //var_dump($datos);
+    if ($datos != NULL) {
+			$response = $datos;
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No hay datos';
+    }
+
+    echoResponse(200, $response);
+});
+
+//  -- Obtiene datos de un documento, basado en el ID del documento.		
+
+$app->get('/eventoFileSelID/:id','sessionAlive', function($id) use ($app){
+        
+    $r = json_decode($app->request->getBody());
+	$idDoc = $id;
+	
+    $response = array();
+	//
+    $db = new DbHandler();
+    $datos = $db->getAllRecord("call sp_sel_pyr_evento_doc_detID( '$idDoc' )");
     //var_dump($datos);
     if ($datos != NULL) {
 			$response = $datos;

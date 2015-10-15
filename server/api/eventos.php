@@ -199,6 +199,33 @@ class R {
     echoResponse(200, $response);
 });
 
+$app->post('/uploadFileUPD','sessionAlive',function() use ($app){
+
+	$target_dir     = $_SERVER['DOCUMENT_ROOT'] . "/server/uploaded_files/";
+    $target_dir_rel = "/server/uploaded_files/";
+	$nombre_doc = $_POST['nombre_doc'];  // Nombre descriptivo que le pone el usuario
+	$fname = $nombre_doc;
+
+	$ubicacion      = $target_dir . $fname;
+    $ubicacion_rel  = $target_dir_rel . $fname;
+	
+	$response = array("status" => "", "message" => "", "id" => 0);
+	
+    if (move_uploaded_file($_FILES["file"]["tmp_name"], $ubicacion)){
+		$response['status'] = "success";
+		$response['message'] = "Archivo recibido";
+		$response['id'] = 0;
+	}
+	else {
+		//echo "hubo error\n" ;
+        $response['status'] = "info";
+        $response['message'] = 'No pudo recibirse el archivo ';
+		$response['id'] = 0;
+		 }
+    echoResponse(200, $response);
+});
+
+
 // Opcion para obtener la totalidad de registros de documentos del evento de licitacion
 $app->get('/eventoFileSel/:id','sessionAlive', function($id) use ($app){
 

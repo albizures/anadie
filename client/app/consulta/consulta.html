@@ -1,0 +1,31 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="col-lg-6">
+            <h3>Licitaciones</h3>
+        </div>
+        <br/>
+        <table ng-table="tableLicitaciones"  show-filter="filtro" class="table table-striped">
+            <tr ng-repeat="l in $data" ng-click="selLicitacion(l)" ng-class="{info : licitacionSel == l}">
+                <td data-title="'Nombre'" sortable="'nombre'" width="400" filter="{ 'nombre': 'text' }">
+                    <span >{{l.nombre}}</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <div class="col-lg-6">
+            <h3>Documentos</h3>
+        </div>
+        <br/>
+        <table ng-table="tableDocumentos"  show-filter="filtro" class="table table-striped">
+            <tr ng-repeat="l in $data" >
+                <td data-title="'Nombre'" sortable="'nombre'" width="400" filter="{ 'nombre': 'text' }">
+                    <span >{{l.nombre_doc}}</span>
+                </td>
+                <td width="50">
+                    <button class="btn btn-default btn-xs" ng-click="ver(l)">ver</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

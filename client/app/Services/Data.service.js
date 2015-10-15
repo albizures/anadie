@@ -25,6 +25,11 @@ angular.module('anApp').factory("Data", ['$http', 'toaster','utils',
                 return results.data;
             });
         };
+        obj.file = function (q,object,options) {
+            return $http.delete(serviceBase + q,options).then(function (results) {
+                return results.data;
+            });
+        };
         obj.del = function (q) {
             return $http.delete(serviceBase + q).then(function (results) {
                 return results.data;

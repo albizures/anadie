@@ -1,0 +1,69 @@
+.content-visor
+  div
+    transition margin 0.2s
+  .visor
+    position relative
+    border-right  1px solid #b7b7b7
+    border-radius 1px
+
+    p
+      transition background 0.1s
+      cursor  pointer
+      &:hover
+        font
+          background rgba(158, 210, 158, 0.5)
+      &.active
+        font
+          background rgba(158, 210, 158, 0.5)
+        img
+          outline 10px solid  rgba(158, 210, 158, 0.5)
+  .coment-box
+    margin-top -50px
+    transition top 0.2s
+    position relative
+    .row
+      padding 10px
+      .textarea
+        -moz-appearance: textfield-multiline;
+        -webkit-appearance: textarea;
+        border: 1px solid rgba(128, 128, 128, 0.5)
+        font: medium -moz-fixed;
+        font: -webkit-small-control;
+        height: 100px;
+        overflow: auto;
+        resize: both;
+        width: 100%;
+        padding 5px
+        &::before
+          content : 'Escriba aqui su pregunta...'
+          position: absolute
+          color rgba(128, 128, 128, 0.5)
+        &.active::before
+          content : ''
+    .box
+      padding 20px
+      &::before
+        content: ''
+        position absolute
+        top 50px
+        left -20px
+        height 20px
+        width 20px
+        border-bottom: 10px solid transparent;
+        border-top: 10px solid transparent;
+        border-right: 10px solid rgba(128, 128, 128, 0.5);
+        border-left: 10px solid transparent;
+      textarea
+        resize none
+        width 100%
+    .coment
+      padding 20px
+      margin-top 10px
+    .fecha
+      color gray
+      font-size 1.2rem
+  .load-doc
+    text-align center
+    .load
+      font-size 5rem
+      color rgba(0,0,0,0.3)

@@ -13,8 +13,8 @@
             <td data-title="'Nombre'" sortable="'nombre'" width="400" filter="{ 'nombre': 'text' }">
                 <span >{{l.nombre}}</span>
             </td>
-            <td data-title="'Description'" sortable="'description'" width="330" filter="{ 'description': 'text' }">
-                <span >{{l.description}}</span>
+            <td data-title="'Descripcion'" sortable="'descripcion'" width="330" filter="{ 'descripcion': 'text' }">
+                <span >{{l.descripcion}}</span>
             </td>
             <td data-title="'Fecha inicio'" sortable="'fecha_inicio'" width="100" filter="{ 'fecha_inicio': 'text' }">
                 <span >{{l.fecha_inicio | date:'dd/MM/yyyy'}}</span>
@@ -83,6 +83,10 @@
         </div>
         <div class="modal-body">
             <div class="">
+                <div class="col-lg-10">
+                    <input class="form-control" type="text" ng-model="nombre" placeholder="Nombre"/>
+                    <br/>
+                </div>
                 <div class="col-lg-5">
                     <label for="pdf" class="btn btn2 btn-default col-lg-12 truncate">
                         <span ng-if="!validPdf()">{{getPdf().file.name}}</span>
@@ -91,14 +95,14 @@
                 </div>
                 <div class="col-lg-5">
                     <label for="html"  class="btn btn2 btn-default col-lg-12 truncate">
-                        <span ng-if="!validHtml()">{{getHtml().file.name}}</span>
-                        <span ng-if="validHtml()">HTML</span>
+                        <span ng-if="!validZip()">{{getZip().file.name}}</span>
+                        <span ng-if="validZip()">ZIP</span>
                     </label>
                 </div>
 
                 <input ng-if="validPdf()"  nv-file-select="" uploader="uploader" type="file" accept="application/pdf" id="pdf" ng-show="false">
-                <input ng-if="validHtml()" nv-file-select="" uploader="uploader" type="file" accept="text/html" id="html" ng-show="false">
-                <button class="btn btn2 btn-success col-lg-2" ng-disabled="uploader.queue.length < 2" ng-click="uploader.uploadAll()">
+                <input ng-if="validZip()" nv-file-select="" uploader="uploader" type="file" accept=".mht" id="html" ng-show="false">
+                <button class="btn btn2 btn-success col-lg-2" ng-disabled="uploader.queue.length < 2 || !nombre" ng-click="uploader.uploadAll()">
                     <span ng-if="!uploading">Guardar</span>
                     <span ng-if="uploading" class="glyphicon glyphicon-refresh load active"></span>
                 </button>
@@ -107,7 +111,7 @@
             <br/>
             <ul class="list-group col-lg-12">
                 <li class="list-group-item" ng-repeat="d in documentos">
-                        {{d.nombre}}
+                        {{d.nombre_doc}}
                     <button class="btn btn-default pull-right btn-xs" ng-click="openVisor(d.ubicacion)">ver</button>
                 </li>
             </ul>

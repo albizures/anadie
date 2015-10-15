@@ -8,12 +8,19 @@ angular.module('anApp')
             $scope.uploading = false;
             $scope.create = true;
 
+            var zip = ['application/zip', 'application/x-zip', 'application/x-zip-compressed', 'application/octet-stream', 'multipart/x-zip'];
 
-            Data.get('eventoFileSel/'+ licitacion.id)
-                .then(function (result) {
-                    $scope.documentos = result;
+            function traerDocumentos() {
+                Data.get('eventoFileSel/'+ licitacion.id)
+                    .then(function (result) {
+                        if(result.status){
+                            return $scope.documentos = [];
+                        }
+                        $scope.documentos = result;
 
-                });
+                    });
+            }
+            traerDocumentos();
             $scope.uploader = new FileUploader({
                 url: 'server/api/uploadFileEvento'
             });
@@ -23,9 +30,9 @@ angular.module('anApp')
                 });
                 return result.length == 0;
             };
-            $scope.validHtml = function () {
+            $scope.validZip = function () {
                 var result = $scope.uploader.queue.filter(function (item) {
-                    return item.file.type == "text/html";
+                    return item.file.name.indexOf('mht') !== -1
                 });
                 return result.length == 0;
             };
@@ -33,38 +40,35 @@ angular.module('anApp')
                 var result = $scope.uploader.queue.filter(function (item) {
                     return item.file.type == "application/pdf";
                 });
-                console.log(result);
                 if(result.length != 0) return result[0];
                 return undefined;
             };
-            $scope.getHtml = function () {
+            $scope.getZip = function () {
                 var result = $scope.uploader.queue.filter(function (item) {
-                    return item.file.type == "text/html";
+                    return item.file.name.indexOf('mht') !== -1
                 });
                 if(result.length != 0) return result[0];
                 return undefined;
             };
             $scope.uploader.onCompleteAll = function() {
-                console.info('onCompleteAll');
                 $scope.uploader.queue[0].remove();
                 $scope.uploader.queue[0].remove();
 
                 $scope.uploading = false;
                 $scope.create = true;
+                traerDocumentos();
 
-            };
-            $scope.uploader.onBeforeUploadItem = function(item) {
-                $scope.uploading = true;
-                $scope.create = false;
             };
             $scope.uploader.onBeforeUploadItem = function(item) {
                 console.info('onBeforeUploadItem', item);
                 console.log($scope);
                 item.formData.push({
-                    tipo : item.file.type == "application/pdf"? 'pdf' : 'html',
+                    tipo : item.file.type == "application/pdf"? 'PDF' : 'ZIP',
                     idEvento : licitacion.id,
-                    nombre_doc : item.file.name
+                    nombre_doc : $scope.nombre// + '.' + item.file.type == "application/pdf"? 'PDF' : 'ZIP'
                 });
+                $scope.uploading = true;
+                $scope.create = false;
             };
             $scope.ok = function () {
                 $modalIntance.close();

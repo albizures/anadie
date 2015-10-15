@@ -135,8 +135,8 @@ class R {
 	$nombre_doc = $_POST['nombre_doc'];  // Nombre descriptivo que le pone el usuario
 	$tipo_doc   = $_POST['tipo'];       // Espera la extensión pudiendo ser PDF o HTML
 	                                    // El nombre del archivo lo realiza concatenando el ID del evento mas el nombre que le dio el usuario sin espacios
-										//                y adjuntando la extensión 
-/*		
+										//                y adjuntando la extensión
+/*
 	$extension = explode(".",$archivo_name);
 	if (count($extension) == 2) {
 		$base = $extension[0];
@@ -148,7 +148,7 @@ class R {
 		 { $fname      = $idEvento . '_' . str_replace(' ', '',$_POST['nombre_doc']) . ".pdf"; }
 	else { $fname      = $idEvento . '_' . str_replace(' ', '',$_POST['nombre_doc']) . ".html";}
 */
-	$fname = $nombre_doc;
+	$fname = $_FILES["file"]["name"]; //$nombre_doc;
 
 	$ubicacion  = $target_dir . $fname;
     $ubicacion_rel  = $target_dir_rel . $fname;
@@ -174,8 +174,8 @@ class R {
 		//echo "el archivo vino bien\n";
 		//if (strtoupper($tipo_doc) == "MHT")
 		//{
-		//	$z = new ZipArchive(); 
-		//	$z->open($ubicacion); 
+		//	$z = new ZipArchive();
+		//	$z->open($ubicacion);
 		//	$z->extractTo($target_dir_rel);
 		//	$z->close($ubicacion);
 			
@@ -201,13 +201,13 @@ class R {
 
 $app->post('/uploadFileUPD','sessionAlive',function() use ($app){
 
-	$target_dir     = $_SERVER['DOCUMENT_ROOT'] . "/server/uploaded_files/";
-    $target_dir_rel = "/server/uploaded_files/";
+	$target_dir     = $_SERVER['DOCUMENT_ROOT'] ;//. "/server/uploaded_files/";
+    //$target_dir_rel = "/server/uploaded_files/";
 	$nombre_doc = $_POST['nombre_doc'];  // Nombre descriptivo que le pone el usuario
-	$fname = $nombre_doc;
+	//$fname = $nombre_doc;
 
-	$ubicacion      = $target_dir . $fname;
-    $ubicacion_rel  = $target_dir_rel . $fname;
+	$ubicacion      = $target_dir . $nombre_doc;//. $fname;
+    //$ubicacion_rel  = $target_dir_rel . $fname;
 	
 	$response = array("status" => "", "message" => "", "id" => 0);
 	
@@ -272,7 +272,7 @@ $app->get('/eventoFileSelHTML/:id','sessionAlive', function($id) use ($app){
 
 $app->get('/eventoFileSelID/:id','sessionAlive', function($id) use ($app){
         
-    $r = json_decode($app->request->getBody());
+    //$r = json_decode($app->request->getBody());
 	$idDoc = $id;
 	
     $response = array();
@@ -325,9 +325,9 @@ $app->post('/eventoUserIn','sessionAlive',function() use ($app){
 });
 
 // Opcion para obtener la lista de eventos asociados a un usuario (precalificado) en particular
-$app->get('/eventoUserSel/:id','sessionAlive', function($id) use ($app){
-    $r = json_decode($app->request->getBody());
-	$idUser = $r->idUser;
+$app->get('/eventoUserSel','sessionAlive', function() use ($app){
+    //$r = json_decode($app->request->getBody());
+	$idUser = $_SESSION['uid']; //$r->idUser;
 	
     $response = array();
 	//

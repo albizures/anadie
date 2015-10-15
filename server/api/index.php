@@ -34,6 +34,7 @@ require_once "municipios.php";
 require_once "ices.php";
 require_once "upload_files.php";
 require_once "eventos.php";
+require_once "preguntas.php";
 /**
  * Verifying required params posted or not
  */

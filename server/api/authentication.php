@@ -101,7 +101,7 @@ $app->post('/login',function() use ($app){
 			if (!isset($_SESSION)) {
 				session_start();
 			}
-			$_SESSION['uid'] = 1;
+			$_SESSION['uid'] = $id;
 			$_SESSION['name'] = $usuario['nombre'];
 			// 
 			// Ya tiene los accesos , ahora busca las opciones asignadas de acuerdo a su rol

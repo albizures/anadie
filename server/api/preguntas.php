@@ -46,14 +46,14 @@ $app->post('/preguntaPrimeraIn','sessionAlive',function() use ($app){
 	$idTipo        = $r->pregunta->tipo;          // Tipo de objeto, pudiedo ser P=Parrafo y IMG=image
 	$idEvento      = $r->pregunta->idEvento;      // Id del evento
 	$idDoc         = $r->pregunta->idDoc;         // Id del documento
-	$idUser        = $r->pregunta->idUser;        // Id del usuario que crea la pregunta
+	$idUser        = $_SESSION['uid'];//$r->pregunta->idUser;        // Id del usuario que crea la pregunta
 	$pregunta      = $r->pregunta->pregunta;      // Texto o contenido de la pregunta
 	
     $response = array();
 	//
 	//
     $db = new DbHandler();
-	$id = $db->get1Record("select fn_ins_pyr_pregunta0( '$clave, '$idTipo', '$idEvento', '$idDoc', '$idUser', '$pregunta' ) as id");
+	$id = $db->get1Record("select fn_ins_pyr_pregunta0( '$clave', '$idTipo', $idEvento, $idDoc, $idUser, '$pregunta' ) as id");
 
     if ($id != NULL) {
         $response['status'] = "success";
@@ -78,14 +78,14 @@ $app->post('/preguntaAdicionalIn','sessionAlive',function() use ($app){
 	$clave         = $r->pregunta->clave;         // Clave que se le asignó al objeto.
 	$idEvento      = $r->pregunta->idEvento;      // Id del evento
 	$idDoc         = $r->pregunta->idDoc;         // Id del documento
-	$idUser        = $r->pregunta->idUser;        // Id del usuario que crea la pregunta
+	$idUser        = $_SESSION['uid'];//$r->pregunta->idUser;        // Id del usuario que crea la pregunta
 	$pregunta      = $r->pregunta->pregunta;      // Texto o contenido de la pregunta
 	
     $response = array();
 	//
 	//
     $db = new DbHandler();
-	$id = $db->get1Record("select fn_ins_pyr_pregunta1( '$clave, '$idEvento', '$idDoc', '$idUser', '$pregunta' ) as id");
+	$id = $db->get1Record("select fn_ins_pyr_pregunta1( '$clave', $idEvento, $idDoc, $idUser, '$pregunta' ) as id");
 
     if ($id != NULL) {
         $response['status'] = "success";
@@ -125,11 +125,11 @@ $app->get('/preguntaSel','sessionAlive', function() use ($app){
 });
 
 // Opcion para obtener la totalidad de preguntas de un objeto específico.
-$app->get('/preguntaSelOBJ','sessionAlive', function($id) use ($app){
+$app->get('/preguntaSelOBJ/:idDoc/:idClave','sessionAlive', function($idDoc,$idClave) use ($app){
 
-    $r = json_decode($app->request->getBody());
-	$idDoc   = $r->idDoc;
-	$idClave = $r->idClave;
+//    $r = json_decode($app->request->getBody());
+//	$idDoc   = $r->idDoc;
+//	$idClave = $r->idClave;
 
     $response = array();
 	//

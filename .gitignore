@@ -1,9 +1,10 @@
 .idea
-server/api/Slim
 server/files
 server/uploaded_files
 server/api/config.php
+server/api/dbConnect.php
+server/api/Slim
+server/api/upload.html
+server/api/upload_files1.php
 client/bower_components
 node_modules
-server/api/dbConnect.php
-server/api/config.php

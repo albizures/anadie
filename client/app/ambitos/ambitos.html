@@ -1,0 +1,47 @@
+<div>
+    <br/>
+    <section class="form-inline">
+        <button ng-click="limpiar()" class="btn btn2 btn-default pull-right">Limpiar filtro</button>
+        <button type="button" class="btn btn2 btn-primary pull-right" ng-model="filtro" btn-checkbox>
+            <span ng-class="{}" class="glyphicon glyphicon-filter"></span>
+        </button>
+        <button ng-click="agregar()" class="btn btn2 btn-primary">
+            <i class="icon-white icon-plus"></i>
+            Agregar Ambito
+        </button>
+        <br/>
+        <table ng-table="tableAmbitos"  show-filter="filtro" class="table table-striped">
+            <tr class="tr animate-repeat" ng-repeat="i in $data">
+                <td data-title="'Nombre'" sortable="'nombre'" width="400" filter="{ 'nombre': 'text' }">
+                    {{i.nombre}}
+                </td>
+                <td data-title="''" width="40">
+                    <button type="button" class="close" aria-label="Close" ng-click="eliminar(i.id)">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </section>
+</div>
+
+<script type="text/ng-template" id="ambitos.modal">
+    <div class="modal-header">
+        <h3 class="modal-title">Ingrese los datos</h3>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="ambito">Nombre del Ambito</label>
+            <input ng-model="ambito.nombre" type="text" class="form-control" id="nombre" placeholder="nombre del ámbito" required/>
+        </div>
+		<div class="form-group">
+			<label for="ambito">Codigo</label>
+			<input ng-disabled="disable" ng-model="ambito.codigo" type="text" class="form-control" id="codigo" placeholder="Literal" required/>
+		</div>
+    </div>
+	
+    <div class="modal-footer">
+        <button class="btn btn2 btn-primary" ng-disabled="!ambito.nombre && !ambito.codigo" ng-click="ok()">Aceptar</button>
+        <button class="btn btn2 btn-warning" ng-click="cancel()">Cancelar</button>
+    </div>
+</script>

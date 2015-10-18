@@ -1,0 +1,7 @@
+<div>
+    <tabset>
+        <tab select="tabSeleccionado(tab.nombre,$index)" active="tab.active" ng-repeat="tab in tabs" heading="{{tab.titulo}}">
+            <div ng-if="tabActive == tab.nombre" ng-include="'client/app/administracion/subopcion/' + tab.nombre.toLowerCase() + '.html'"></div>
+        </tab>
+    </tabset>
+</div>

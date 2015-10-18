@@ -18,7 +18,7 @@
 		fn_ins_pyr_pregunta0( ?, ?, ?, ?, ?, ? )
 		pidClave , pidtipo , pidevento , piddocdet int, pidusuario , ppregunta 
 									   
-   -- Inserta una pregunta, la primera de un objeto específico.
+   -- Inserta una pregunta, adicional a la primekra de un objeto específico.
    $app->post('/preguntaAdicionalIn'   
 		fn_ins_pyr_pregunta1( ?, ?, ?, ?, ? )
 		pidClave , pidevento , piddocdet , pidusuario , ppregunta
@@ -46,21 +46,35 @@ $app->post('/preguntaPrimeraIn','sessionAlive',function() use ($app){
 	$idTipo        = $r->pregunta->tipo;          // Tipo de objeto, pudiedo ser P=Parrafo y IMG=image
 	$idEvento      = $r->pregunta->idEvento;      // Id del evento
 	$idDoc         = $r->pregunta->idDoc;         // Id del documento
-	$idUser        = $_SESSION['uid'];//$r->pregunta->idUser;        // Id del usuario que crea la pregunta
+	$idUser        = $_SESSION['uid'];            //$r->pregunta->idUser;        // Id del usuario que crea la pregunta
 	$pregunta      = $r->pregunta->pregunta;      // Texto o contenido de la pregunta
+	
+	$ambitos       = $r->ambitos;                 // Un arreglo que contiene los ambitos (idAmbito)
 	
     $response = array();
 	//
 	//
     $db = new DbHandler();
 	$id = $db->get1Record("select fn_ins_pyr_pregunta0( '$clave', '$idTipo', $idEvento, $idDoc, $idUser, '$pregunta' ) as id");
-
+	
+	$error = "no";
     if ($id != NULL) {
-        $response['status'] = "success";
-        $response['message'] = 'Se agrego correctamente';
-		$response['data'] = $id;
-			
-    }else{
+		//
+		// Insertará $id pregunta en pyr_pregunta_ambito, insert into pyr_pregunta_ambito (id_pregunta, id_ambito ) values ($id, $ambitos[0] );
+		//
+		foreach ($ambitos as $idAmbito) {
+			$id2 = $db->get1Record("select fn_ins_pyr_pregunta_ambito( '$id', '$idAmbito' ) as id");
+			if ($id2 == NULL) { $error = "si"; break; }
+		}
+	else { $error = "si"; }		
+    }
+	
+	if ($error == "no") {
+			$response['status'] = "success";
+			$response['message'] = 'Se agrego correctamente';
+			$response['data'] = $id;
+	}
+	else{
         $response['status'] = "info";
         $response['message'] = 'No fue posible agregar los datos';
     }

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-10-2015 a las 14:37:08
+-- Tiempo de generación: 18-10-2015 a las 20:51:19
 -- Versión del servidor: 5.6.15-log
 -- Versión de PHP: 5.5.8
 
@@ -504,6 +504,13 @@ begin
     return last_insert_id();
   end$$
 
+CREATE DEFINER=`root`@`localhost` FUNCTION `fn_ins_pyr_pregunta_ambito`( pidpregunta int, pidambito int ) RETURNS int(11)
+    DETERMINISTIC
+begin
+	insert into pyr_pregunta_ambito ( id_pregunta, id_ambito ) values (pidpregunta, pidambito );
+	return last_insert_id();
+end$$
+
 CREATE DEFINER=`root`@`localhost` FUNCTION `fn_ins_seg_opcion`(`pnombre` varchar(100), `pdescripcion` VARCHAR(200), `ptitulo` varchar(30), 
               pidpadre int, pidtipo int, porden int) RETURNS int(11)
     MODIFIES SQL DATA
@@ -589,7 +596,7 @@ CREATE TABLE IF NOT EXISTS `cat_ambito` (
   `nombre` varchar(50) NOT NULL,
   `codigo` char(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
 
 --
 -- Volcado de datos para la tabla `cat_ambito`
@@ -597,7 +604,7 @@ CREATE TABLE IF NOT EXISTS `cat_ambito` (
 
 INSERT INTO `cat_ambito` (`id`, `nombre`, `codigo`) VALUES
 (1, 'Legal', 'L'),
-(18, 'Tecnico', 'T');
+(21, 'Técnico', 'T');
 
 -- --------------------------------------------------------
 

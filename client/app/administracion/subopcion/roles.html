@@ -1,0 +1,22 @@
+<div ng-controller="rolesCtrl">
+    <br/>
+    <section class="form-inline">
+        <button ng-click="limpiar()" class="btn btn-default pull-right">Limpiar filtro</button>
+        <button type="button" class="btn btn-primary pull-right" ng-model="filtro" btn-checkbox>
+            <span class="glyphicon glyphicon-filter"></span>
+        </button>
+        <button ng-click="agregar()" class="btn btn-primary"><i class="icon-white icon-plus"></i> Agregar opcion</button>
+    </section>
+    <br/>
+    <table ng-table="tableRoles"  show-filter="filtro" class="table table-striped">
+        <tr ng-repeat="rol in $data">
+            <td data-title="'Nombre'" sortable="'nombre'" filter="{ 'nombre': 'text' }">
+                <span >{{rol.nombre}}</span>
+            </td>
+            <td data-title="'Acciones'" width="125">
+                <a ng-click="editar(rol.id); rol.$edit = true" class="btn btn-primary btn-xs" >Editar</a>
+                <a ng-click="eliminar(rol.id,$index)" class="btn btn-default btn-xs">Eliminar</a>
+            </td>
+        </tr>
+    </table>
+</div>

@@ -114,6 +114,29 @@ $app->post('/preguntaAdicionalIn','sessionAlive',function() use ($app){
     echoResponse(200, $response);
 });
 
+// Opcion para obtener la totalidad de las preguntas, de todos los documentos de un evento.
+$app->get('/preguntaSelEvento','sessionAlive', function() use ($app){
+
+    $r = json_decode($app->request->getBody());
+
+	$idEvento      = $r->idEvento;      // Id del evento
+
+    $response = array();
+	//
+    $db = new DbHandler();
+	
+    $datos = $db->getAllRecord("call sp_sel_pyr_pregunta_evento('$idEvento' )");
+    //var_dump($datos);
+    if ($datos != NULL) {
+			$response = $datos;
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No hay datos';
+    }
+
+    echoResponse(200, $response);
+});
+
 // Opcion para obtener la totalidad de preguntas del documento de un evento, de la tabla pyr_pregunta
 $app->get('/preguntaSel','sessionAlive', function() use ($app){
 

@@ -59,15 +59,19 @@ $app->post('/preguntaPrimeraIn','sessionAlive',function() use ($app){
 	
 	$error = "no";
     if ($id != NULL) {
-		//
-		// Insertará $id pregunta en pyr_pregunta_ambito, insert into pyr_pregunta_ambito (id_pregunta, id_ambito ) values ($id, $ambitos[0] );
-		//
-		foreach ($ambitos as $idAmbito) {
-			$id2 = $db->get1Record("select fn_ins_pyr_pregunta_ambito( '$id', '$idAmbito' ) as id");
-			if ($id2 == NULL) { $error = "si"; break; }
-		}
-	else { $error = "si"; }		
+        //
+        // Insertará $id pregunta en pyr_pregunta_ambito, insert into pyr_pregunta_ambito (id_pregunta, id_ambito ) values ($id, $ambitos[0] );
+        //
+        foreach ($ambitos as $idAmbito) {
+            $id2 = $db->get1Record("select fn_ins_pyr_pregunta_ambito( '$id', '$idAmbito' ) as id");
+            if ($id2 == NULL) {
+                $error = "si";
+                break;
+            }
+        }
     }
+	else { $error = "si"; }		
+
 	
 	if ($error == "no") {
 			$response['status'] = "success";

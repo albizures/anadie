@@ -8,7 +8,7 @@ angular.module('anApp')
             template :  '<div class="col-lg-12">' +
                             '<div id="archivo" ng-class="estado.comentando? \'\' : \'col-lg-offset-2\'" class="col-lg-8 visor" ng-include="documento.ubicacion" onload="termino()">' +
                             '</div>' +
-                            '<div ng-if="estado.comentando" ng-coment-box="estado.id" actualizar="actualizar" documento="documento.id" offset="estado.offset" enviar="enviar" pregunta="estado.pregunta" class="coment-box col-lg-4"></div>' +
+                            '<div ng-if="estado.comentando" ng-coment-box="estado.id" actualizar="actualizar" documento="documento.id" offset="estado.offset" enviar="enviar" pregunta="estado.pregunta" ambitos="estado.ambitos" class="coment-box col-lg-4"></div>' +
                             '<div ng-if="estado.cargando" class="load-doc col-lg-12">' +
                                 '<span class="glyphicon glyphicon-refresh load active"></span>'+
                             '</div>'+
@@ -74,18 +74,28 @@ angular.module('anApp')
                 }
             },
             controller : function ($scope) {
+                $scope.estado.ambitos = [];
                 $scope.uploader = new FileUploader({
                     url: 'server/api/uploadFileUPD'
                 });
                 $scope.enviar = function () {
                     var nuevo = $scope.estado.id == '',
                         ruta =  nuevo ?'preguntaPrimeraIn'  : 'preguntaAdicionalIn',
-                        data = {
+                        ambitos = angular.copy($scope.estado.ambitos);
+                    for(var a = 0; a < ambitos.length; a++){
+                        if(!hasVal(ambitos[a]) || ambitos[a] === false){
+                            console.log('quitar',a,ambitos[a]);
+                            ambitos.splice(a,1);
+                            a--;
+                        }
+                    }
+                    var data = {
                             clave : nuevo?  $scope.estado.tipo + '-' + Date.now() : $scope.estado.id,
                             tipo : $scope.estado.tipo,
                             idEvento : Number($scope.documento.id_evento),
                             idDoc : Number($scope.documento.id),
-                            pregunta : $scope.estado.pregunta
+                            pregunta : $scope.estado.pregunta,
+                            ambitos : ambitos
                         };
                     Data.post(ruta,{pregunta : data})
                         .then(function (result) {

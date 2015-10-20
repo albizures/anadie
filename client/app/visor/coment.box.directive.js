@@ -3,12 +3,18 @@
  */
 
 angular.module('anApp')
-    .directive('ngComentBox',['Data',function (Data) {
+    .directive('ngComentBox',['Data','utils',function (Data,utils) {
         return {
             template : '<div class="row">' +
                             '<div class="col-lg-12 z-depth-1 box">' +
                                 '<div ng-class="pregunta? \'active\' : \'\'" ng-model="pregunta" contenteditable placeholder="" class="textarea form-control" name="" id=""  rows="5"></div>' +
-                                '<br><button ng-disabled="!pregunta" ng-click="enviar()" class="btn btn-success btn2 col-lg-12">Enviar</button>' +
+                                '<br>'+
+                                '<div ng-repeat="a in ambitos" class="col-lg-6">' +
+                                    '<label>{{a.nombre}} ' +
+                                        '<input ng-true-value="{{a.id}}"  ng-model="ambitosSel[$index]"  name="ambitos" type="checkbox"/>' +
+                                    '</label>'+
+                                '</div>' +
+                                '<button ng-disabled="!pregunta" ng-click="enviar()" class="btn btn-success btn2 col-lg-12">Enviar</button>' +
                             '</div>'+
                             '<div class="col-lg-12 z-depth-1 coment">Preguntas anteriores:</div>'+
                             '<div class="col-lg-12 z-depth-1 coment" ng-repeat="p in preguntas">' +
@@ -23,7 +29,8 @@ angular.module('anApp')
                 'pregunta' : '=',
                 'enviar' : '=',
                 'documento' : '=',
-                'actualizar' : '='
+                'actualizar' : '=',
+                'ambitosSel' : '=ambitos'
             },
             link : function (scope,element) {
                 scope.$watch('offset', function (newValue, oldValue) {
@@ -33,6 +40,16 @@ angular.module('anApp')
                 });
             },
             controller : function ($scope) {
+                Data.get('ambitoSel')
+                    .then(function (result) {
+                        if(result.message){
+                            return Data.toast(result);
+                        }
+                        for(index in result){
+                            result[index].id = utils.convertNumber(result[index].id);
+                        }
+                        $scope.ambitos = result;
+                    });
                 $scope.$on('actualizarComentario', function() {
                     traerComentarios($scope.id);
                 });
@@ -45,6 +62,7 @@ angular.module('anApp')
                 });
                 function traerComentarios (id) {
                     $scope.pregunta = undefined;
+                    $scope.ambitosSel = [];
                     Data.get('preguntaSelOBJ/'+ $scope.documento  + '/' +id )
                         .then(function (result) {
                             if(result.status) return $scope.preguntas = [{pregunta : 'No hay preguntas...'}];

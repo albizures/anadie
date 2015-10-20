@@ -199,6 +199,17 @@ begin
     from pyr_pregunta WHERE id_evento = pidevento and id_doc_det = piddocdet
     ORDER by id;
   end$$
+  
+-- SELECT de todas las preguntas de todos los documentos de un evento
+
+DROP PROCEDURE IF EXISTS sp_sel_pyr_pregunta_evento$$
+CREATE PROCEDURE sp_sel_pyr_pregunta ( IN pidevento int )
+DETERMINISTIC
+begin
+select id, id_evento, id_doc_det, id_usuario, id_posicion_ref, estado, fecha_crea, pregunta
+  from pyr_pregunta WHERE id_evento = pidevento
+  ORDER by id;
+end$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_sel_pyr_pregunta_OBJ`( IN piddocdet int, IN
                                               pidClave varchar(20) )

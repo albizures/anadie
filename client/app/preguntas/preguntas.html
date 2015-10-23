@@ -1,0 +1,24 @@
+<div>
+    <br/>
+    <section class="form-inline">
+        <br/>
+        <table ng-table="tablePreguntas"  show-filter="filtro" class="table table-striped">
+            <tr class="tr animate-repeat" ng-repeat="i in $data">
+                <td data-title="'Nombre'" sortable="'nombre'" width="400" filter="{ 'nombre': 'text' }">
+                    {{i.pregunta}}
+                </td>
+                <td data-title="'fecha'" sortable="'fecha_modif'" width="400" filter="{ 'fecha_modif': 'text' }">
+                    {{i.fecha_modif  }}
+                </td>
+                <td data-title="'id o'" sortable="'id_objeto'" width="400" filter="{ 'id_objeto': 'text' }">
+                    {{i.id_objeto}}
+                </td>
+                <td data-title="''" width="40">
+                    <button type="button" class="close" aria-label="Close" ng-click="eliminar(i.id)">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </section>
+</div>

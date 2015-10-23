@@ -119,11 +119,11 @@ $app->post('/preguntaAdicionalIn','sessionAlive',function() use ($app){
 });
 
 // Opcion para obtener la totalidad de las preguntas, de todos los documentos de un evento.
-$app->get('/preguntaSelEvento','sessionAlive', function() use ($app){
+$app->get('/preguntaSelEvento/:id','sessionAlive', function($idEvento) use ($app){
 
-    $r = json_decode($app->request->getBody());
+    //$r = json_decode($app->request->getBody());
 
-	$idEvento      = $r->idEvento;      // Id del evento
+	//$idEvento      = $r->idEvento;      // Id del evento
 
     $response = array();
 	//

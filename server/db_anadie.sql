@@ -203,7 +203,7 @@ begin
 -- SELECT de todas las preguntas de todos los documentos de un evento
 
 DROP PROCEDURE IF EXISTS sp_sel_pyr_pregunta_evento$$
-CREATE PROCEDURE sp_sel_pyr_pregunta ( IN pidevento int )
+CREATE PROCEDURE sp_sel_pyr_pregunta_evento ( IN pidevento int )
 DETERMINISTIC
 begin
 select id, id_evento, id_doc_det, id_usuario, id_posicion_ref, estado, fecha_crea, pregunta

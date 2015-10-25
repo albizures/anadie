@@ -1,40 +1,38 @@
 <?php
 /**
  * Autor: Luis Albizures
- * fecha: 16/10/2015
- * Hora: 04:10 AM
+ * fecha: 24/10/2015
+ * Hora: 04:40 AM
  *
- * ambitos.php
+ * tipoPrecalificados.php
  
- * server CRUD para la tabla de cat_ambito de la ANADIE.
+ * server CRUD para la tabla de sip_tipo_precalificado de la ANADIE.
  
  * Entidades de DB que se utilizan:
  *
-   cat_ambito
+   sip_tipo_precalificado
    
-   sp_sel_cat_ambito()
+   sp_sel_sip_tipo_precalificado()
    
-   fn_ins_cat_ambito()
+   fn_ins_sip_tipo_precalificado( ? )
    
-   sp_del_cat_ambito()
-
+   sp_del_sip_tipo_precalificado( ? )
    
  **/
 
-// Opción para ingresar un registro a la tabla cat_ambito
-$app->post('/ambitoIn','sessionAlive',function() use ($app){
+// Opción para ingresar un registro a la tabla sip_tipo_precalificado
+
+$app->post('/tipoPrecalificadoIn','sessionAlive',function() use ($app){
 
 	// Recupera los datos de la forma
 	//
     $r = json_decode($app->request->getBody());
-	//var_dump ($r);
-	$nombre       = $r->nombre;
-	$codigo       = $r->codigo;
+	$precalificado       = $r->precalificado;
     $response = array();
 	//
 	//
     $db = new DbHandler();
-	$id = $db->get1Record("select fn_ins_cat_ambito( '$nombre', '$codigo' ) as id");
+	$id = $db->get1Record("select fn_ins_sip_tipo_precalificado( '$precalificado' ) as id");
 
     if ($id != NULL) {
         $response['status'] = "success";
@@ -49,13 +47,14 @@ $app->post('/ambitoIn','sessionAlive',function() use ($app){
     echoResponse(200, $response);
 });
 
-// Opcion para obtener la totalidad de registros de la tabla cat_ambito
-$app->get('/ambitoSel','sessionAlive', function() use ($app){
+// Opcion para obtener la totalidad de registros de la tabla sip_tipo_precalificado
+
+$app->get('/tipoPrecalificadoSel','sessionAlive', function() use ($app){
 
     $response = array();
 	//
     $db = new DbHandler();
-    $datos = $db->getAllRecord("call sp_sel_cat_ambito( )");
+    $datos = $db->getAllRecord("call sp_sel_sip_tipo_precalificado( )");
     //var_dump($datos);
     if ($datos != NULL) {
 			$response = $datos;
@@ -67,10 +66,10 @@ $app->get('/ambitoSel','sessionAlive', function() use ($app){
     echoResponse(200, $response);
 });
 
-// Opción para actualizar un registro de la tabla cat_ambito
+// Opción para actualizar un registro de la tabla sip_tipo_precalificado
 
-// Opción para eliminar un registro de la tabla cat_ambito
-$app->get('/ambitoD/:id','sessionAlive',function($id) use ($app){
+// Opción para eliminar un registro de la tabla sip_tipo_precalificado
+$app->get('/tipoPrecalificadoD/:id','sessionAlive',function($id) use ($app){
 
 	// Recupera los datos de la forma
 	//
@@ -79,7 +78,7 @@ $app->get('/ambitoD/:id','sessionAlive',function($id) use ($app){
 	//
 	//
     $db = new DbHandler();
-    $resId = $db->deleteRecord("call sp_del_cat_ambito(?)", $id);
+    $resId = $db->deleteRecord("call sp_del_sip_tipo_precalificado(?)", $id);
     if ($resId == 0) {
 		$response['status'] = "success";
 		$response['message'] = 'Datos eliminados';

@@ -79,6 +79,25 @@ begin
 	   where id = pid;
 end$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_sel_pyr_pregunta_evento`(IN pidevento INT)
+    DETERMINISTIC
+begin 
+   select a.id, a.id_evento, a.id_doc_det, a.id_usuario, a.id_objeto, 
+          a.estado, a.fecha_crea, a.pregunta, a2.ambito 
+     from pyr_pregunta a, (select  a1.id_pregunta, b1.codigo, b1.nombre as ambito 
+	                         from  pyr_pregunta_ambito a1, cat_ambito b1 
+							 where a1.id_ambito = b1.id ) as a2 
+	 WHERE a.id_evento = pidevento and a.id = a2.id_pregunta 
+	 ORDER by a.id;
+ end$$
+ 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_del_sip_tipo_precalificado`(IN pid int)
+    MODIFIES SQL DATA
+    DETERMINISTIC
+begin
+    DELETE FROM `sip_tipo_precalificado` where id = pid;
+end$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_ins_seg_opcion_idRol`(in pidrol int, in pidopcion int)
 insert into seg_rol_opcion values ( pidrol, pidopcion )$$
 
@@ -194,7 +213,7 @@ select a.id, a.id_proyecto_licitacion, a.id_precalificado, b.nombre,
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_sel_pyr_pregunta`( IN pidevento int, IN piddocdet int )
     DETERMINISTIC
 begin
-    select id, id_evento, id_doc_det, id_usuario, id_posicion_ref, estado,
+    select id, id_evento, id_doc_det, id_usuario, id_objeto, estado,
       fecha_crea, pregunta
     from pyr_pregunta WHERE id_evento = pidevento and id_doc_det = piddocdet
     ORDER by id;
@@ -202,13 +221,14 @@ begin
   
 -- SELECT de todas las preguntas de todos los documentos de un evento
 
-DROP PROCEDURE IF EXISTS sp_sel_pyr_pregunta_evento$$
 CREATE PROCEDURE sp_sel_pyr_pregunta_evento ( IN pidevento int )
 DETERMINISTIC
 begin
-select id, id_evento, id_doc_det, id_usuario, id_posicion_ref, estado, fecha_crea, pregunta
-  from pyr_pregunta WHERE id_evento = pidevento
-  ORDER by id;
+select a.id, a.id_evento, a.id_doc_det, a.id_usuario, a.id_objeto, a.estado, a.fecha_crea, a.pregunta
+  from pyr_pregunta a, (select a1.codigo, a1.nombre as ambito from pyr_pregunta_ambito a1, cat_ambito b1 
+                             where a1.id_ambito = b1.id and a.id = a1.id_pregunta  )
+							 WHERE a.id_evento = pidevento
+  ORDER by a.id;
 end$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_sel_pyr_pregunta_OBJ`( IN piddocdet int, IN
@@ -304,6 +324,10 @@ select id, codTipo, nombreTipo
   from pg_tipo where tablaTipo = 'seg_opcion' and estado = 1
   order by orden$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_sel_sip_tipo_precalificado`()
+    DETERMINISTIC
+select id, precalificado from sip_tipo_precalificado order by id$$
+  
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_upd_proyecto_archivo`(IN `pid` INT, IN `pfield_name` VARCHAR(50),
 IN `ptarget_file` VARCHAR(50),
                        IN pref varchar(10), IN pfec varchar(10) )
@@ -379,6 +403,8 @@ SET nombre = pnombre, nombres = pnombres, apellidos = papellidos, idrol = pidrol
 estado = pestado, email = pemail, cargo = pcargo
 where id = pid;
 end$$
+
+
 
 --
 -- Funciones
@@ -475,12 +501,12 @@ insert into pyr_precalificado_licitacion ( id_precalificado, id_proyecto_licitac
 return last_insert_id();
 end$$
 
-CREATE DEFINER=`root`@`localhost` FUNCTION `fn_ins_pyr_pregunta`( pidevento int, piddocdet int, pidusuario int, pidposicion_ref varchar(14),
+CREATE DEFINER=`root`@`localhost` FUNCTION `fn_ins_pyr_pregunta`( pidevento int, piddocdet int, pidusuario int, pidobjeto varchar(14),
                                               ppregunta varchar(500), pestado int ) RETURNS int(11)
     DETERMINISTIC
 begin
-insert into pyr_pregunta ( id_evento, id_doc_det, id_usuario, id_posicion_ref, id_pregunta, estado, fecha_crea )
-  values ( pidevento, piddocdet, pidusuario, pidposicion_ref, ppregunta, pestado, now() );
+insert into pyr_pregunta ( id_evento, id_doc_det, id_usuario, id_objeto, id_pregunta, estado, fecha_crea )
+  values ( pidevento, piddocdet, pidusuario, pidobjeto, ppregunta, pestado, now() );
 return last_insert_id();
 end$$
 
@@ -592,6 +618,14 @@ begin
   declare vRet int;
   select codTipo into vRet from pg_tipo where tabla_tipo = ptabla and nombre = ptipo and estado = 1;
   return vRet;
+end$$
+
+-- Para ingresar un registro de sip_tipo_precalificado 
+CREATE DEFINER=`root`@`localhost` FUNCTION `fn_sip_tipo_precalificado`( pprecalificado varchar(100) ) RETURNS int(11)
+    DETERMINISTIC
+begin
+  insert into sip_tipo_precalificado ( precalificado ) values ( pprecalificado );
+  return last_insert_id();
 end$$
 
 DELIMITER ;

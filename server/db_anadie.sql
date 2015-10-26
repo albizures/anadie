@@ -494,12 +494,22 @@ insert into pyr_evento_doc_det ( id_evento, nombre_doc, ubicacion, fecha_carga, 
 return last_insert_id();
 end$$
 
+
 CREATE DEFINER=`root`@`localhost` FUNCTION `fn_ins_pyr_precalificado_licitacion`(piduser int, pidevento int) RETURNS int(11)
     DETERMINISTIC
 begin
 insert into pyr_precalificado_licitacion ( id_precalificado, id_proyecto_licitacion ) values ( piduser, pidevento );
 return last_insert_id();
 end$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `fn_ins_pyr_organizacion_licitacion`(pidorganizacion int, pidevento int) RETURNS int(11)
+    DETERMINISTIC
+begin
+insert into pyr_precalificado_licitacion ( id_precalificado, id_proyecto_licitacion ) 
+   select id, pidevento from seg_usuario where idorganizacion = pidorganizacion
+return last_insert_id();
+end$$
+
 
 CREATE DEFINER=`root`@`localhost` FUNCTION `fn_ins_pyr_pregunta`( pidevento int, piddocdet int, pidusuario int, pidobjeto varchar(14),
                                               ppregunta varchar(500), pestado int ) RETURNS int(11)

@@ -144,6 +144,31 @@ $app->get('/preguntaSelEvento/:id','sessionAlive', function($idEvento) use ($app
     echoResponse(200, $response);
 });
 
+// Seleccion de preguntas que pertenecen a un evento y a un ámbito específicos
+// sp_sel_pyr_pregunta_eventoAmbito
+$app->get('/preguntaSelEventoAmbito','sessionAlive', function() use ($app){
+
+    $r = json_decode($app->request->getBody());
+
+	$idEvento      = $r->idEvento;      // Id del evento
+	$idAmbito      = $r->idAmbito;      // Id del ambito
+
+    $response = array();
+	//
+    $db = new DbHandler();
+	
+    $datos = $db->getAllRecord("call sp_sel_pyr_pregunta_eventoAmbito('$idEvento','$idAmbito' )");
+    //var_dump($datos);
+    if ($datos != NULL) {
+			$response = $datos;
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No hay datos';
+    }
+
+    echoResponse(200, $response);
+});
+
 // Opcion para obtener la totalidad de preguntas del documento de un evento, de la tabla pyr_pregunta
 $app->get('/preguntaSel','sessionAlive', function() use ($app){
 

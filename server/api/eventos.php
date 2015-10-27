@@ -22,6 +22,9 @@
    $app->get('/eventoSel'		
 		sp_sel_pyr_evento()
 		
+   $app->get('/eventoSelPre'		
+		sp_sel_pyr_evento_pre( ? )
+		
    $app->post('/uploadFileEvento'
 	    fn_ins_pyr_evento_doc_det
 		
@@ -46,6 +49,19 @@
 		
    $app->get('/userAllEventoSel/:id'   
 		sp_sel_pyr_licitacion_precalificados_ALL
+
+Inserción de consultores a un evento
+   fn_ins_pyr_consultor_licitacion	
+   $app->post('/eventoConsultorI'   
+
+Selección de consultores de un evento
+   sp_sel_pyr_consultor_licitacion
+   $app->get('/eventoConsultorS/:id
+
+Eliminación de un consultor de un evento
+   sp_del_pyr_consultor_licitacion
+   $app->get('/eventoConsultorD/:id
+
 
    sp_upd_pyr_evento( ?, ?, ?, ?, ?, ? )
    sp_del_pyr_evento( ? )
@@ -101,6 +117,28 @@ $app->get('/eventoSel','sessionAlive', function() use ($app){
 	//
     $db = new DbHandler();
     $datos = $db->getAllRecord("call sp_sel_pyr_evento( )");
+    //var_dump($datos);
+    if ($datos != NULL) {
+			$response = $datos;
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No hay datos';
+    }
+
+    echoResponse(200, $response);
+});
+
+// Opcion para obtener la totalidad de registros de la tabla pyr_evento a los cuales una persona tiene acceso
+$app->get('/eventoSelPre','sessionAlive', function() use ($app){
+
+    $r = json_decode($app->request->getBody());
+	
+	$idUsuario       = $r->idUsuario;
+
+    $response = array();
+	//
+    $db = new DbHandler();
+    $datos = $db->getAllRecord("call sp_sel_pyr_evento_pre( '$idUsuario')");
     //var_dump($datos);
     if ($datos != NULL) {
 			$response = $datos;
@@ -295,7 +333,7 @@ $app->get('/eventoFileSelID/:id','sessionAlive', function($id) use ($app){
 //											id_precalificado int not null,         -- Id del precalificado ???
 											//primary key(id) );   
 											
-// Opcion para ingresar a la lista de eventos asociados a un usuario (precalificado) en particular
+// Opcion para ingresar a la lista de eventos asociados a un usuario (precalificado) en particular -- Organizacion: incluira todos los usuarios de esta.
 $app->post('/eventoUserIn','sessionAlive',function() use ($app){
 
 	// Recupera los datos de la forma
@@ -379,6 +417,83 @@ $app->get('/userAllEventoSel/:id','sessionAlive', function($id) use ($app){
         $response['message'] = 'No usuarios para agregar';
     }
 
+    echoResponse(200, $response);
+});
+
+//Inserción de consultores a un evento
+//   fn_ins_pyr_consultor_licitacion	( pidconsultor int, pidevento int, pidambito int, pidsecretario char(1) )
+   $app->post('/eventoConsultorI','sessionAlive',function() use ($app){ 
+
+	// Recupera los datos de la forma
+	//
+    $r = json_decode($app->request->getBody());
+	
+	$idConsultor = $r->idConsultor;
+	$idEvento    = $r->idEvento;
+	$idAmbito    = $r->idAmbito;
+	$Secretario  = $r->Secretario;
+
+    $response = array();
+	//
+	//
+    $db = new DbHandler();
+	$id = $db->get1Record("select fn_ins_pyr_consultor_licitacion( '$idConsultor', '$idEvento', '$idAmbito', '$Secretario' ) as id");
+
+    if ($id != NULL) {
+        $response['status'] = "success";
+        $response['message'] = 'Se agrego correctamente';
+		$response['data'] = $id;
+			
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No fue posible agregar los datos';
+    }
+	
+    echoResponse(200, $response);
+});
+
+//Selección de consultores de un evento
+//   sp_sel_pyr_consultor_licitacion (pidevento )
+   $app->get('/eventoConsultorS/:id','sessionAlive', function($id) use ($app){
+	$idEvento = $id;
+	
+    $response = array();
+	//
+    $db = new DbHandler();
+    $datos = $db->getAllRecord("call sp_sel_pyr_consultor_licitacion( '$idEvento' )");
+    //var_dump($datos);
+    if ($datos != NULL) {
+			$response = $datos;
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No hay datos';
+    }
+
+    echoResponse(200, $response);
+});
+												
+//Eliminación de un consultor de un evento
+//   sp_del_pyr_consultor_licitacion ( pid )
+   $app->get('/eventoConsultorD/:id','sessionAlive',function($id) use ($app){
+
+	// Recupera los datos de la forma
+	//
+	
+    $response = array();
+	//
+	//
+    $db = new DbHandler();
+    $resId = $db->deleteRecord("call sp_del_pyr_consultor_licitacion(?)", $id);
+    if ($resId == 0) {
+		$response['status'] = "success";
+		$response['message'] = 'Datos eliminados';
+	}else{
+		if ($resId < 0) {
+				$response['status'] = "error " . $resId;
+				$response['message'] = 'No pudo eliminar los Datos';
+			}
+	}
+	
     echoResponse(200, $response);
 });
 

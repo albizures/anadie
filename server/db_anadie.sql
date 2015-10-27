@@ -219,18 +219,6 @@ begin
     ORDER by id;
   end$$
   
--- SELECT de todas las preguntas de todos los documentos de un evento
-
-CREATE PROCEDURE sp_sel_pyr_pregunta_evento ( IN pidevento int )
-DETERMINISTIC
-begin
-select a.id, a.id_evento, a.id_doc_det, a.id_usuario, a.id_objeto, a.estado, a.fecha_crea, a.pregunta
-  from pyr_pregunta a, (select a1.codigo, a1.nombre as ambito from pyr_pregunta_ambito a1, cat_ambito b1 
-                             where a1.id_ambito = b1.id and a.id = a1.id_pregunta  )
-							 WHERE a.id_evento = pidevento
-  ORDER by a.id;
-end$$
-
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_sel_pyr_pregunta_OBJ`( IN piddocdet int, IN
                                               pidClave varchar(20) )
     DETERMINISTIC
@@ -404,8 +392,45 @@ estado = pestado, email = pemail, cargo = pcargo
 where id = pid;
 end$$
 
+-- Selecciona todos los consultores existentes por evento 
 
+create DEFINER=`root`@`localhost` procedure sp_sel_pyr_consultor_licitacion ( IN pidevento int )
+deterministic
+select a.id, a.id_consultor, c.nombre, a.id_evento, a.id_ambito, b.nombre as ambito, a.secretario
+  from  pyr_consultor_licitacion a, cat_ambito b, seg_usuario c
+    where a.id_ambito = b.id and a.id_consultor = c.id and a.id_evento = pidevento order by a.id
+$$
 
+-- Elimina un consultor de la tabla de consultores por evento
+          
+create DEFINER=`root`@`localhost` procedure sp_del_pyr_consultor_licitacion ( IN pid int )
+deterministic
+delete 
+  from  pyr_consultor_licitacion 
+    where id = pid$$
+
+-- Obtiene la lista de eventos para los cuales un consultor tiene acceso a revisar sus preguntas.	
+	
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_sel_pyr_evento_pre`( IN pidusuario int)
+select a.id, a.nombre, a.descripcion, a.fecha_inicio, a.fecha_final, a.estado, c.id as id_ambito, c.nombre as ambito
+  from pyr_evento as a, pyr_consultor_licitacion b, cat_ambito c 
+  where a.id = b.id_evento and b.id_consultor = pidusuario and b.id_ambito = c.id 
+  order by a.id$$
+
+-- Seleccion de preguntas que pertenecen a un evento y a un ámbito específicos
+  
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_sel_pyr_pregunta_eventoAmbito`(IN pidevento INT, IN pidambito int)
+    DETERMINISTIC
+begin 
+   select a.id, a.id_evento, a.id_doc_det, a.id_usuario, a.id_objeto, 
+          a.estado, a.fecha_crea, a.pregunta, a2.ambito 
+     from pyr_pregunta a, (select  a1.id_pregunta, b1.codigo, b1.id as id_ambito, b1.nombre as ambito 
+	                         from  pyr_pregunta_ambito a1, cat_ambito b1 
+							 where a1.id_ambito = b1.id ) as a2 
+	 WHERE a.id_evento = pidevento and a.id = a2.id_pregunta and a2.id_ambito = pidambito
+	 ORDER by a.id;
+ end$$
+  
 --
 -- Funciones
 --
@@ -639,6 +664,16 @@ begin
   insert into sip_tipo_precalificado ( precalificado ) values ( pprecalificado );
   return last_insert_id();
 end$$
+
+-- Ingresa registro en tabla de consultores por evento
+
+create function fn_ins_pyr_consultor_licitacion ( pidconsultor int, pidevento int, pidambito int, pidsecretario char(1) ) returns int
+deterministic
+begin
+insert into pyr_consultor_licitacion ( id_consultor, id_evento, id_ambito, secretario ) values ( pidconsultor, pidevento, pidambito, ucase(pidsecretario) );
+return last_insert_id();
+end$$
+
 
 DELIMITER ;
 
@@ -1615,6 +1650,19 @@ INSERT INTO `sip_tipo_precalificado` (`id`, `precalificado`) VALUES
 (3, 'Arbitros'),
 (4, 'Proveedores'),
 (5, 'Licitantes');
+
+-- Esta tabla contiene los cosultores por evento y el ámbito para el cual está autorizado a responder dudas en PYR.
+--      Si un consultor tuviera acceso a varios ámbitos, esta tabla contendrá tantos registros como ambitos le corresponda a cada consultor en un evento en
+--      particular.
+
+create table pyr_consultor_licitacion (
+          id int not null auto_increment,
+		  id_consultor int not null,
+		  id_evento int not null,
+		  id_ambito   int not null,
+		  secretario    char(1) not null, -- S= Si, N=No
+		  primary key (id) );
+	
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

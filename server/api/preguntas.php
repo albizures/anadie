@@ -49,13 +49,13 @@ $app->post('/preguntaPrimeraIn','sessionAlive',function() use ($app){
 	$idUser        = $_SESSION['uid'];            //$r->pregunta->idUser;        // Id del usuario que crea la pregunta
 	$pregunta      = $r->pregunta->pregunta;      // Texto o contenido de la pregunta
 	
-	$ambitos       = $r->ambitos;                 // Un arreglo que contiene los ambitos (idAmbito)
+	$ambitos       = $r->pregunta->ambitos;                 // Un arreglo que contiene los ambitos (idAmbito)
 	
     $response = array();
 	//
 	//
     $db = new DbHandler();
-	$id = $db->get1Record("select fn_ins_pyr_pregunta0( '$clave', '$idTipo', $idEvento, $idDoc, $idUser, '$pregunta' ) as id");
+	$id = $db->get1Record("select fn_ins_pyr_pregunta0( '$clave', '$idTipo', $idEvento, $idDoc, $idUser, '$pregunta' ) as id")['id'];
 	
 	$error = "no";
     if ($id != NULL) {
@@ -63,6 +63,9 @@ $app->post('/preguntaPrimeraIn','sessionAlive',function() use ($app){
         // Insertará $id pregunta en pyr_pregunta_ambito, insert into pyr_pregunta_ambito (id_pregunta, id_ambito ) values ($id, $ambitos[0] );
         //
         foreach ($ambitos as $idAmbito) {
+            //var_dump($ambitos);
+            //var_dump($id);
+            //var_dump($ambitos);
             $id2 = $db->get1Record("select fn_ins_pyr_pregunta_ambito( '$id', '$idAmbito' ) as id");
             if ($id2 == NULL) {
                 $error = "si";

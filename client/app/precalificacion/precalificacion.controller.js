@@ -84,11 +84,11 @@ angular.module('anApp')
                     });
             }
 
-            $scope.agregarUsuario = function () {
+            $scope.agregarOrganizacion = function () {
                 if(!hasVal($scope.licitacionSel)){return Data.toast({status : 'info', message : 'Seleccione un evento de licitacion'})}
                 var modal = $modal.open({
-                    templateUrl : 'usuario.licitacion.modal',
-                    controller : 'ModalUsuarioLicitacionCtrl',
+                    templateUrl : 'organizacion.licitacion.modal',
+                    controller : 'ModalOrganizacionLicitacionCtrl',
                     backdrop : 'static',
                     resolve : {
                         licitacion : function () {
@@ -101,8 +101,8 @@ angular.module('anApp')
                     if(!hasVal($scope.usuarios)){
                         $scope.usuarios = [];
                     }
-                    $scope.usuarios = $scope.usuarios.concat(newUsuarios);
-                    actualizarUsuarios();
+                    //$scope.usuarios = $scope.usuarios.concat(newUsuarios);
+                    actualizarUsuarios(true);
                 });
             };
         }]);

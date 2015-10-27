@@ -16,15 +16,15 @@
         <div class="col-lg-6">
             <h3>Usuarios</h3>
         </div>
-        <button class="btn btn2 btn-primary pull-right" ng-click="agregarUsuario()">
+        <button class="btn btn2 btn-primary pull-right" ng-click="agregarOrganizacion()">
             <span class="glyphicon glyphicon-plus"></span>
         </button>
         <br/>
         <table ng-table="tablePrecalificados"  show-filter="filtro" class="table table-striped">
             <tr ng-repeat="p in $data">
-                <td data-title="'Nombre usuario'" sortable="'nombre'" filter="{ 'nombre': 'text' }">
+                <!--<td data-title="'Nombre usuario'" sortable="'nombre'" filter="{ 'nombre': 'text' }">
                     <span >{{p.nombre}}</span>
-                </td>
+                </td>-->
                 <td data-title="'Nombres'" sortable="'nombres'" filter="{ 'nombres': 'text' }">
                     <span >{{p.nombres}}</span>
                 </td>
@@ -36,13 +36,13 @@
     </div>
 </div>
 
-<script type="text/ng-template" id="usuario.licitacion.modal">
+<script type="text/ng-template" id="organizacion.licitacion.modal">
     <div class="modal-header">
-        <h3 class="modal-title">Ingrese los usuarios para {{licitacion.nombre}}</h3>
+        <h3 class="modal-title">Ingrese las Organizaciones para {{licitacion.nombre}}</h3>
     </div>
     <div class="modal-body">
         <form class="input-group" ng-submit="agregar()" novalidate="">
-            <select ng-model="usuario" ng-options="idx as u.nombreCompleto for (idx,u) in usuarios" class="form-control"></select>
+            <select ng-model="organizacion" ng-options="idx as u.nombre for (idx,u) in organizaciones" class="form-control"></select>
             <span class="input-group-btn">
                 <button class="btn btn-default" type="submit">
                     <span class="glyphicon glyphicon-plus"></span>
@@ -50,10 +50,10 @@
             </span>
         </form>
         <br/>
-        <span ng-if="newUsuarios.length !== 0">Usuario agregados recientemente</span>
+        <span ng-if="newOrganizaciones.length !== 0">Organizaciones agregadas recientemente</span>
         <ul class="list-group">
-            <li class="list-group-item" ng-repeat="p in newUsuarios">
-                {{p.nombreCompleto}}
+            <li class="list-group-item" ng-repeat="p in newOrganizaciones">
+                {{p.nombre}}
             </li>
         </ul>
     </div>

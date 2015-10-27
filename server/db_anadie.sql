@@ -505,6 +505,8 @@ end$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `fn_ins_pyr_organizacion_licitacion`(pidorganizacion int, pidevento int) RETURNS int(11)
     DETERMINISTIC
 begin
+delete from pyr_precalificado_licitacion where idorganizacion = pidorganizacion;
+
 insert into pyr_precalificado_licitacion ( id_precalificado, id_proyecto_licitacion ) 
    select id, pidevento from seg_usuario where idorganizacion = pidorganizacion
 return last_insert_id();

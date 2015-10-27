@@ -309,7 +309,7 @@ $app->post('/eventoUserIn','sessionAlive',function() use ($app){
     $response = array();
 	//
     $db = new DbHandler();
-	$id = $db->get1Record("select fn_ins_pyr_precalificado_licitacion( '$idUser', '$idEvento' ) as id");
+	$id = $db->get1Record("select fn_ins_pyr_organizacion_licitacion( '$idUser', '$idEvento' ) as id");
 
     if ($id != NULL) {
         $response['status'] = "success";

@@ -6,6 +6,7 @@
 angular.module('anApp')
     .controller('PrecalificacionCtrl',['$scope','Data','$rootScope','ngTableParams','$filter','$modal','utils',
         function ($scope,Data, $rootScope, ngTableParams, $filter , $modal, utils) {
+            $scope.tipoPrecalificado = '1';
             Data.get('eventoSel')
                 .then(function (results) {
                     if(results.message){
@@ -37,12 +38,21 @@ angular.module('anApp')
                     );
                 });
 
-
+            $scope.$watch('tipoPrecalificado', function (newValue, oldValue) {
+                if(!$scope.licitacionSel) return;
+                if(newValue == 1){
+                    actualizarUsuarios(true);
+                }else{
+                    actualizarConsultores(true);
+                }
+            });
             $scope.selLicitacion = function (licitacion) {
                 $scope.licitacionSel = licitacion;
-                console.log(licitacion);
-                actualizarUsuarios(true);
-
+                if($scope.tipoPrecalificado == 1){
+                    actualizarUsuarios(true);
+                }else{
+                    actualizarConsultores(true);
+                }
             };
             function actualizarUsuarios (cambiar) {
                 if(hasVal($scope.tablePrecalificados) && !cambiar){
@@ -75,7 +85,7 @@ angular.module('anApp')
                             filterDelay: 350,
                             getData : function ($defer, params) {
                                 var orderedData = params.sorting() ? $filter('orderBy')($scope.usuarios, params.orderBy()) : $scope.usuarios;
-                                if($scope.filtro){
+                                if($scope.filtro2){
                                     orderedData = params.filter() ? $filter('filter')(orderedData, params.filter()) : orderedData;
                                 }
                                 $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
@@ -83,7 +93,45 @@ angular.module('anApp')
                         });
                     });
             }
-
+            function actualizarConsultores (cambiar) {
+                if(hasVal($scope.tableConsultores) && !cambiar){
+                    return $scope.tableConsultores.reload();
+                }
+                Data.get('eventoConsultorS/'+$scope.licitacionSel.id)
+                    .then(function (results) {
+                        console.log(results);
+                        if(results.message){
+                            Data.toast(results);
+                            $scope.consultores = [];
+                            $scope.tableConsultores.reload();
+                            return;
+                        }
+                        for(index in results){
+                            results[index] = utils.convertNumber(results[index]);
+                        }
+                        $scope.consultores = results;
+                        if(hasVal($scope.tableConsultores)){
+                            return $scope.tableConsultores.reload();
+                        }
+                        $scope.tableConsultores = new ngTableParams({
+                            page : 1,
+                            count : 10,
+                            sorting : {
+                                nombre : 'asc'
+                            }
+                        },{
+                            total : $scope.consultores.length,
+                            filterDelay: 350,
+                            getData : function ($defer, params) {
+                                var orderedData = params.sorting() ? $filter('orderBy')($scope.consultores, params.orderBy()) : $scope.consultores;
+                                if($scope.filtro3){
+                                    orderedData = params.filter() ? $filter('filter')(orderedData, params.filter()) : orderedData;
+                                }
+                                $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                            }
+                        });
+                    });
+            }
             $scope.agregarOrganizacion = function () {
                 if(!hasVal($scope.licitacionSel)){return Data.toast({status : 'info', message : 'Seleccione un evento de licitacion'})}
                 var modal = $modal.open({
@@ -103,6 +151,27 @@ angular.module('anApp')
                     }
                     //$scope.usuarios = $scope.usuarios.concat(newUsuarios);
                     actualizarUsuarios(true);
+                });
+            };
+            $scope.agregarConsultores = function () {
+                if(!hasVal($scope.licitacionSel)){return Data.toast({status : 'info', message : 'Seleccione un evento de licitacion'})}
+                var modal = $modal.open({
+                    templateUrl : 'consultores.licitacion.modal',
+                    controller : 'ModalConsultoresCtrl',
+                    backdrop : 'static',
+                    resolve : {
+                        licitacion : function () {
+                            return $scope.licitacionSel;
+                        }
+                    }
+                });
+                modal.result.then(function (newUsuarios) {
+                    if(!hasVal(newUsuarios)) return;
+                    if(!hasVal($scope.consultores)){
+                        $scope.consultores = [];
+                    }
+                    //$scope.usuarios = $scope.usuarios.concat(newUsuarios);
+                    actualizarConsultores(true);
                 });
             };
         }]);

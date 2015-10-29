@@ -7,7 +7,8 @@ angular.module('anApp')
         return {
             template : '<div class="row">' +
                             '<div class="col-sm-12 z-depth-1 box">' +
-                                '<div ng-class="pregunta? \'active\' : \'\'" ng-model="pregunta" contenteditable placeholder="" class="textarea form-control" name="" id=""  rows="5"></div>' +
+                                '<textarea placeholder="Escriba aqui su pregunta..." ng-model="pregunta"></textarea>' +
+                                //'<div ng-class="pregunta? \'active\' : \'\'" ng-model="pregunta" contenteditable  class="textarea form-control" name="" id=""  rows="5"></div>' +
                                 '<br>'+
                                 '<div ng-repeat="a in ambitos" class="col-lg-6">' +
                                     '<label>{{a.nombre}} ' +

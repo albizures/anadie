@@ -12,27 +12,54 @@
             </tr>
         </table>
     </div>
-    <div class="col-md-6">
-        <div class="col-lg-6">
-            <h3>Usuarios</h3>
+    <div class="col-md-6" >
+        <div class="col-md-12">
+            <select class="form-control" ng-model="tipoPrecalificado" name="tipoPrecalificado" id="">
+                <option default value="1">Precalificados</option>
+                <option value="2">Consultores</option>
+            </select>
         </div>
-        <button class="btn btn2 btn-primary pull-right" ng-click="agregarOrganizacion()">
-            <span class="glyphicon glyphicon-plus"></span>
-        </button>
         <br/>
-        <table ng-table="tablePrecalificados"  show-filter="filtro" class="table table-striped">
-            <tr ng-repeat="p in $data">
-                <!--<td data-title="'Nombre usuario'" sortable="'nombre'" filter="{ 'nombre': 'text' }">
-                    <span >{{p.nombre}}</span>
-                </td>-->
-                <td data-title="'Nombres'" sortable="'nombres'" filter="{ 'nombres': 'text' }">
-                    <span >{{p.nombres}}</span>
-                </td>
-                <td data-title="'Apellidos'" sortable="'apellidos'" filter="{ 'apellidos': 'text' }">
-                    <span >{{p.apellidos}}</span>
-                </td>
-            </tr>
-        </table>
+        <br/>
+        <div ng-if="tipoPrecalificado == 1">
+            <button class="btn btn2 btn-primary pull-right" ng-click="agregarOrganizacion()">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+            <table ng-table="tablePrecalificados"  show-filter="filtro2" class="table table-striped">
+                <tr ng-repeat="p in $data">
+                    <!--<td data-title="'Nombre usuario'" sortable="'nombre'" filter="{ 'nombre': 'text' }">
+                        <span >{{p.nombre}}</span>
+                    </td>-->
+                    <td data-title="'Nombres'" sortable="'nombres'" filter="{ 'nombres': 'text' }">
+                        <span >{{p.nombres}}</span>
+                    </td>
+                    <td data-title="'Apellidos'" sortable="'apellidos'" filter="{ 'apellidos': 'text' }">
+                        <span >{{p.apellidos}}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div ng-if="tipoPrecalificado == 2">
+            <button class="btn btn2 btn-primary pull-right" ng-click="agregarConsultores()">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+            <table ng-table="tableConsultores"  show-filter="filtro3" class="table table-striped">
+                <tr ng-repeat="p in $data">
+                    <!--<td data-title="'Nombre usuario'" sortable="'nombre'" filter="{ 'nombre': 'text' }">
+                        <span >{{p.nombre}}</span>
+                    </td>-->
+                    <td data-title="'Nombre'" sortable="'nombre'" filter="{ 'nombre': 'text' }">
+                        <span >{{p.nombre}}</span>
+                    </td>
+                    <td data-title="'Ambito'" sortable="'ambito'" filter="{ 'ambito': 'text' }">
+                        <span >{{p.ambito}}</span>
+                    </td>
+                    <td data-title="'Secretario'" sortable="'secretario'" filter="{ 'secretario': 'text' }">
+                        <span >{{p.secretario}}</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -53,6 +80,45 @@
         <span ng-if="newOrganizaciones.length !== 0">Organizaciones agregadas recientemente</span>
         <ul class="list-group">
             <li class="list-group-item" ng-repeat="p in newOrganizaciones">
+                {{p.nombre}}
+            </li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn2 btn-warning" ng-click="ok()">Salir</button>
+    </div>
+</script>
+<script type="text/ng-template" id="consultores.licitacion.modal">
+    <div class="modal-header">
+        <h3 class="modal-title">Ingrese las consultores para {{licitacion.nombre}}</h3>
+    </div>
+    <div class="modal-body">
+        <form name="agregarForm" ng-submit="agregarForm.$valid && agregar()" novalidate="">
+            <div class="form-group">
+                <label for="">Consultor</label>
+                <select ng-model="consultor.idConsultor" ng-options="u.id as u.nombre for u in consultores" class="form-control" required=""></select>
+            </div>
+            <div class="form-group">
+                <label for="">Ambitos</label>
+                <select ng-model="consultor.idAmbito" ng-options="u.id as u.nombre for u in ambitos" class="form-control" required></select>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input ng-model="consultor.Secretario" type="checkbox" ng-true-value="'S'" ng-false-value="'N'"> Secretario
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div>
+        </form>
+        <br/>
+        <span ng-if="newUsuarios.length !== 0">Consultores agregados recientemente</span>
+        <ul class="list-group">
+            <li class="list-group-item" ng-repeat="p in newUsuarios">
                 {{p.nombre}}
             </li>
         </ul>

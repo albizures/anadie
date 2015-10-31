@@ -1,0 +1,34 @@
+<div>
+    <br/>
+    <!--<section class="form-inline">
+        <button ng-click="limpiar()" class="btn btn2 btn-default pull-right">Limpiar filtro</button>
+        <button type="button" class="btn btn2 btn-primary pull-right" ng-model="filtro" btn-checkbox>
+            <span class="glyphicon glyphicon-filter"></span>
+        </button>
+        <button ng-click="agregar()" class="btn btn2 btn-primary"><i class="icon-white icon-plus"></i> Agregar lictacion</button>
+    </section>-->
+    <br/>
+    <table ng-table="tableLicitaciones"  show-filter="filtro" class="table table-striped">
+        <tr ng-repeat="l in $data">
+            <td data-title="'Nombre'" sortable="'nombre'" width="200" filter="{ 'nombre': 'text' }">
+                <span >{{l.nombre}}</span>
+            </td>
+            <td data-title="'Descripcion'" sortable="'descripcion'" width="330" filter="{ 'descripcion': 'text' }">
+                <span >{{l.descripcion}}</span>
+            </td>
+            <td data-title="'Ambito'" sortable="'ambito'" width="80" filter="{ 'ambito': 'text' }">
+                <span >{{l.ambito }}</span>
+            </td>
+            <td data-title="'Fecha inicio'" sortable="'fecha_inicio'" width="100" filter="{ 'fecha_inicio': 'text' }">
+                <span >{{l.fecha_inicio | date:'dd/MM/yyyy'}}</span>
+            </td>
+            <td data-title="'Fecha final'" sortable="'fecha_final'" width="100" filter="{ 'fecha_final': 'text' }">
+                <span >{{l.fecha_final | date:'dd/MM/yyyy'}}</span>
+            </td>
+            <td data-title="'Acciones'" width="100" >
+                <!--<button ng-click="ver(p)"  class="btn btn-default btn-xs">Ver</button>-->
+                <a ui-sref="preguntasConsultor({evento : l.id, ambito : l.id_ambito})" class="btn btn-primary btn-xs">Preguntas</a>
+            </td>
+        </tr>
+    </table>
+</div>

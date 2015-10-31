@@ -146,12 +146,12 @@ $app->get('/preguntaSelEvento/:id','sessionAlive', function($idEvento) use ($app
 
 // Seleccion de preguntas que pertenecen a un evento y a un ámbito específicos
 // sp_sel_pyr_pregunta_eventoAmbito
-$app->get('/preguntaSelEventoAmbito','sessionAlive', function() use ($app){
+$app->get('/preguntaSelEventoAmbito/:evento/:ambito','sessionAlive', function($evento,$ambito) use ($app){
 
     $r = json_decode($app->request->getBody());
 
-	$idEvento      = $r->idEvento;      // Id del evento
-	$idAmbito      = $r->idAmbito;      // Id del ambito
+	$idEvento      = $evento;//$r->idEvento;      // Id del evento
+	$idAmbito      = $ambito;//$r->idAmbito;      // Id del ambito
 
     $response = array();
 	//

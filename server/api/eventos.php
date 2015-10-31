@@ -133,7 +133,7 @@ $app->get('/eventoSelPre','sessionAlive', function() use ($app){
 
     $r = json_decode($app->request->getBody());
 	
-	$idUsuario       = $r->idUsuario;
+	$idUsuario       = $_SESSION['uid'];// $r->idUsuario;
 
     $response = array();
 	//

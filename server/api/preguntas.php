@@ -215,4 +215,31 @@ $app->get('/preguntaSelOBJ/:idDoc/:idClave','sessionAlive', function($idDoc,$idC
     echoResponse(200, $response);
 });
 
+$app->post('/respuesta','sessionAlive',function() use ($app) {
+    $r = json_decode($app->request->getBody());
+
+// en $r debe venir id de la pregunta, id del consultor y respuesta
+    $r->idConsultor = intval($_SESSION['uid']);
+    $response = array();
+    //
+    //
+    var_dump($r);
+    $db = new DbHandler();
+    $column_names = array('id','idConsultor','respuesta');
+    // $db->insertIntoTable($r->opcion, $column_names, 'seg_usuario' );
+    $resId = $db->updateRecord("call sp_upd_pyr_respuesta(?,?,?)", $r, $column_names,'iis');
+
+    if ($resId != NULL) {
+        $response['status'] = "success";
+        $response['message'] = 'Se actualizó correctamente';
+        //$response['data'] = $id;
+
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No fue posible actualizar los datos';
+    }
+
+    echoResponse(200, $response);
+});
+
 ?>

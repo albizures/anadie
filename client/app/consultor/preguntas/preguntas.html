@@ -17,11 +17,33 @@
                     {{i.id_objeto}}
                 </td>
                 <td data-title="''" width="40">
-                    <button type="button"  class="btn btn-primary btn-xs" >
-                        ver
+                    <button type="button" ng-click="reponder(i)"  class="btn btn-primary btn-xs" >
+                        responder
                     </button>
                 </td>
             </tr>
         </table>
     </section>
 </div>
+
+<script type="text/ng-template" id="responder.modal">
+    <div class="modal-header">
+        <h3 class="modal-title">Ingrese su respuesta</h3>
+    </div>
+    <div class="modal-body">
+        <label>Pregunta:</label>
+        <div>{{pregunta.pregunta}}</div>
+        <br/>
+        <div class="form-group">
+            <label >Respuesta</label>
+            <textarea ng-model="pregunta.respuesta" class="form-control"  placeholder="Ingrese aqui su respuesta" required></textarea>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn2 btn-primary" ng-disabled="!pregunta.respuesta" ng-click="responder()">
+            <span ng-if="!uploading">Responder</span>
+            <span ng-if="uploading" class="glyphicon glyphicon-refresh load active"></span>
+        </button>
+        <button class="btn btn2 btn-warning" ng-click="cancel()">Cancelar</button>
+    </div>
+</script>

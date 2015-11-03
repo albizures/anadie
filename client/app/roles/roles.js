@@ -6,7 +6,7 @@ angular.module('anApp')
         $stateProvider
             .state('roles', {
                 url: '/roles',
-                templateUrl: 'client/app/roles/roles.html',
+                templateUrl: '/client/app/roles/roles.html',
                 controller: 'RolesCtrl'
             });
     });

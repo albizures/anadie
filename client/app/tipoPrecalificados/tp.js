@@ -7,7 +7,7 @@ angular.module('anApp')
         $stateProvider
             .state('tp', {
                 url: '/tp',
-                templateUrl: 'client/app/tp/tipoPrecalificados.html',
+                templateUrl: '/client/app/tp/tipoPrecalificados.html',
                 controller: 'TPCtrl'
             });
     });

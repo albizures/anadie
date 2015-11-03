@@ -7,7 +7,7 @@ angular.module('anApp')
         $stateProvider
             .state('ambitos', {
                 url: '/ambitos',
-                templateUrl: 'client/app/ambitos/ambitos.html',
+                templateUrl: '/client/app/ambitos/ambitos.html',
                 controller: 'AmbitosCtrl'
             });
     });

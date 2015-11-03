@@ -8,7 +8,7 @@ angular.module('anApp')
         $stateProvider
             .state('organizaciones', {
                 url: '/organizaciones',
-                templateUrl: 'client/app/organizaciones/organizaciones.html',
+                templateUrl: '/client/app/organizaciones/organizaciones.html',
                 controller: 'organizacionCtrl'
             });
     });

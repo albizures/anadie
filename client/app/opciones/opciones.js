@@ -7,7 +7,7 @@ angular.module('anApp')
         $stateProvider
             .state('opciones', {
                 url: '/opciones',
-                templateUrl: 'client/app/opciones/opciones.html',
+                templateUrl: '/client/app/opciones/opciones.html',
                 controller: 'OpcionesCtrl'
             });
     });

@@ -7,7 +7,7 @@ angular.module('anApp')
         $stateProvider
             .state('consulta', {
                 url: '/consulta',
-                templateUrl: 'client/app/consulta/consulta.html',
+                templateUrl: '/client/app/consulta/consulta.html',
                 controller: 'ConsultaCtrl'
             });
     });

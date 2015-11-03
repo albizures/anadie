@@ -9,7 +9,7 @@ angular.module('anApp')
         $stateProvider
             .state('precalificacion', {
                 url: '/precalificacion',
-                templateUrl: 'client/app/precalificacion/precalificacion.html',
+                templateUrl: '/client/app/precalificacion/precalificacion.html',
                 controller: 'PrecalificacionCtrl'
             });
     });

@@ -7,7 +7,7 @@ angular.module('anApp')
         $stateProvider
             .state('visor', {
                 url: '/visor/:id',
-                templateUrl: 'client/app/visor/visor.html',
+                templateUrl: '/client/app/visor/visor.html',
                 controller: 'VisorCtrl',
                 params: {documento : null}
             });

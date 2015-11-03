@@ -6,7 +6,7 @@ angular.module('anApp')
         $stateProvider
             .state('licitaciones', {
                 url: '/licitaciones',
-                templateUrl: 'client/app/licitaciones/licitaciones.html',
+                templateUrl: '/client/app/licitaciones/licitaciones.html',
                 controller: 'LicitacionesCtrl'
             });
     });

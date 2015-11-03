@@ -7,7 +7,7 @@ angular.module('anApp')
         $stateProvider
             .state('login', {
                 url: '/login',
-                templateUrl: 'client/app/login/login.html',
+                templateUrl: '/client/app/login/login.html',
                 controller: 'LoginCtrl'
             });
     });

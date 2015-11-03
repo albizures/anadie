@@ -90,19 +90,5 @@ angular.module('anApp')
                         });
                 }
             };
-            $scope.reponder = function (pregunta) {
-                var modalResponder = $modal.open({
-                    templateUrl : 'responder.modal',
-                    controller : 'ModalResponderCtrl',
-                    backdrop : 'static',
-                    resolve : {
-                        pregunta : function () {
-                            return pregunta
-                        }
-                    }
-                });
-                modalResponder.result.then(function (ice) {
 
-                });
-            }
         }]);

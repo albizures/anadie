@@ -71,6 +71,29 @@ var anApp = angular.module("anApp",[
                 if(cb) cb(result);
             });
         };
+        moment.locale('es', {
+            relativeTime : {
+                future: "en %s",
+                past:   "hace %s",
+                s:  "segundos",
+                m:  "un minudo",
+                mm: "%d minutos",
+                h:  "una hora",
+                hh: "%d horas",
+                d:  "un dia",
+                dd: "%d dias",
+                M:  "un mes",
+                MM: "%d meses",
+                y:  "un año",
+                yy: "%d años"
+            }
+        });
+        $rootScope.timeFromNow = function (date) {
+            return moment(date).fromNow();
+        };
+        $rootScope.getUnixDate = function (date) {
+            return moment(date).unix();
+        };
         $rootScope.openVisor = function (name) {
             var modalVisor = $modal.open({
                 templateUrl : 'modalVisor',

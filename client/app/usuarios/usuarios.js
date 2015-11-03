@@ -7,7 +7,7 @@ angular.module('anApp')
         $stateProvider
             .state('usuarios', {
                 url: '/usuarios',
-                templateUrl: 'client/app/usuarios/usuarios.html',
+                templateUrl: '/client/app/usuarios/usuarios.html',
                 controller: 'UsuariosCtrl'
             });
     });

@@ -6,7 +6,7 @@ angular.module('anApp')
         $stateProvider
             .state('contacto', {
                 url: '/contacto',
-                templateUrl: 'client/app/contacto/contacto.html',
+                templateUrl: '/client/app/contacto/contacto.html',
                 controller: 'ContactoCtrl'
             });
     });

@@ -8,7 +8,7 @@ angular.module('anApp')
         $stateProvider
             .state('inscripcion', {
                 url: '/inscripcion',
-                templateUrl: 'client/app/inscripcion/inscripcion.html',
+                templateUrl: '/client/app/inscripcion/inscripcion.html',
                 controller: 'InscripcionCtrl'
             });
     });

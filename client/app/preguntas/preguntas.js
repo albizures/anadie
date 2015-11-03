@@ -7,7 +7,7 @@ angular.module('anApp')
         $stateProvider
             .state('preguntas', {
                 url: '/preguntas/:id',
-                templateUrl: 'client/app/preguntas/preguntas.html',
+                templateUrl: '/client/app/preguntas/preguntas.html',
                 controller: 'PreguntasCtrl'
             });
     });

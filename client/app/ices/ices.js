@@ -7,7 +7,7 @@ angular.module('anApp')
         $stateProvider
             .state('ices', {
                 url: '/ices',
-                templateUrl: 'client/app/ices/ices.html',
+                templateUrl: '/client/app/ices/ices.html',
                 controller: 'IcesCtrl'
             });
     });

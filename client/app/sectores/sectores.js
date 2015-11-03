@@ -7,7 +7,7 @@ angular.module('anApp')
         $stateProvider
             .state('sectores', {
                 url: '/sectores',
-                templateUrl: 'client/app/sectores/sectores.html',
+                templateUrl: '/lient/app/sectores/sectores.html',
                 controller: 'SectoresCtrl'
             });
     });

@@ -7,7 +7,7 @@ angular.module('anApp')
         $stateProvider
             .state('main', {
                 url: '/',
-                templateUrl: 'client/app/main/main.html',
+                templateUrl: '/client/app/main/main.html',
                 controller: 'MainCtrl'
             });
     });

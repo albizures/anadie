@@ -7,7 +7,7 @@ angular.module('anApp')
         $stateProvider
             .state('preguntasConsultor', {
                 url: '/preguntas2/:evento/:ambito',
-                templateUrl: 'client/app/consultor/preguntas/preguntas.html',
+                templateUrl: '/client/app/consultor/preguntas/preguntas.html',
                 controller: 'PreguntasConsultorCtrl'
             });
     });

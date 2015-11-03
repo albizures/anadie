@@ -121,34 +121,6 @@ $app->post('/preguntaAdicionalIn','sessionAlive',function() use ($app){
     echoResponse(200, $response);
 });
 
-//    -- Opcion para responder una pregunta: actualiza respuesta y modifica el estado.
-$app->post('/respuesta','sessionAlive',function() use ($app) {
-$r = json_decode($app->request->getBody());
-
-// en $r debe venir id de la pregunta, id del consultor y respuesta
-$r->idConsultor = intval($_SESSION['uid']);
-$response = array();
-//
-//
-//var_dump($r);
-$db = new DbHandler();
-$column_names = array('id','idConsultor','respuesta');
-// $db->insertIntoTable($r->opcion, $column_names, 'seg_usuario' );
-$resId = $db->updateRecord("call sp_upd_pyr_respuesta(?,?,?)", $r, $column_names,'iis');
-
-if ($resId != NULL) {
-$response['status'] = "success";
-$response['message'] = 'Se actualizó correctamente';
-//$response['data'] = $id;
-
-}else{
-$response['status'] = "info";
-$response['message'] = 'No fue posible actualizar los datos';
-}
-
-echoResponse(200, $response);
-});
-
 //    -- Opcion para ingresar comentarios relacionados con la respuesta 
 $app->post('/coments','sessionAlive',function() use ($app){
 
@@ -156,10 +128,10 @@ $app->post('/coments','sessionAlive',function() use ($app){
 	//
     $r = json_decode($app->request->getBody());
 	
-	$idPregunta    = $r->pregunta->idPregunta;
-	$idConsultor   = $r->pregunta->idConsultor;
-	$idAmbito      = $r->pregunta->idAmbito;
-	$comentario    = $r->pregunta->comentario; 
+	$idPregunta    = $r->idPregunta;
+	$idConsultor   = intval($_SESSION['uid']);//$r->pregunta->idConsultor;
+	$idAmbito      = $r->idAmbito;
+	$comentario    = $r->comentario;
 	
     $response = array();
 	//
@@ -183,12 +155,12 @@ $app->post('/coments','sessionAlive',function() use ($app){
 //    -- Opcion para obtener todos los comentarios relacionados con un ambito, así mismo trae cual de los Consultores que comentan es el secretario y los
 //            datos generales de la pregunta a la cual se están refierendo.
 //            llama al  sp_sel_comentario_ambito y pasa los parametros de pidPregunta, pidConsultor y pidAmbito
-$app->get('','',function() use ($app) {
+$app->get('/comentariosAmbito/:idPregunta/:idAmbito','sessionAlive',function($idPregunta,$idAmbito) use ($app) {
     $r = json_decode($app->request->getBody());
 
-	$idPregunta    = $r->idPregunta;      
+	//$idPregunta    = $r->idPregunta;
     $idConsultor   =  intval($_SESSION['uid']);
-	$idAmbito      = $r->idAmbito;     
+	//$idAmbito      = $r->idAmbito;
 
     $response = array();
 	//
@@ -304,7 +276,7 @@ $app->get('/preguntaSelOBJ/:idDoc/:idClave','sessionAlive', function($idDoc,$idC
 
     echoResponse(200, $response);
 });
-
+//  -- Opcion para responder una pregunta: actualiza respuesta y modifica el estado.
 $app->post('/respuesta','sessionAlive',function() use ($app) {
     $r = json_decode($app->request->getBody());
 
@@ -313,7 +285,7 @@ $app->post('/respuesta','sessionAlive',function() use ($app) {
     $response = array();
     //
     //
-    var_dump($r);
+    //var_dump($r);
     $db = new DbHandler();
     $column_names = array('id','idConsultor','respuesta');
     // $db->insertIntoTable($r->opcion, $column_names, 'seg_usuario' );
@@ -327,6 +299,28 @@ $app->post('/respuesta','sessionAlive',function() use ($app) {
     }else{
         $response['status'] = "info";
         $response['message'] = 'No fue posible actualizar los datos';
+    }
+
+    echoResponse(200, $response);
+});
+$app->get('/selPreguntaAmbito/:idPregunta/:idAmbito','sessionAlive',function($idPregunta,$idAmbito) use ($app) {
+    $r = json_decode($app->request->getBody());
+
+    //$idPregunta    = $r->idPregunta;
+    $idConsultor   =  intval($_SESSION['uid']);
+    //$idAmbito      = $r->idAmbito;
+
+    $response = array();
+//
+    $db = new DbHandler();
+
+    $datos = $db->getAllRecord("call sp_sel_pregunta_ambito('$idPregunta','$idConsultor', $idAmbito )");
+    //var_dump($datos);
+    if ($datos != NULL) {
+        $response = $datos;
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No hay datos';
     }
 
     echoResponse(200, $response);

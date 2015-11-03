@@ -233,12 +233,12 @@ $app->get('/preguntaSelEvento/:id','sessionAlive', function($idEvento) use ($app
 
 // Seleccion de preguntas que pertenecen a un evento y a un ámbito específicos
 // sp_sel_pyr_pregunta_eventoAmbito
-$app->get('/preguntaSelEventoAmbito','sessionAlive', function() use ($app){
+$app->get('/preguntaSelEventoAmbito/:evento/:ambito','sessionAlive', function($evento,$ambito) use ($app){
 
     $r = json_decode($app->request->getBody());
 
-	$idEvento      = $r->idEvento;      // Id del evento
-	$idAmbito      = $r->idAmbito;      // Id del ambito
+	$idEvento      = $evento;//$r->idEvento;      // Id del evento
+	$idAmbito      = $ambito;//$r->idAmbito;      // Id del ambito
 
     $response = array();
 	//
@@ -300,6 +300,33 @@ $app->get('/preguntaSelOBJ/:idDoc/:idClave','sessionAlive', function($idDoc,$idC
     }else{
         $response['status'] = "info";
         $response['message'] = 'No hay datos';
+    }
+
+    echoResponse(200, $response);
+});
+
+$app->post('/respuesta','sessionAlive',function() use ($app) {
+    $r = json_decode($app->request->getBody());
+
+// en $r debe venir id de la pregunta, id del consultor y respuesta
+    $r->idConsultor = intval($_SESSION['uid']);
+    $response = array();
+    //
+    //
+    var_dump($r);
+    $db = new DbHandler();
+    $column_names = array('id','idConsultor','respuesta');
+    // $db->insertIntoTable($r->opcion, $column_names, 'seg_usuario' );
+    $resId = $db->updateRecord("call sp_upd_pyr_respuesta(?,?,?)", $r, $column_names,'iis');
+
+    if ($resId != NULL) {
+        $response['status'] = "success";
+        $response['message'] = 'Se actualizó correctamente';
+        //$response['data'] = $id;
+
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No fue posible actualizar los datos';
     }
 
     echoResponse(200, $response);

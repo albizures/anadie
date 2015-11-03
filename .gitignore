@@ -8,3 +8,4 @@ server/api/upload.html
 server/api/upload_files1.php
 client/bower_components
 node_modules
+client/build

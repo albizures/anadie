@@ -128,9 +128,9 @@ class DbHandler {
 			}
 		
 		$st->execute();
+		$affected_rows = $st->affected_rows;
 		$db->disconnect();
-		
-        return 0;    
+        return $affected_rows;    // Aqui retornaba 0, pero ahora le puse que retorne el numero filas afectado.
 		}
 		else { return -1; }
 	}

@@ -291,7 +291,7 @@ $app->post('/respuesta','sessionAlive',function() use ($app) {
     // $db->insertIntoTable($r->opcion, $column_names, 'seg_usuario' );
     $resId = $db->updateRecord("call sp_upd_pyr_respuesta(?,?,?)", $r, $column_names,'iis');
 
-    if ($resId != NULL) {
+    if ($resId > 0) {
         $response['status'] = "success";
         $response['message'] = 'Se actualizó correctamente';
         //$response['data'] = $id;

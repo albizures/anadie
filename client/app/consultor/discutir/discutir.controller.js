@@ -38,14 +38,14 @@ angular.module('anApp')
                         }
                     });
             };
-            $scope.reponder = function () {
+            $scope.responder = function () {
                 var modalResponder = $modal.open({
                     templateUrl : 'responder.modal',
                     controller : 'ModalResponderCtrl',
                     backdrop : 'static',
                     resolve : {
                         pregunta : function () {
-                            return {}
+                            return $scope.pregunta
                         }
                     }
                 });

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <button class="btn btn2 btn-primary" ng-click="responder()">responder</button>
+        <button ng-if="pregunta.secretario == 'S'" class="btn btn2 btn-primary" ng-click="responder()">responder</button>
         <br/>
         <br/>
         <div class="panel panel-default">
@@ -20,12 +20,17 @@
         </div>
         <br/>
         <div class="panel panel-default comentario" ng-repeat="c in pregunta.comentarios">
+
             <div class="panel-body">
+                <div class="nombre">
+                    {{c.nombres}} {{c.apellidos}} comento:
+                </div>
                 <p>{{c.comentario}}</p>
+                <div>
+                    <span class="fecha">{{ timeFromNow(c.fecha_coment) }}</span>
+                </div>
             </div>
-            <div>
-                <span class="fecha">{{ timeFromNow(c.fecha_crea) }}</span>
-            </div>
+
 
         </div>
     </div>

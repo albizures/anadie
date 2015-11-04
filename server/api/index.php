@@ -36,6 +36,7 @@ require_once "upload_files.php";
 require_once "eventos.php";
 require_once "preguntas.php";
 require_once "ambitos.php";
+require_once "tipoPrecalificados.php";
 /**
  * Verifying required params posted or not
  */

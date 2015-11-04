@@ -22,17 +22,17 @@
 
 // Opción para ingresar un registro a la tabla sip_tipo_precalificado
 
-$app->post('/tipoPrecalificadoIn','sessionAlive',function() use ($app){
+$app->post('/tpIn','sessionAlive',function() use ($app){
 
 	// Recupera los datos de la forma
 	//
     $r = json_decode($app->request->getBody());
-	$precalificado       = $r->precalificado;
+	$precalificado       = $r->nombre;
     $response = array();
 	//
 	//
     $db = new DbHandler();
-	$id = $db->get1Record("select fn_ins_sip_tipo_precalificado( '$precalificado' ) as id");
+	$id = $db->get1Record("select fn_sip_tipo_precalificado( '$precalificado' ) as id");
 
     if ($id != NULL) {
         $response['status'] = "success";
@@ -49,7 +49,7 @@ $app->post('/tipoPrecalificadoIn','sessionAlive',function() use ($app){
 
 // Opcion para obtener la totalidad de registros de la tabla sip_tipo_precalificado
 
-$app->get('/tipoPrecalificadoSel','sessionAlive', function() use ($app){
+$app->get('/tpSel','sessionAlive', function() use ($app){
 
     $response = array();
 	//
@@ -69,7 +69,7 @@ $app->get('/tipoPrecalificadoSel','sessionAlive', function() use ($app){
 // Opción para actualizar un registro de la tabla sip_tipo_precalificado
 
 // Opción para eliminar un registro de la tabla sip_tipo_precalificado
-$app->get('/tipoPrecalificadoD/:id','sessionAlive',function($id) use ($app){
+$app->get('/tpD/:id','sessionAlive',function($id) use ($app){
 
 	// Recupera los datos de la forma
 	//

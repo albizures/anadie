@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-11-2015 a las 00:33:28
+-- Tiempo de generación: 05-11-2015 a las 22:36:14
 -- Versión del servidor: 5.6.15-log
 -- Versión de PHP: 5.5.8
 
@@ -362,6 +362,33 @@ select id, nombre, nombres, apellidos, clave, idrol, idorganizacion, estado
   where nombre = pusuario and clave = pclave and estado = fn_estado('seg_usuario','Activo');
 end$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_sel_sip_precalificados`( )
+    DETERMINISTIC
+begin
+  SELECT a.id, id_tipo_pre, b.precalificado, lugar, fecha, tipo_persona, nombre, DPI, pasaporte, nit, id_pais_nac,
+                                   razon_social, ofis_principal, Domicilio, dir_recibe_notificacion, Telefono, rep_legal,
+								   id_especialidad,
+								   perj_nombre, perj_razon_social, perj_ofis_principal, perj_Domicilio,
+								   perj_dir_recibe_notificacion, perj_Telefono, perj_rep_legal, perj_DPI, fecha_crea,
+								   id_usuario_crea 
+      FROM sip_precalificados a, sip_tipo_precalificado b
+	  WHERE a.id_tipo_pre = b.id 
+	  ORDER BY a.id;
+end$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_sel_sip_precalificadosBYid`( IN pid int )
+    DETERMINISTIC
+begin
+  SELECT a.id, id_tipo_pre, b.precalificado, lugar, fecha, tipo_persona, nombre, DPI, pasaporte, nit, id_pais_nac,
+                                   razon_social, ofis_principal, Domicilio, dir_recibe_notificacion, Telefono, rep_legal,
+								   id_especialidad,
+								   perj_nombre, perj_razon_social, perj_ofis_principal, perj_Domicilio,
+								   perj_dir_recibe_notificacion, perj_Telefono, perj_rep_legal, perj_DPI, fecha_crea,
+								   id_usuario_crea 
+      FROM sip_precalificados a, sip_tipo_precalificado b
+	  WHERE a.id_tipo_pre = b.id and a.id = pid;
+end$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_sel_sip_proyecto`( )
     DETERMINISTIC
 SELECT id, id_sector       , prestaciones    , nombre          , id_ice          , objetivo        , id_pais,
@@ -484,6 +511,20 @@ begin
   select codEstado into vRet from pg_estado where tabla_estado = ptabla and nombre = pestado and estado = 1;
   return vRet;
 end$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `fn_get_num_secretarios`( pidEvento int, pidAmbito int ) RETURNS int(11)
+    DETERMINISTIC
+BEGIN
+declare cantidad int;
+
+select  count(*) into cantidad
+  from  cat_ambito a2,
+    pyr_consultor_licitacion b1
+  WHERE a2.id = b1.id_ambito and
+        a2.id = pidAmbito and
+        b1.id_evento = pidEvento;
+RETURN cantidad;
+END$$
 
 CREATE DEFINER=`root`@`localhost` FUNCTION `fn_ins_cat_ambito`( pnombre varchar(50), pcodigo char(1) ) RETURNS int(11)
     DETERMINISTIC
@@ -670,6 +711,31 @@ begin
 INSERT INTO seg_usuario( nombre, nombres, apellidos, clave, idrol, idorganizacion, estado, email, fecha, cargo)
 VALUES (pnombre, pnombres, papellidos, pclave, pidrol, pidorganizacion, pestado, pemail, now(), pcargo);
 return last_insert_id();
+end$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `fn_ins_sip_precalificados`( pid_tipo_pre int, plugar varchar(100), pfecha date, ptipo_persona char(1), 
+                                            pnombre varchar(100) , pDPI varchar(13), ppasaporte varchar(16), pnit varchar(16), pid_pais_nac int,
+											prazon_social varchar(100), pofis_principal varchar(100), pDomicilio varchar(100),
+											pdir_recibe_notificacion varchar(100), pTelefono varchar(18), prep_legal varchar(100),
+											pperj_nombre varchar(100), pperj_razon_social varchar(100), pperj_ofis_principal varchar(100), 
+											pperj_Domicilio varchar(100), pperj_dir_recibe_notificacion varchar(100),
+											pperj_Telefono varchar(18), pperj_rep_legal varchar(100), pperj_DPI varchar(13), 
+											pid_usuario_crea int ) RETURNS int(11)
+    DETERMINISTIC
+begin
+  INSERT INTO sip_precalificados ( id_tipo_pre, lugar, fecha, tipo_persona, nombre, DPI, pasaporte, nit, id_pais_nac,
+                                   razon_social, ofis_principal, Domicilio, dir_recibe_notificacion, Telefono, rep_legal,
+								   id_especialidad,
+								   perj_nombre, perj_razon_social, perj_ofis_principal, perj_Domicilio,
+								   perj_dir_recibe_notificacion, perj_Telefono, perj_rep_legal, perj_DPI, fecha_crea,
+								   id_usuario_crea )
+			  values ( pid_tipo_pre,  plugar, pfecha,  ptipo_persona, pnombre, pDPI, ppasaporte, pnit, pid_pais_nac,
+			           prazon_social, pofis_principal, pDomicilio, pdir_recibe_notificacion, pTelefono, prep_legal,
+					   1,
+					   pperj_nombre, pperj_razon_social, pperj_ofis_principal, pperj_Domicilio,
+					   pperj_dir_recibe_notificacion, pperj_Telefono, pperj_rep_legal, pperj_DPI, now(),
+					   pid_usuario_crea );
+   return last_insert_id();								   
 end$$
 
 CREATE DEFINER=`root`@`localhost` FUNCTION `fn_ins_sip_proyecto`(   pidsector int                ,
@@ -1272,7 +1338,8 @@ INSERT INTO `pyr_objeto` (`id`, `id_tipo`, `fecha`, `id_usuario`) VALUES
 ('P-1445624355957', 'P', NULL, 7),
 ('P-1445624705741', 'P', NULL, 7),
 ('P-1445625985080', 'P', NULL, 7),
-('P-1445999243724', 'P', NULL, 7);
+('P-1445999243724', 'P', NULL, 7),
+('P-1446748021131', 'P', NULL, 12);
 
 -- --------------------------------------------------------
 
@@ -1349,7 +1416,7 @@ CREATE TABLE IF NOT EXISTS `pyr_pregunta` (
   `respuesta` varchar(500) DEFAULT NULL,
   `estado` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=62 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=63 ;
 
 --
 -- Volcado de datos para la tabla `pyr_pregunta`
@@ -1389,13 +1456,14 @@ INSERT INTO `pyr_pregunta` (`id`, `id_evento`, `id_doc_det`, `id_usuario`, `id_o
 (52, 4, 43, 7, 'P-1445609038136', '2015-10-23 08:03:58', 7, NULL, 'prueba<div>con saltos de linea</div>', NULL, 1),
 (53, 4, 43, 7, 'IMG-1445609326556', '2015-10-23 08:08:46', 7, NULL, 'prueba con una imagen', NULL, 1),
 (54, 4, 47, 7, 'P-1445612506155', '2015-10-23 09:01:46', 7, NULL, 'Que significa proyecto de contrato y sus anexos.', NULL, 1),
-(55, 4, 43, 7, 'P-1445624355957', '2015-10-23 12:19:16', 7, NULL, 'Tengo mas dudas sobre esta parte.', NULL, 1),
+(55, 4, 43, 7, 'P-1445624355957', '2015-10-23 12:19:16', 12, '2015-11-05 12:09:35', 'Tengo mas dudas sobre esta parte.', 'No aplica', 2),
 (56, 4, 43, 7, 'P-1445624705741', '2015-10-23 12:25:05', 7, NULL, 'Nueva pregunta.', NULL, 1),
 (57, 4, 43, 7, 'P-1445625985080', '2015-10-23 12:46:25', 7, NULL, 'Pregunta con varios ambitos.', NULL, 1),
 (58, 4, 43, 7, 'P-1445999243724', '2015-10-27 20:27:23', 7, '2015-11-01 20:46:28', 'pruebaw', 'esta es otra respuesta', 2),
 (59, 4, 43, 7, 'P-1445999243724', '2015-10-27 20:27:32', NULL, NULL, 'prueba2', NULL, 1),
 (60, 4, 43, 7, 'P-1445999243724', '2015-10-27 20:27:40', NULL, NULL, 'prueba3', NULL, 1),
-(61, 4, 43, 7, 'P-1445999243724', '2015-10-29 23:46:15', NULL, NULL, 'esta es una nueva pregunta', NULL, 1);
+(61, 4, 43, 7, 'P-1445999243724', '2015-10-29 23:46:15', NULL, NULL, 'esta es una nueva pregunta', NULL, 1),
+(62, 1, 35, 12, 'P-1446748021131', '2015-11-05 12:27:02', 12, NULL, 'consulta ....', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1408,7 +1476,7 @@ CREATE TABLE IF NOT EXISTS `pyr_pregunta_ambito` (
   `id_pregunta` int(11) DEFAULT NULL,
   `id_ambito` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=12 ;
 
 --
 -- Volcado de datos para la tabla `pyr_pregunta_ambito`
@@ -1423,7 +1491,9 @@ INSERT INTO `pyr_pregunta_ambito` (`id`, `id_pregunta`, `id_ambito`) VALUES
 (6, 56, 22),
 (7, 57, 21),
 (8, 57, 23),
-(9, 58, 1);
+(9, 58, 1),
+(10, 62, 1),
+(11, 62, 22);
 
 -- --------------------------------------------------------
 
@@ -1439,7 +1509,7 @@ CREATE TABLE IF NOT EXISTS `pyr_pregunta_coment` (
   `fecha` datetime DEFAULT NULL,
   `comentario` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Volcado de datos para la tabla `pyr_pregunta_coment`
@@ -1451,7 +1521,8 @@ INSERT INTO `pyr_pregunta_coment` (`id`, `id_pregunta`, `id_consultor`, `id_ambi
 (3, 47, 7, 1, '2015-11-02 22:30:33', 'tercera prueba'),
 (4, 55, 7, 1, '2015-11-03 15:05:44', 'Al parecer la duda no pertenece a este ambito.'),
 (5, 52, 12, 1, '2015-11-03 15:58:31', 'Ambito legal - comentarios o discusión relacionado con la pregunta "prueba - con saltos de linea -'),
-(6, 52, 13, 1, '2015-11-04 16:11:57', 'Estoy de acuerdo con lo que dijo Luis Albizures en el comentario del día de ayer.');
+(6, 52, 13, 1, '2015-11-04 16:11:57', 'Estoy de acuerdo con lo que dijo Luis Albizures en el comentario del día de ayer.'),
+(7, 52, 12, 1, '2015-11-05 12:17:20', 'Sigo estando en desacuerdo');
 
 -- --------------------------------------------------------
 
@@ -1508,7 +1579,7 @@ CREATE TABLE IF NOT EXISTS `seg_opcion` (
   `idTipo` int(11) DEFAULT NULL,
   `orden` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=41 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=46 ;
 
 --
 -- Volcado de datos para la tabla `seg_opcion`
@@ -1516,23 +1587,28 @@ CREATE TABLE IF NOT EXISTS `seg_opcion` (
 
 INSERT INTO `seg_opcion` (`id`, `nombre`, `descripcion`, `titulo`, `idPadre`, `idTipo`, `orden`) VALUES
 (1, 'Administracion', 'Administración del sistema', 'Administracion', 0, 1, 1),
-(40, 'tp', 'Tipos de precalificados', 'Tipo Precalificados', 0, 1, 1),
+(40, 'tp', 'Tipos de precalificados', 'Tipo Precalificados', 27, 2, 7),
 (39, 'organizaciones', 'Organizaciones', 'Organizaciones', 1, 2, 5),
 (23, 'Usuarios', 'Usuarios', 'Usuarios', 1, 2, 2),
 (15, 'Opciones', 'Opciones', 'Opciones', 1, 2, 1),
-(27, 'SIREPP', 'SIREPP', 'SIREPP', 0, 1, 3),
+(27, 'SIREPP', 'SIREPP', '- - - -  SIREPP  - - - - -', 0, 1, 3),
 (28, 'Proyecto', 'Proyecto', 'Proyecto', 27, 1, 1),
 (24, 'Roles', 'Roles', 'Roles', 1, 2, 0),
 (29, 'Inscripcion', 'Inscripcion', 'Inscripcion', 28, 2, 2),
 (30, 'Ubicaciones', 'paises, departamentos,municipios', 'Ubicaciones', 1, 2, 5),
 (31, 'Licitaciones', 'Eventos de Licitacion', 'Licitaciones', 36, 2, 2),
-(32, 'ICEs', 'ICEs', 'ICEs', 27, 2, 6),
-(33, 'Sectores', 'Sectores', 'Sectores', 27, 2, 7),
+(32, 'ICEs', 'ICEs', 'ICEs', 27, 2, 5),
+(33, 'Sectores', 'Sectores', 'Sectores', 27, 2, 6),
 (34, 'precalificacion', 'precalificacion', 'Precalificacion', 36, 2, 3),
-(35, 'consulta', 'consulta', 'Consulta', 36, 2, 5),
+(35, 'consulta', 'consulta', 'Consulta', 36, 2, 6),
 (36, 'siprel', 'Sistema de Preguntas de Licitacion', '-- SIPREL --', 0, 1, 4),
 (37, 'ambitos', 'Ambitos en los que se divide las especializaciones de los consultores', 'Ambitos', 36, 2, 1),
-(38, 'consultor', 'Opciones para responder', 'Responder', 36, 2, 4);
+(38, 'consultor', 'Opciones para responder', 'Responder', 36, 2, 4),
+(41, 'dash', 'dummy dash', '----------', 36, 2, 5),
+(42, 'RegistroPrecalificados', 'Precalificados', 'Precalificado', 27, 1, 2),
+(43, 'bases', 'Bases', 'Base', 27, 2, 3),
+(44, 'ResolucionAprobacion', 'Resoluciones y Aprobaciones', 'Resolución y Aprobación', 27, 2, 4),
+(45, 'precalificado', 'Inscripción de Precalificados', 'Inscripcion', 42, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -1590,6 +1666,11 @@ INSERT INTO `seg_rol_opcion` (`idrol`, `idopcion`) VALUES
 (1, 38),
 (1, 39),
 (1, 40),
+(1, 41),
+(1, 42),
+(1, 43),
+(1, 44),
+(1, 45),
 (5, 24),
 (20, 1);
 
@@ -1685,7 +1766,7 @@ CREATE TABLE IF NOT EXISTS `sip_precalificados` (
   `dir_recibe_notificacion` varchar(100) DEFAULT NULL,
   `Telefono` varchar(18) DEFAULT NULL,
   `rep_legal` varchar(100) DEFAULT NULL,
-  `especialidad` int(11) DEFAULT NULL,
+  `id_especialidad` int(11) DEFAULT NULL,
   `perj_nombre` varchar(100) DEFAULT NULL,
   `perj_razon_social` varchar(100) DEFAULT NULL,
   `perj_ofis_principal` varchar(100) DEFAULT NULL,
@@ -1697,7 +1778,14 @@ CREATE TABLE IF NOT EXISTS `sip_precalificados` (
   `fecha_crea` datetime DEFAULT NULL,
   `id_usuario_crea` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Volcado de datos para la tabla `sip_precalificados`
+--
+
+INSERT INTO `sip_precalificados` (`id`, `id_tipo_pre`, `lugar`, `fecha`, `tipo_persona`, `nombre`, `DPI`, `pasaporte`, `nit`, `id_pais_nac`, `razon_social`, `ofis_principal`, `Domicilio`, `dir_recibe_notificacion`, `Telefono`, `rep_legal`, `id_especialidad`, `perj_nombre`, `perj_razon_social`, `perj_ofis_principal`, `perj_Domicilio`, `perj_dir_recibe_notificacion`, `perj_Telefono`, `perj_rep_legal`, `perj_DPI`, `fecha_crea`, `id_usuario_crea`) VALUES
+(1, 1, 'Guatemala', '2015-11-05', 0, 'Juancito Perez', '1124133130101', '1124133130101', '12432-2', 1, 'La casita feliz, S.A.', '1a calle a 12-24 zona1 ', '20 calle 3-22 zona 11 Col. Mariscal II', '9a av. B 4-22 Barrio San Miguelito, zona 5', '2233-2221 al 23', 'Juan Perez Lego', 1, 'La casita feliz', 'la casita feliz S.A.', '1a calle a 12-24 zona1 ', '20 calle 3-22 zona 11 Col. Mariscal II', '9a av. B 4-22 Barrio San Miguelito, zona 5', '2233-2221 al 23', 'Juan Perez Lego', '1214933210101', '2015-11-05 02:22:36', 12);
 
 -- --------------------------------------------------------
 

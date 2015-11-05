@@ -326,4 +326,22 @@ $app->get('/selPreguntaAmbito/:idPregunta/:idAmbito','sessionAlive',function($id
     echoResponse(200, $response);
 });
 
+// Determina si existe secretario en el evento y ambito indicados
+$app->get('/canSecretarios/:idEvento/:idAmbito','sessionAlive',function($idEvento,$idAmbito) use ($app) {
+
+    $response = array();
+
+    $db = new DbHandler();
+    $datos = $db->getAllRecord("select fn_get_num_secretarios( $pidEvento , $pidAmbito ) as id");
+    if ($datos != NULL) {
+			$response = $datos;
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No hay datos';
+    }
+
+    echoResponse(200, $response);
+    
+});
+
 ?>

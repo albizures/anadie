@@ -1,0 +1,30 @@
+<div>
+    <br/>
+    <section class="form-inline">
+        <button ng-click="limpiar()" class="btn btn2 btn-default pull-right">Limpiar filtro</button>
+        <button type="button" class="btn btn2 btn-primary pull-right" ng-model="filtro" btn-checkbox>
+            <span class="glyphicon glyphicon-filter"></span>
+        </button>
+        <button ng-click="agregar()" class="btn btn2 btn-primary"><i class="icon-white icon-plus"></i> Agregar Precalificado</button>
+    </section>
+    <br/>
+    <table ng-table="tabPrecalificado"  show-filter="filtro" class="table table-striped">
+        <tr ng-repeat="prec in $data">
+            <td data-title="'Tipo'"  sortable="'nombreTipo'" width="25" filter="{ 'nombreTipo': 'text' }">
+                <span >{{prec.precalificado}}</span>
+            </td>
+            <td data-title="'Persona/Empresa'" sortable="'tipo_persona'" width="25" filter="{ 'tipo_persona': 'text' }">
+                <span >{{prec.tipo_persona}}</span>
+            </td>
+            <td data-title="'Nombre'" sortable="'nombre'" width="300" filter="{ 'nombre': 'text' }">
+                <span >{{prec.nombre}}</span>
+            </td>
+            <td data-title="'Domicilio'"  sortable="'orden'" width="200"  filter="{ 'Domicilio': 'text' }">
+                <span >{{prec.Domicilio}}</span>
+            </td>
+            <td data-title="'Acciones'" width="50">
+                <a ng-click="editar(prec.id); prec.$edit = true" class="btn btn-primary btn-xs" ><span class="glyphicon glyphicon-pencil"></span></a>
+            </td>
+        </tr>
+    </table>
+</div>

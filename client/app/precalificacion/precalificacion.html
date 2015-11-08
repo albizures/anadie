@@ -105,7 +105,7 @@
             <div class="form-group">
                 <div class="checkbox">
                     <label>
-                        <input ng-init="consultor.Secretario = 'N'" ng-model="consultor.Secretario" type="checkbox" ng-true-value="'S'" ng-false-value="'N'"> Secretario
+                        <input ng-init="consultor.Secretario = 'N'" ng-disabled="secretario" ng-model="consultor.Secretario" type="checkbox" ng-true-value="'S'" ng-false-value="'N'"> Secretario
                     </label>
                 </div>
             </div>
@@ -116,9 +116,9 @@
             </div>
         </form>
         <br/>
-        <span ng-if="newUsuarios.length !== 0">Consultores agregados recientemente</span>
+        <span ng-if="newConsultores.length !== 0">Consultores agregados recientemente</span>
         <ul class="list-group">
-            <li class="list-group-item" ng-repeat="p in newUsuarios">
+            <li class="list-group-item" ng-repeat="p in newConsultores">
                 {{p.nombre}}
             </li>
         </ul>

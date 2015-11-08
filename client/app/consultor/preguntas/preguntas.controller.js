@@ -19,7 +19,21 @@ angular.module('anApp')
                     $scope.preguntas = result;
                     table();
                 });
-
+            $scope.getColor = function (fecha) {
+                var color ='';
+                fecha = moment(fecha);
+                var diff = moment().diff(fecha,'hours');
+                if(diff >= 0 && 36 >= diff ){
+                    color = 'success';
+                }else if(diff > 36 && 60 >= diff){
+                    return 'warning';
+                }else if(diff > 60 && 72 >= diff){
+                    return 'danger';
+                }else{
+                    return 'active';
+                }
+                return color;
+            };
             function table () {
                 if($scope.tablePreguntas) return $scope.tablePreguntas.reload();
 

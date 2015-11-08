@@ -45,6 +45,8 @@ angular.module('anApp')
                     .then(function (results) {
                         if(results.message){
                             Data.toast(results);
+                            $scope.documentos = [];
+                            $scope.tableDocumentos.reload();
                             return;
                         }
                         for(index in results){

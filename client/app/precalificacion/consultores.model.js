@@ -9,6 +9,7 @@ angular.module('anApp')
             $scope.consultor = {};
             $scope.licitacion = licitacion;
             $scope.newConsultores = [];
+            $scope.secretario = false;
             $scope.agregar = function () {
                 $scope.consultor.idEvento = licitacion.id;// o idLicitacion
                 Data.post('eventoConsultorI',$scope.consultor)
@@ -21,7 +22,13 @@ angular.module('anApp')
                         }
                     });
             };
-
+            function countSecretario(id) {
+                Data.get('canSecretarios/' + $scope.licitacion.id + '/' + id)
+                    .then(function (result) {
+                        console.log(Number(result[0].id));
+                        $scope.secretario = Number(result[0].id) > 0;
+                    });
+            }
             Data.get('userDatos')
                 .then(function (results) {
                     if(results.message){
@@ -53,4 +60,9 @@ angular.module('anApp')
             $scope.ok = function () {
                 $modalInstance.close($scope.newConsultores);
             };
+            $scope.$watch('consultor.idAmbito', function (newValue, oldValue) {
+                if(hasVal(newValue) && newValue != oldValue){
+                    countSecretario(newValue);
+                }
+            });
         }]);

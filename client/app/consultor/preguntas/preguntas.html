@@ -3,7 +3,7 @@
     <section class="form-inline">
         <br/>
         <table ng-table="tablePreguntas"  show-filter="filtro" class="table table-striped">
-            <tr class="tr animate-repeat" ng-repeat="i in $data">
+            <tr class="tr animate-repeat" ng-repeat="i in $data" ng-class="getColor(i.fecha_crea)">
                 <td data-title="'Pregunta'" sortable="'pregunta'" width="400" filter="{ 'pregunta': 'text' }">
                     {{i.pregunta}}
                 </td>

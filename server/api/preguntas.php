@@ -332,7 +332,7 @@ $app->get('/canSecretarios/:idEvento/:idAmbito','sessionAlive',function($idEvent
     $response = array();
 
     $db = new DbHandler();
-    $datos = $db->getAllRecord("select fn_get_num_secretarios( $pidEvento , $pidAmbito ) as id");
+    $datos = $db->getAllRecord("select fn_get_num_secretarios( $idEvento , $idAmbito ) as id");
     if ($datos != NULL) {
 			$response = $datos;
     }else{

@@ -12,7 +12,17 @@ angular.module('anApp')
                         return;
                     }
                     for(var i in result){
-                        utils.convertNumber(result[i]);
+                        if(result[i].estado == 1){
+                            result[i].est = 'Ingresada';
+                        }else if(result[i].estado == 2){
+                            result[i].est = 'En revision';
+                        }else if(result[i].estado == 3){
+                            result[i].est = 'Respondida';
+                        }else if(result[i].estado == 4){
+                            result[i].est = 'Para postear';
+                        }else if(result[i].estado == 5){
+                            result[i].est = 'Finalizada';
+                        }
                     }
                     $scope.preguntas = result;
                     table();
@@ -44,6 +54,22 @@ angular.module('anApp')
                 $scope.tablePreguntas.sorting({});
                 $scope.tablePreguntas.filter({});
                 $scope.filtro = false;
+            };
+            $scope.getColor = function (fecha,estado) {
+                var color ='';
+                if(estado != 2 ) return;
+                fecha = moment(fecha);
+                var diff = moment().diff(fecha,'hours');
+                if(diff >= 0 && 36 >= diff ){
+                    color = 'success';
+                }else if(diff > 36 && 60 >= diff){
+                    return 'warning';
+                }else if(diff > 60 && 72 >= diff){
+                    return 'danger';
+                }else{
+                    return 'active';
+                }
+                return color;
             };
             $scope.agregar = function () {
                 var modalIces = $modal.open({

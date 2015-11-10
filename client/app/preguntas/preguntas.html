@@ -3,18 +3,18 @@
     <section class="form-inline">
         <br/>
         <table ng-table="tablePreguntas"  show-filter="filtro" class="table table-striped">
-            <tr class="tr animate-repeat" ng-repeat="i in $data">
+            <tr class="tr animate-repeat" ng-repeat="i in $data"  ng-class="getColor(i.fecha_crea,i.estado)">
                 <td data-title="'Pregunta'" sortable="'pregunta'" width="400" filter="{ 'pregunta': 'text' }">
                     {{i.pregunta}}
                 </td>
                 <td data-title="'fecha'" sortable="'fecha_crea'" width="400" filter="{ 'fecha_crea': 'text' }">
-                    {{i.fecha_crea | date:'dd/MM/yyyy' }}
+                    {{i.fecha_crea | moment:'DD/MM/YYYY h:mma' }}
                 </td>
                 <td data-title="'Ambito'" sortable="'ambito'" width="400" filter="{ 'ambito': 'text' }">
                     {{i.ambito}}
                 </td>
-                <td data-title="'id o'" sortable="'id_objeto'" width="400" filter="{ 'id_objeto': 'text' }">
-                    {{i.id_objeto}}
+                <td data-title="'Estado'" sortable="'est'" width="400" filter="{ 'est': 'text' }">
+                    {{i.est}}
                 </td>
                 <td data-title="''" width="40">
                     <button type="button"  class="btn btn-primary btn-xs" >

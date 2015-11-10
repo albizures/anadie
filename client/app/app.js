@@ -113,6 +113,10 @@ var anApp = angular.module("anApp",[
                 input = input.toLowerCase();
             return input.substring(0,1).toUpperCase()+input.substring(1);
         }
+    }).filter('moment', function () {
+        return function (input,format) {
+            return moment(input).format(format);
+        }
     }).controller('ModalConfirmCtrl', ['$scope','$modalInstance','msg',function ($scope,$modalInstance,msg) {
         $scope.msg = msg;
         $scope.ok = function (result) {

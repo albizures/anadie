@@ -11,7 +11,9 @@ angular.module('anApp')
             $scope.responder = function () {
                 Data.post('respuesta',{id : pregunta.id , respuesta : pregunta.respuesta})
                     .then(function (result) {
-                        console.log(result);
+                        Data.toast(result);
+                        $modalInstance.close($scope.pregunta);
+                        //console.log(result);
                     });
             };
             $scope.ok = function () {

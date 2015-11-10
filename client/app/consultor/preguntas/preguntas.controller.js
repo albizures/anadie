@@ -14,12 +14,23 @@ angular.module('anApp')
                         return;
                     }
                     for(var i in result){
-                        utils.convertNumber(result[i]);
+                        if(result[i].estado == 1){
+                            result[i].est = 'Ingresada';
+                        }else if(result[i].estado == 2){
+                            result[i].est = 'En revision';
+                        }else if(result[i].estado == 3){
+                            result[i].est = 'Respondida';
+                        }else if(result[i].estado == 4){
+                            result[i].est = 'Para postear';
+                        }else if(result[i].estado == 5){
+                            result[i].est = 'Finalizada';
+                        }
                     }
                     $scope.preguntas = result;
                     table();
                 });
-            $scope.getColor = function (fecha) {
+            $scope.getColor = function (fecha,estado) {
+                if(estado != 2 ) return;
                 var color ='';
                 fecha = moment(fecha);
                 var diff = moment().diff(fecha,'hours');

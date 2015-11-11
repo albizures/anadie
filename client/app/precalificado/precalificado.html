@@ -28,3 +28,74 @@
         </tr>
     </table>
 </div>
+<script type="text/ng-template" id="modalPrecalificado">
+	<div>
+        <div class="modal-header">
+             <h3 class="modal-title">Ingrese los datos del precalificado</h3>
+        </div>
+		<div class="modal-body">
+			<form novalidate name="formOpcion" >
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label><input type="radio" name="tipo" value="" checked="checked">Persona</label>
+						</div>
+						<div class="form-group">
+							<label for="nombre">Nombre</label>
+							<input ng-disabled="disable" ng-model="precalificado.nombre" type="text" class="form-control" id="nombre" placeholder="Nombre" required/>
+						</div>
+						<div class="form-group">
+							<label for="nombre">DPI</label>
+							<input ng-disabled="disable" ng-model="precalificado.DPI" type="text" class="form-control" id="DPI" placeholder="DPI" required/>
+						</div>
+						<div class="form-group">
+							<label for="nombre">Pais de Nacionalidad</label>
+							<input ng-disabled="disable" ng-model="precalificado.paisnac" type="text" class="form-control" id="paisnac" placeholder="Pais de Nacionalidad" required/>
+						</div>
+						<div class="form-group">
+							<label for="nombre">Domicilio</label>
+							<input ng-disabled="disable" ng-model="precalificado.domicilio" type="text" class="form-control" id="domicilio" placeholder="Domicilio" required/>
+						</div>
+						<div class="form-group">
+							<label for="nombre">Dirección para recibir notificaciones</label>
+							<input ng-disabled="disable" ng-model="precalificado.direccion" type="text" class="form-control" id="direccion" placeholder="Dirección para notificaciones" required/>
+						</div>
+						<div class="form-group">
+							<label for="nombre">Teléfono</label>
+							<input ng-disabled="disable" ng-model="precalificado.telefono" type="text" class="form-control" id="telefono" placeholder="Teléfono" required/>
+						</div>
+						<div class="form-group">
+							<label for="nombre">Especialidades que desea se le asigne</label>
+							<input ng-disabled="disable" ng-model="precalificado.especialidades" type="text" class="form-control" id="especialidades" placeholder="Especialidades" required/>
+						</div>
+						<div class="form-group">
+							<label for="nombre">Especialidades que desea se le asigne</label>
+							<input ng-disabled="disable" ng-model="precalificado.especialidades" type="text" class="form-control" id="especialidades" placeholder="Especialidades" required/>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label><input type="radio" name="tipo" value="">Empresa</label>
+						</div>
+						<div class="form-group">
+							<label for="nombre">Pasaporte</label>
+							<input ng-disabled="disable" ng-model="precalificado.pasaporte" type="text" class="form-control" id="pasaporte" placeholder="Número de Pasaporte" required/>
+						</div>
+						<div class="form-group">
+							<label for="nombre">NIT</label>
+							<input ng-disabled="disable" ng-model="precalificado.nit" type="text" class="form-control" id="nit" placeholder="NIT" required/>
+						</div>
+						<div class="form-group">
+							<label for="nombre">Correo electrónico</label>
+							<input ng-disabled="disable" ng-model="precalificado.email" type="text" class="form-control" id="email" placeholder="Correo electrónico" required/>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" ng-disabled="" ng-click="ok()">Aceptar</button>
+			<button class="btn btn-warning" ng-click="cancel()">Cancelar</button>
+		</div>
+	</div>
+</script>

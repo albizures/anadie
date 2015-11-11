@@ -50,20 +50,22 @@ angular.module('anApp')
                         }
                     );
                 });
-            $scope.limpiar = function () {
+        $scope.agregar = function () {
+            var modalProyectos = $modal.open({
+                templateUrl : 'modalPrecalificado',
+                controller : 'ModalPrecalificadoCtrl',
+                size : 'lg',
+                backdrop : 'static',
+                resolve :{
+                    precalificado: function () {
+                        return undefined;
+                    }
+                }
+            });
+		};
+			$scope.limpiar = function () {
                 $scope.tabPrecalificado.sorting({});
                 $scope.tabPrecalificado.filter({});
                 $scope.filtro = false;
-            };
-            $scope.editar = function (id) {
-                var modalOpciones = $modal.open({
-                    templateUrl : 'modelOpciones',
-                    controller : 'ModalOpcionesCtrl',
-                    resolve : {
-                        opcion : function () {
-                            return $scope.opciones.filter(function(opcion){return opcion.id == id})[0];
-                        }
-                    }
-                });
             };
         }]);

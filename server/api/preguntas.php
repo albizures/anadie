@@ -231,6 +231,35 @@ $app->get('/preguntaSelEventoAmbito/:evento/:ambito','sessionAlive', function($e
     echoResponse(200, $response);
 });
 
+// 
+// Seleccion de preguntas que pertenecen a un evento y a un ámbito específicos, solo las estado 3 = RESPONDIDAS
+// sp_sel_pyr_pregunta_eventoAmbito
+$app->get('/preguntaSelEventoAmbitoE3/:evento/:ambito','sessionAlive', function($evento,$ambito) use ($app){
+
+    $r = json_decode($app->request->getBody());
+
+	$idEvento      = $evento;//$r->idEvento;      // Id del evento
+	$idAmbito      = $ambito;//$r->idAmbito;      // Id del ambito
+
+    $response = array();
+	//
+    $db = new DbHandler();
+
+// 02/11/2015 -- jose me dice que pida el session_id y dependiendo del usuario verificar si tiene permiso o no a este evento y ambito
+    $idConsultor =  intval($_SESSION['uid']);
+	
+    $datos = $db->getAllRecord("call sp_sel_pyr_pregunta_eventoAmbitoE3('$idEvento','$idAmbito', $idConsultor )");
+    //var_dump($datos);
+    if ($datos != NULL) {
+			$response = $datos;
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No hay datos';
+    }
+
+    echoResponse(200, $response);
+});
+
 // Opcion para obtener la totalidad de preguntas del documento de un evento, de la tabla pyr_pregunta
 $app->get('/preguntaSel','sessionAlive', function() use ($app){
 

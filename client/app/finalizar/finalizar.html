@@ -1,11 +1,12 @@
 <div>
     <br/>
+    <button class="btn btn2 btn-primary" ng-disabled="!impresionValida()" >Imprimir</button>
     <button class="btn btn2 btn-warning pull-right" an-back>Regresar</button>
     <br/>
     <section class="form-inline">
         <br/>
         <table ng-table="tablePreguntas"  show-filter="filtro" class="table table-striped">
-            <tr class="tr animate-repeat preguntas" ng-repeat="i in $data" ng-class="getColor(i.fecha_crea,i.estado)">
+            <tr class="tr animate-repeat" ng-repeat="i in $data"  ng-class="{info : seleccionados[i.id]}">
                 <td data-title="'Pregunta'" sortable="'pregunta'" width="400" filter="{ 'pregunta': 'text' }">
                     {{i.pregunta}}
                 </td>
@@ -15,13 +16,11 @@
                 <td data-title="'Ambito'" sortable="'ambito'" width="400" filter="{ 'ambito': 'text' }">
                     {{i.ambito}}
                 </td>
-                <td data-title="'Estado'" sortable="'est'" width="400" filter="{ 'est': 'text' }">
+                <!--<td data-title="'Estado'" sortable="'est'" width="400" filter="{ 'est': 'text' }">
                     {{i.est}}
-                </td>
+                </td>-->
                 <td data-title="''" width="40">
-                    <button type="button" ui-sref="discutir({pregunta : i.id , ambito : i.id_ambito})"  class="btn btn-primary btn-xs" >
-                        discutir
-                    </button>
+                    <input type="checkbox" ng-model="seleccionados[i.id]" name="preguntas"/>
                 </td>
             </tr>
         </table>

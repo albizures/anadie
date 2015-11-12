@@ -30,7 +30,7 @@ angular.module('anApp')
                     table();
                 });
             $scope.getColor = function (fecha,estado) {
-                if(estado != 2 ) return;
+                if(estado != 2 && estado != 1 ) return;
                 var color ='';
                 fecha = moment(fecha);
                 var diff = moment().diff(fecha,'hours');

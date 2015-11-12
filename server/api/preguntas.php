@@ -234,12 +234,12 @@ $app->get('/preguntaSelEventoAmbito/:evento/:ambito','sessionAlive', function($e
 // 
 // Seleccion de preguntas que pertenecen a un evento y a un ámbito específicos, solo las estado 3 = RESPONDIDAS
 // sp_sel_pyr_pregunta_eventoAmbito
-$app->get('/preguntaSelEventoAmbitoE3/:evento/:ambito','sessionAlive', function($evento,$ambito) use ($app){
+$app->get('/preguntaSelEventoAmbitoE3/:evento','sessionAlive', function($evento) use ($app){
 
     $r = json_decode($app->request->getBody());
 
 	$idEvento      = $evento;//$r->idEvento;      // Id del evento
-	$idAmbito      = $ambito;//$r->idAmbito;      // Id del ambito
+	//$idAmbito      = $ambito;//$r->idAmbito;      // Id del ambito
 
     $response = array();
 	//
@@ -248,7 +248,7 @@ $app->get('/preguntaSelEventoAmbitoE3/:evento/:ambito','sessionAlive', function(
 // 02/11/2015 -- jose me dice que pida el session_id y dependiendo del usuario verificar si tiene permiso o no a este evento y ambito
     $idConsultor =  intval($_SESSION['uid']);
 	
-    $datos = $db->getAllRecord("call sp_sel_pyr_pregunta_eventoAmbitoE3('$idEvento','$idAmbito', $idConsultor )");
+    $datos = $db->getAllRecord("call sp_sel_pyr_pregunta_eventoAmbitoE3('$idEvento', $idConsultor )");
     //var_dump($datos);
     if ($datos != NULL) {
 			$response = $datos;

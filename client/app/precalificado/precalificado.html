@@ -38,19 +38,32 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
-							<label><input type="radio" name="tipo" value="" checked="checked">Persona</label>
+							<label><input type="radio" ng-model="rdtipo" ng-init="rdtipo='persona'" id="persona" name="tipo" value="persona" checked="checked">Persona</label>
+
 						</div>
 						<div class="form-group">
 							<label for="nombre">Nombre</label>
 							<input ng-disabled="disable" ng-model="precalificado.nombre" type="text" class="form-control" id="nombre" placeholder="Nombre" required/>
 						</div>
 						<div class="form-group">
-							<label for="nombre">DPI</label>
-							<input ng-disabled="disable" ng-model="precalificado.DPI" type="text" class="form-control" id="DPI" placeholder="DPI" required/>
+							<div ng-show="rdtipo == 'persona'">
+								<label for="nombre">DPI</label>
+								<input ng-disabled="disable" ng-model="precalificado.DPI" type="text" class="form-control" id="DPI" placeholder="DPI" required/>
+							</div>
+							<div ng-show="rdtipo == 'empresa'">
+								<label for="nombre">Razon Social</label>
+								<input ng-disabled="disable" ng-model="precalificado.razonsocial" type="text" class="form-control" id="razonsocial" placeholder="Razon Social" required/>
+							</div> 						
 						</div>
 						<div class="form-group">
-							<label for="nombre">Pais de Nacionalidad</label>
-							<input ng-disabled="disable" ng-model="precalificado.paisnac" type="text" class="form-control" id="paisnac" placeholder="Pais de Nacionalidad" required/>
+						    <div ng-show="rdtipo == 'persona'">
+								<label for="nombre">Pais de Nacionalidad</label>
+								<input ng-disabled="disable" ng-model="precalificado.paisnac" type="text" class="form-control" id="paisnac" placeholder="Pais de Nacionalidad" required/>
+							</div>
+							<div ng-show="rdtipo == 'empresa'">
+								<label for="nombre">Oficina principal o Sucursal</label>
+								<input ng-disabled="disable" ng-model="precalificado.oficina" type="text" class="form-control" id="oficina" placeholder="Oficina principal o Sucursal" required/>
+							</div>
 						</div>
 						<div class="form-group">
 							<label for="nombre">Domicilio</label>
@@ -68,18 +81,10 @@
 							<label for="nombre">Especialidades que desea se le asigne</label>
 							<input ng-disabled="disable" ng-model="precalificado.especialidades" type="text" class="form-control" id="especialidades" placeholder="Especialidades" required/>
 						</div>
-						<div class="form-group">
-							<label for="nombre">Especialidades que desea se le asigne</label>
-							<input ng-disabled="disable" ng-model="precalificado.especialidades" type="text" class="form-control" id="especialidades" placeholder="Especialidades" required/>
-						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label><input type="radio" name="tipo" value="">Empresa</label>
-						</div>
-						<div class="form-group">
-							<label for="nombre">Pasaporte</label>
-							<input ng-disabled="disable" ng-model="precalificado.pasaporte" type="text" class="form-control" id="pasaporte" placeholder="Número de Pasaporte" required/>
+							<label><input type="radio" id="empresa" name="tipo" ng-model="rdtipo" value="empresa">Empresa</label>
 						</div>
 						<div class="form-group">
 							<label for="nombre">NIT</label>
@@ -88,6 +93,34 @@
 						<div class="form-group">
 							<label for="nombre">Correo electrónico</label>
 							<input ng-disabled="disable" ng-model="precalificado.email" type="text" class="form-control" id="email" placeholder="Correo electrónico" required/>
+						</div>
+						<div class="form-group">
+							<div ng-show="rdtipo == 'persona'">
+								<label for="nombre">Pasaporte</label>
+								<input ng-disabled="disable" ng-model="precalificado.pasaporte" type="text" class="form-control" id="pasaporte" placeholder="Número de Pasaporte" required/>
+							</div>
+							<div ng-show="rdtipo == 'empresa'">
+								<label for="nombre">Datos del</label><br>
+								<label for="nombre">Representante Legal</label><br>
+							</div>
+						</div>
+						<div class="form-group">
+							<div ng-show="rdtipo == 'empresa'">
+								<label for="nombre">DPI</label>
+								<input ng-disabled="disable" ng-model="precalificado.DPI" type="text" class="form-control" id="DPI" placeholder="DPI" required/>
+							</div>
+						</div>
+						<div class="form-group">
+							<div ng-show="rdtipo == 'empresa'">
+								<label for="nombre">Pais de Nacionalidad</label>
+								<input ng-disabled="disable" ng-model="precalificado.paisnac" type="text" class="form-control" id="paisnac" placeholder="Pais de Nacionalidad" required/>
+							</div>
+						</div>
+						<div class="form-group">
+							<div ng-show="rdtipo == 'empresa'">
+								<label for="nombre">Pasaporte</label>
+								<input ng-disabled="disable" ng-model="precalificado.pasaporte" type="text" class="form-control" id="pasaporte" placeholder="Número de Pasaporte" required/>
+							</div>
 						</div>
 					</div>
 				</div>

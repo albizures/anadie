@@ -238,20 +238,20 @@ $app->get('/preguntaSelEventoAmbitoE3/:evento','sessionAlive', function($evento)
 
     $r = json_decode($app->request->getBody());
 
-	$idEvento      = $evento;//$r->idEvento;      // Id del evento
-	//$idAmbito      = $ambito;//$r->idAmbito;      // Id del ambito
+    $idEvento      = $evento;//$r->idEvento;      // Id del evento
+    //$idAmbito      = $ambito;//$r->idAmbito;      // Id del ambito
 
     $response = array();
-	//
+    //
     $db = new DbHandler();
 
 // 02/11/2015 -- jose me dice que pida el session_id y dependiendo del usuario verificar si tiene permiso o no a este evento y ambito
     $idConsultor =  intval($_SESSION['uid']);
-	
-    $datos = $db->getAllRecord("call sp_sel_pyr_pregunta_eventoAmbitoE3('$idEvento', $idConsultor )");
+
+    $datos = $db->getAllRecord("call sp_sel_pyr_pregunta_eventoAmbitoE3('$idEvento' )");
     //var_dump($datos);
     if ($datos != NULL) {
-			$response = $datos;
+        $response = $datos;
     }else{
         $response['status'] = "info";
         $response['message'] = 'No hay datos';

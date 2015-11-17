@@ -305,6 +305,7 @@ $app->get('/preguntaSelOBJ/:idDoc/:idClave','sessionAlive', function($idDoc,$idC
 
     echoResponse(200, $response);
 });
+
 //  -- Opcion para responder una pregunta: actualiza respuesta y modifica el estado.
 $app->post('/respuesta','sessionAlive',function() use ($app) {
     $r = json_decode($app->request->getBody());
@@ -332,6 +333,7 @@ $app->post('/respuesta','sessionAlive',function() use ($app) {
 
     echoResponse(200, $response);
 });
+
 $app->get('/selPreguntaAmbito/:idPregunta/:idAmbito','sessionAlive',function($idPregunta,$idAmbito) use ($app) {
     $r = json_decode($app->request->getBody());
 
@@ -355,7 +357,7 @@ $app->get('/selPreguntaAmbito/:idPregunta/:idAmbito','sessionAlive',function($id
     echoResponse(200, $response);
 });
 
-// Determina si existe secretario en el evento y ambito indicados
+// Determina si existe secretario en el evento y ambito indicados - trae cantidad de secretarios
 $app->get('/canSecretarios/:idEvento/:idAmbito','sessionAlive',function($idEvento,$idAmbito) use ($app) {
 
     $response = array();
@@ -371,6 +373,68 @@ $app->get('/canSecretarios/:idEvento/:idAmbito','sessionAlive',function($idEvent
 
     echoResponse(200, $response);
     
+});
+
+// Imprime - retorna un pdf con todas las preguntas respondidas que se le soliciten en la lista indicada
+$app->get('/printPreguntas','sessionAlive',function() use ($app) {
+
+    $response = array();
+
+    $lisPreguntas = json_decode($app->request->getBody());
+
+    $lista = implode(",",$lisPreguntas)
+
+    $db = new DbHandler();
+	$impresas = $db->get1Record("select fn_num_respuesta_print( '$lista' ) as cantidad");
+    if ($impresas == 0 ) {
+		// genera las respuestas en el documento PDF
+		// $target_dir = $_SERVER['DOCUMENT_ROOT'] . "/server/uploaded_files/";
+
+		// registra el nuevo lote de preguntas impresas
+        // insert into pyr_respuesta_print ( id, fecha, id_usuario ) values ( now(), now(), 12 );
+		$idLote = $db->get1Record("select fn_ins_pyr_respuesta_print( $idUser ) as id");
+        if ($idLote != NULL) {
+			$ok = true;
+			foreach ($lista as $respuesta) {
+				// registra el detalle de preguntas incluidas en el lote
+				// insert into pyr_respuesta_print_det ( id_print, id_pregunta ) values ( '2015-11-13 01:04:40', 63 );
+				if ($ok == true) {
+					$idDet = $db->get1Record("select fn_ins_pyr_respuesta_print_det( '$idLote', $respuesta ) as idDet");
+					if ($idDet == NULL ) { $ok = false; }
+					else {                                             
+						// Imprime pregunta por pregunta
+					}
+				}
+			 
+			}
+		}
+		else { $ok = false; }
+		if ($ok == true) {
+			$response = $datos;
+		}
+		else {
+				$response['status'] = "info";
+				$response['message'] = 'No se puede imprimir';
+		}
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No se puede imprimir';
+    }
+	$file = $_SERVER['DOCUMENT_ROOT'] . "/server/uploaded_files/prueba_impresion.pdf";
+	
+if (file_exists($file)) {
+    header('Content-Description: File Transfer');
+    header('Content-Type: application/octet-stream');
+    header('Content-Disposition: attachment; filename="'.basename($file).'"');
+    header('Expires: 0');
+    header('Cache-Control: must-revalidate');
+    header('Pragma: public');
+    header('Content-Length: ' . filesize($file));
+    readfile($file);
+    exit;
+}
+    //echoResponse(200, $response);
+	
 });
 
 ?>

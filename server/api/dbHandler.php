@@ -165,6 +165,7 @@ class DbHandler {
             return NULL;
         }
     }
+	
 public function getSession(){
     if (!isset($_SESSION)) {
         session_start();
@@ -182,6 +183,7 @@ public function getSession(){
     }
     return $sess;
 }
+
 public function destroySession(){
     if (!isset($_SESSION)) {
     session_start();

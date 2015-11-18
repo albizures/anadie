@@ -60,4 +60,21 @@ angular.module('anApp')
                     }
                 }
             };
+            $scope.imprimir = function () {
+                var lista = [];
+                for(var index in $scope.seleccionados){
+                    if($scope.seleccionados[index]){
+                        lista.push(index);
+                    }
+                }
+
+                Data.post('printPreguntas',lista)
+                    .then(function (result) {
+                        console.log(result);
+                        if(result.message){
+                            return Data.toast(result);
+                        }
+                        window.open(result.url);
+                    });
+            };
     }]);

@@ -395,7 +395,7 @@ $app->post('/printPreguntas','sessionAlive',function() use ($app) {
         // insert into pyr_respuesta_print ( id, fecha, id_usuario ) values ( now(), now(), 12 );
 		$idLote = $db->get1Record("select fn_ins_pyr_respuesta_print( $idUser ) as id");
 
-        if ($idLote != NULL) {
+        if ($idLote != NULL && $idLote > 0) {
 			$ok = true;
 			foreach ($lisPreguntas as $respuesta) {
 				// registra el detalle de preguntas incluidas en el lote

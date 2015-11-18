@@ -37,6 +37,7 @@ $app->post('/precalificadosIn','sessionAlive',function() use ($app){
 	$lugar         = $r->prec->lugar; 
 	$fecha         = $r->prec->fecha; 
 	$tipo_persona  = $r->prec->tipo_persona; 
+	
 	$nombre        = $r->prec->nombre; 
 	$DPI           = $r->prec->DPI; 
 	$pasaporte     = $r->prec->pasaporte; 
@@ -57,6 +58,10 @@ $app->post('/precalificadosIn','sessionAlive',function() use ($app){
 	$perj_Telefono  = $r->prec->perj_Telefono; 
 	$perj_rep_legal = $r->prec->perj_rep_legal; 
 	$perj_DPI       = $r->prec->perj_DPI; 
+	$titulo         = $r->prec->titulo;
+	$grado          = $r->prec->grado;
+	$universidad    = $r->prec->universidad;
+	$anio_egreso    = $r->prec->anio_egreso;
 //	$fecha_crea = $r->prec-> ;
 	$id_usuario_crea = $_SESSION['uid'];
 								   
@@ -71,7 +76,7 @@ $app->post('/precalificadosIn','sessionAlive',function() use ($app){
 											'$perj_nombre', '$perj_razon_social', '$perj_ofis_principal', 
 											'$perj_Domicilio', '$perj_dir_recibe_notificacion',
 											'$perj_Telefono', '$perj_rep_legal', '$perj_DPI', 
-											'$id_usuario_crea' ) as id")['id'];
+											'$id_usuario_crea','$titulo','$grado','$universidad','$anio_egreso' ) as id")['id'];
 	
 	if ($error == "no") {
 			$response['status'] = "success";

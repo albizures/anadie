@@ -5,6 +5,16 @@
 angular.module('anApp')
     .controller('ModalPrecalificadoCtrl',["$scope", '$modalInstance','Data','utils','precalificado',
         function ($scope,$modalIntance, Data, utils,precalificado) {
+            $scope.pre = precalificado || {};
+            Data.get('tpSel')
+                .then(function (result) {
+                    if(result.message){
+                        Data.toast(result);
+                        return;
+                    }
+                    $scope.tipos = result;
+                    $scope.pre.id_tipo_pre = $scope.tipos[0].id;
+                });
             $scope.proyecto = {};
             if(precalificado){
                 $scope.disable = true;
@@ -29,19 +39,32 @@ angular.module('anApp')
             };
             $scope.ok = function () {
                 console.log($scope.precalificado);
+                var date =  moment([$scope.pre.anio,$scope.pre.mes,$scope.pre.dia])
+                if(!date.isValid()){
+                    return Data.toast({status : 'error', message : 'Fecha invalida'});
+                }
 
-                /*if($scope.opcion.nombreTipo == undefined){
-                    $scope.opcion.nombreTipo = $scope.tipos.filter(function(tipo){ return tipo.id == $scope.opcion.idTipo})[0].nombreTipo;
-                }
-                if($scope.opcion.idPadre == undefined || $scope.opcion.idPadre == null || $scope.opcion.idPadre == ""){
-                    $scope.opcion.idPadre = 0;
-                }
-                $modalIntance.close($scope.opcion);*/
-                $modalIntance.close($scope.precalificado);
+                console.log(date.isValid());
+               /* Data.post('precalificadosIn',{ prec : $scope.pre})
+                    .then(function (result) {
+
+                    });
+                $modalIntance.close($scope.precalificado);*/
             };
             $scope.cancel = function () {
                 $modalIntance.dismiss('cancel');
             };
+            $scope.$watch('pre.id_tipo_pre', function (newValue, oldValue) {
+                if(newValue == 2 || newValue == 3 || newValue == 5){
+                    $scope.rdtipo = 'persona';
 
+                }
+            });
+            $scope.$watchGroup(['pre.dia','pre.mes','pre.anio'], function () {
+                var date =  moment({y : $scope.pre.anio, M : $scope.pre.mes, d :$scope.pre.dia});
+                $scope.fecha = date.format();
+                $scope.valid = date.isValid();
+
+            });
             
         }]);

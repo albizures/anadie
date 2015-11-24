@@ -34,7 +34,7 @@
 		piddocdet ,  pidClave
 		
  **/
-require('lib_pdf/fpdf.php');
+/*require('lib_pdf/fpdf.php');
 class PDF extends FPDF
 {
 var $widths;
@@ -178,7 +178,7 @@ function Footer()
 
 }
 
-}
+}*/
 
 // -- Inserta una pregunta, la primera de un objeto específico. 
 $app->post('/preguntaPrimeraIn','sessionAlive',function() use ($app){

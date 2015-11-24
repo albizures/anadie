@@ -37,11 +37,10 @@
         </div>
 		<div class="modal-body">
 			<form novalidate name="formOpcion" >
-                {{formOpcion.$valid}}
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="tipo">Tipo {{pre.id_tipo_pre}}</label>
+                            <label for="tipo">Tipo </label>
                             <select ng-model="pre.id_tipo_pre" id="tipo" ng-options="u.id as u.nombre for u in tipos" class="form-control" required=""></select>
                         </div>
                     </div>
@@ -62,11 +61,11 @@
 						</div>
                         <div class="form-group">
                             <label for="nombre">Lugar</label>
-                            <input ng-disabled="disable" ng-model="precalificado.lugar" type="text" class="form-control" id="lugar" placeholder="Lugar" required/>
+                            <input ng-disabled="disable" ng-model="pre.lugar" type="text" class="form-control" id="lugar" placeholder="Lugar" required/>
                         </div>
 						<div class="form-group">
 							<label for="nombre">Nombre</label>
-							<input ng-disabled="disable" ng-model="precalificado.nombre" type="text" class="form-control" id="nombre" placeholder="Nombre" required/>
+							<input ng-disabled="disable" ng-model="pre.nombre" type="text" class="form-control" id="nombre" placeholder="Nombre" required/>
 						</div>
 						<div class="form-group">
 							<div ng-if="rdtipo == 'persona'">
@@ -75,11 +74,11 @@
 							</div>
 							<div ng-if="rdtipo == 'empresa' || pre.id_tipo_pre == 5">
 								<label for="razonsocial">Razon Social</label>
-								<input ng-disabled="disable" ng-model="pre.razonsocial" type="text" class="form-control" id="razonsocial" placeholder="Razon Social" required/>
+								<input ng-disabled="disable" ng-model="pre.razon_social" type="text" class="form-control" id="razonsocial" placeholder="Razon Social" required/>
 							</div> 						
 						</div>
 						<div class="form-group">
-						    <div ng-show="rdtipo == 'persona'">
+						    <div ng-if="rdtipo == 'persona'">
 								<label for="paisnac">Pais de Nacionalidad</label>
 								<input ng-disabled="disable" ng-model="pre.paisnac" type="text" class="form-control" id="paisnac" placeholder="Pais de Nacionalidad" required/>
 							</div>
@@ -87,7 +86,7 @@
                         <div class="form-group">
 							<div ng-if="rdtipo == 'empresa' || pre.id_tipo_pre == 5">
 								<label for="oficina">Oficina principal o Sucursal</label>
-								<input ng-disabled="disable" ng-model="pre.oficina" type="text" class="form-control" id="oficina" placeholder="Oficina principal o Sucursal" required/>
+								<input ng-disabled="disable" ng-model="pre.ofis_principal" type="text" class="form-control" id="oficina" placeholder="Oficina principal o Sucursal" required/>
 							</div>
 						</div>
 						<div class="form-group">
@@ -96,13 +95,13 @@
 						</div>
 						<div class="form-group">
 							<label for="direccion">Dirección para recibir notificaciones</label>
-							<input ng-disabled="disable" ng-model="pre.direccion" type="text" class="form-control" id="direccion" placeholder="Dirección para notificaciones" required/>
+							<input ng-disabled="disable" ng-model="pre.dir_recibe_notificacion" type="text" class="form-control" id="direccion" placeholder="Dirección para notificaciones" required/>
 						</div>
 						<div class="form-group">
 							<label for="telefono">Teléfono</label>
 							<input ng-disabled="disable" ng-model="pre.telefono" type="text" class="form-control" id="telefono" placeholder="Teléfono" required/>
 						</div>
-						<div class="form-group">
+						<div class="form-group" ng-if="pre.id_tipo_pre != 5">
 							<label for="especialidades">Especialidades que desea se le asigne</label>
 							<input ng-disabled="disable" ng-model="pre.especialidades" type="text" class="form-control" id="especialidades" placeholder="Especialidades" required/>
 						</div>
@@ -127,14 +126,15 @@
 							<label for="nombre">Correo electrónico</label>
 							<input ng-disabled="disable" ng-model="pre.email" type="text" class="form-control" id="email" placeholder="Correo electrónico" required/>
 						</div>
-                        <div class="form-group" ng-show="rdtipo == 'empresa'">
+                        <div class="form-group" ng-if="rdtipo == 'empresa' && pre.id_tipo_pre == 4">
                             <label for="bienes">Bienes o servicios a ofertar</label>
-                            <input ng-disabled="disable" ng-model="pre.pasaporte" type="text" class="form-control" id="bienes" placeholder="Bienes o servicios a ofertar" required/>
+                            <input  ng-model="pre.bienes" type="text" class="form-control" id="bienes" placeholder="Bienes o servicios a ofertar" required/>
                         </div>
                         <div class="form-group">
-							<div ng-if="rdtipo == 'empresa'">
+							<div ng-if="rdtipo == 'empresa' || pre.id_tipo_pre == 5">
 								<label for="nombre">Datos del</label><br>
-								<label for="nombre">Representante Legal</label><br>
+								<label for="nombre">Representante Legal</label>
+                                <input ng-model="pre.rep_legal" type="text" class="form-control" id="rep_legal" placeholder="Representante legal" required/>
 							</div>
 						</div>
 						<div class="form-group">

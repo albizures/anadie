@@ -18,12 +18,12 @@ var anApp = angular.module("anApp",[
         1 : false,
         2 : 1
     })
-    .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+    .config('$stateProvider', '$urlRouterProvider', '$locationProvider',[function ($stateProvider, $urlRouterProvider, $locationProvider) {
         $urlRouterProvider
             .otherwise('/');
 
         $locationProvider.html5Mode(true);
-    })
+    }])
     .run(['$rootScope', '$location', 'Auth','utils','$modal',function ($rootScope, $location, Auth,utils,$modal) {
         $rootScope.$watch('usuario', function(currentUser) {
             if (!currentUser && (['/', '/login', '/logout', '/signup'].indexOf($location.path()) == -1 )) {

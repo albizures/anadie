@@ -18,7 +18,7 @@ var anApp = angular.module("anApp",[
         1 : false,
         2 : 1
     })
-    .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider',function ($stateProvider, $urlRouterProvider, $locationProvider) {
         $urlRouterProvider
             .otherwise('/');
 

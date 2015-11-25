@@ -22,7 +22,7 @@ var anApp = angular.module("anApp",[
         $urlRouterProvider
             .otherwise('/');
 
-        $locationProvider.html5Mode(true);
+        $locationProvider.html5Mode(false);
     })
     .run(['$rootScope', '$location', 'Auth','utils','$modal',function ($rootScope, $location, Auth,utils,$modal) {
         $rootScope.$watch('usuario', function(currentUser) {

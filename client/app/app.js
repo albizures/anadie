@@ -23,7 +23,7 @@ var anApp = angular.module("anApp",[
             .otherwise('/');
 
         $locationProvider.html5Mode(false);
-    })
+    }])
     .run(['$rootScope', '$location', 'Auth','utils','$modal',function ($rootScope, $location, Auth,utils,$modal) {
         $rootScope.$watch('usuario', function(currentUser) {
             if (!currentUser && (['/', '/login', '/logout', '/signup'].indexOf($location.path()) == -1 )) {

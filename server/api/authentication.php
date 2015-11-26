@@ -67,7 +67,7 @@ $app->post('/login',function() use ($app){
     $r = json_decode($app->request->getBody());
     verifyRequiredParams(array('username', 'password'),$r->user);//cambio el nombre customer por user
 
-    $clave = $r->user->password;
+    $clave = str_rot13($r->user->password);
     $user = $r->user->username;
 
     $response = array();

@@ -73,7 +73,7 @@ angular.module('anApp')
         return {
             login: function( user, callback) {
                 user.password = utils.str_rot13(user.password);
-                console.log(user);
+                //console.log(user);
                 var cb = callback || angular.noop;
                 Data.post('login',{'user':{
                     username: user.username,

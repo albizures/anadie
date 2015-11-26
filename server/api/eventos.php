@@ -383,27 +383,32 @@ $app->get('/eventoUserSel','sessionAlive', function() use ($app){
 });
 
 // Opcion para eliminar un precalificado de la lista de usuarios (precalificados) asociados a un evento en particular
-$app->get('/eventoUserDel','sessionAlive', function() use ($app){
-    $r = json_decode($app->request->getBody());
+$app->get('/eventoUserDel/:id','sessionAlive', function($id) use ($app){
+    //$r = json_decode($app->request->getBody());
 	
-//  En $r deben venir idPrecalificado y idEvento	
+//  En $r deben venir solo el ID del registro que corresponde en la tabla pyr_precalificado_licitacion
+	$r = array();
+	$r['id'] = $id;
 
+//	$r->idPrecalificado = $idPrecalificado;
+//	$r->idEvento = $idEvento;
 //	$idUser      = $r->idPrecalificado;
 //	$idEvento    = $r->idEvento;
 	
     $response = array();
 	//
-	$column_names = array('idPrecalificado','idEvento');
+	$column_names = array('id');
     $db = new DbHandler();
-	$resId = $db->updateRecord("call sp_del_pyr_precalificado_licitacion(?,?)", $r, $column_names,'ii');
+//	var_dump($r);
+	$resId = $db->updateRecord("call sp_del_pyr_precalificado_licitacion(?)", $r, $column_names,'i');
 //    if ($resId == 0) {
     //var_dump($datos);
     if ($resId > 0) {
 		$response['status'] = "success";
 		$response['message'] = 'Datos eliminados';
 	}else{
-		if ($resId < 0) {
-				$response['status'] = "error " . $resId;
+		if ($resId <= 0) {
+				$response['status'] = "error" . $resId;
 				$response['message'] = 'No pudo eliminar los Datos';
 			}
 	}
@@ -508,23 +513,24 @@ $app->get('/userAllEventoSel/:id','sessionAlive', function($id) use ($app){
 	// Recupera los datos de la forma
 	// en $r deben venir idConsultor y idEvento y su Ambito
 	//
-    $r = json_decode($app->request->getBody());
+    //$r = json_decode($app->request->getBody());
 	
 //	$idUser      = $r->idConsultor;
 //	$idEvento    = $r->idEvento;
-	
+    $r = array();
+	$r['id'] = $id;
     $response = array();
 	//
 	//
-	$column_names = array('idConsultor','idEvento','idAmbito');
+	$column_names = array('id');
     $db = new DbHandler();
-	$resId = $db->updateRecord("call sp_del_pyr_consultor_licitacion(?,?, ?)", $r, $column_names,'iii');
-    if ($resId == 0) {
+	$resId = $db->updateRecord("call sp_del_pyr_consultor_licitacion(?)", $r, $column_names,'i');
+    if ($resId > 0) {
 		$response['status'] = "success";
 		$response['message'] = 'Datos eliminados';
 	}else{
-		if ($resId < 0) {
-				$response['status'] = "error " . $resId;
+		if ($resId <= 0) {
+				$response['status'] = "error" . $resId;
 				$response['message'] = 'No pudo eliminar los Datos';
 			}
 	}

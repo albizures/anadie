@@ -60,7 +60,7 @@ angular.module('anApp')
                 }
                 Data.get('userEventoSel/'+$scope.licitacionSel.id)
                     .then(function (results) {
-                        console.log(results);
+                        //console.log(results);
                         if(results.message){
                             Data.toast(results);
                             $scope.usuarios = [];
@@ -99,7 +99,7 @@ angular.module('anApp')
                 }
                 Data.get('eventoConsultorS/'+$scope.licitacionSel.id)
                     .then(function (results) {
-                        console.log(results);
+                        //console.log(results);
                         if(results.message){
                             Data.toast(results);
                             $scope.consultores = [];
@@ -175,21 +175,23 @@ angular.module('anApp')
                 });
             };
             $scope.eliminar = function (elemento,tipo) {
+				
+				console.log(tipo, elemento.id);
+				
                 $scope.confirm('Desea eliminar al ' + tipo,confirm);
 
                 function confirm (result) {
                     if(!result) return;
                     var ruta =  tipo == 'precalificado'?
-                        'eventoUserDel/' + elemento.id + '/' + $scope.licitacionSel.id:
-                        'eventoConsultorD/' + elemento.id + '/' + $scope.licitacionSel.id + '/' + elemento.id_ambito;
+                        'eventoUserDel/' + elemento.id:
+                        'eventoConsultorD/' + elemento.id;
 
                     Data.get(ruta)
                         .then(function (result) {
                             Data.toast(result);
                             if(result.status == 'success'){
                                 var arreglo = tipo == 'precalificado'? 'usuarios' : 'consultores';
-
-                                for (var i = 0; i < $scope[arreglo]; i++) {
+                                for (var i = 0; i < $scope[arreglo].length; i++) {
                                     if($scope[arreglo][i].id == elemento.id){
                                         $scope[arreglo].splice(index,1);
                                         tipo == 'precalificado'? actualizarUsuarios() : actualizarConsultores();

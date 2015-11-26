@@ -193,7 +193,7 @@ angular.module('anApp')
                                 var arreglo = tipo == 'precalificado'? 'usuarios' : 'consultores';
                                 for (var i = 0; i < $scope[arreglo].length; i++) {
                                     if($scope[arreglo][i].id == elemento.id){
-                                        $scope[arreglo].splice(index,1);
+                                        $scope[arreglo].splice(i,1);
                                         tipo == 'precalificado'? actualizarUsuarios() : actualizarConsultores();
                                         return;
                                     }

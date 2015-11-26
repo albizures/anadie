@@ -20,8 +20,12 @@
                 <span >{{p.fecha_present_p | date:'dd/MM/yyyy'}}</span>
             </td>
             <td data-title="'Acciones'" width="100" >
-                <button ng-click="ver(p)"  class="btn btn-default btn-xs">Ver</button>
-                <button ng-click="documentos(p)" class="btn btn-primary btn-xs">Documentos</button>
+                <button ng-click="ver(p)"  class="btn btn-default btn-xs">
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                </button>
+                <button ng-click="documentos(p)" class="btn btn-primary btn-xs">
+                    <span class="glyphicon glyphicon-file"></span>
+                </button>
             </td>
         </tr>
     </table>
@@ -117,8 +121,12 @@
                                     <label ng-click="agregarPDF('dictamen_tec_doc')" for="dictamenTecnico" ng-class="proyecto['dictamen_tec_']? 'btn-success' : 'btn-default' "  class="btn">PDF</label>
                                     <input nv-file-select="" uploader="uploader" accept="application/pdf" style="display : none" id="dictamenTecnico" type="file"/>
                                 </span>
-                                <button ng-if="dictamenTecnico" ng-click="ver(proyecto.dictamen_tec_doc)" class="btn btn-default">ver</button>
-                                <button ng-if="!dictamenTecnico" class="btn btn-primary" ng-click="guardar('dictamen_tec_')">Guardar</button>
+                                <button ng-if="dictamenTecnico" ng-click="ver(proyecto.dictamen_tec_doc)" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </button>
+                                <button ng-if="!dictamenTecnico" class="btn btn-primary" ng-click="guardar('dictamen_tec_')">
+                                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                                </button>
                             </div>
                         </div>
                         <hr/>
@@ -140,8 +148,12 @@
                                     <input nv-file-select="" uploader="uploader" accept="application/pdf" style="display : none" id="dictamenLegal" type="file"/>
                                 </span>
 
-                                <button ng-if="dictamenLegal" ng-click="ver(proyecto.dictamen_leg_doc)" class="btn btn-default">ver</button>
-                                <button ng-if="!dictamenLegal" class="btn btn-primary"  ng-click="guardar('dictamen_leg_')">Guardar</button>
+                                <button ng-if="dictamenLegal" ng-click="ver(proyecto.dictamen_leg_doc)" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </button>
+                                <button ng-if="!dictamenLegal" class="btn btn-primary"  ng-click="guardar('dictamen_leg_')">
+                                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                                </button>
 
                             </div>
                         </div>
@@ -163,8 +175,12 @@
                                     <label  ng-click="agregarPDF('res_dir_eje_doc')" for="resolucionEjecutiva" class="btn" ng-class="proyecto['res_dir_eje_']? 'btn-success' : 'btn-default' " >PDF</label>
                                     <input nv-file-select="" uploader="uploader" accept="application/pdf" style="display : none" id="resolucionEjecutiva" type="file"/>
                                 </span>
-                                <button ng-if="resolucionEjecutiva" ng-click="ver(proyecto.res_dir_eje_doc)" class="btn btn-default">ver</button>
-                                <button ng-if="!resolucionEjecutiva" class="btn btn-primary"  ng-click="guardar('res_dir_eje_')">Guardar</button>
+                                <button ng-if="resolucionEjecutiva" ng-click="ver(proyecto.res_dir_eje_doc)" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </button>
+                                <button ng-if="!resolucionEjecutiva" class="btn btn-primary"  ng-click="guardar('res_dir_eje_')">
+                                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                                </button>
                             </div>
                         </div>
                         <hr/>
@@ -185,8 +201,12 @@
                                     <label ng-click="agregarPDF('res_conadie_doc')" for="resolucionConadie" ng-class="proyecto['res_conadie_']? 'btn-success' : 'btn-default' " class="btn">PDF</label>
                                     <input nv-file-select="" uploader="uploader" accept="application/pdf" style="display : none" id="resolucionConadie" type="file"/>
                                 </span>
-                                <button ng-if="resolucionConadie" ng-click="ver(proyecto.res_conadie_doc)" class="btn btn-default">ver</button>
-                                <button ng-if="!resolucionConadie" class="btn btn-primary" ng-click="guardar('res_conadie_')">Guardar</button>
+                                <button ng-if="resolucionConadie" ng-click="ver(proyecto.res_conadie_doc)" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </button>
+                                <button ng-if="!resolucionConadie" class="btn btn-primary" ng-click="guardar('res_conadie_')">
+                                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                                </button>
                             </div>
                         </div>
                         <br/>

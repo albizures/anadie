@@ -32,6 +32,12 @@ angular.module('anApp').factory("utils", function () {
         anios : anios,
         convertDate : function (dia,mes,anio) {
             return moment([2015, 10,2]);
+        },
+        str_rot13 : function (str) {
+            return (str + '')
+                .replace(/[a-z]/gi, function(s) {
+                    return String.fromCharCode(s.charCodeAt(0) + (s.toLowerCase() < 'n' ? 13 : -13));
+                });
         }
     }
 

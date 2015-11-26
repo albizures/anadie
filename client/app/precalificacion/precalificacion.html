@@ -36,6 +36,11 @@
                     <td data-title="'Apellidos'" sortable="'apellidos'" filter="{ 'apellidos': 'text' }">
                         <span >{{p.apellidos}}</span>
                     </td>
+                    <td data-title="''" width="40">
+                        <button type="button"  class="btn btn-danger btn-xs" ng-click="eliminar(p,'precalificado')">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </td>
                 </tr>
             </table>
         </div>
@@ -56,6 +61,11 @@
                     </td>
                     <td data-title="'Secretario'" sortable="'secretario'" filter="{ 'secretario': 'text' }">
                         <span >{{p.secretario}}</span>
+                    </td>
+                    <td data-title="''" width="40">
+                        <button type="button"  class="btn btn-danger btn-xs" ng-click="eliminar(p,'consultor')">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
                     </td>
                 </tr>
             </table>

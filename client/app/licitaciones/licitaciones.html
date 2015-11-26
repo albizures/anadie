@@ -24,9 +24,13 @@
             </td>
             <td data-title="'Acciones'" width="100" >
                 <!--<button ng-click="ver(p)"  class="btn btn-default btn-xs">Ver</button>-->
-                <button ng-click="documentos(l)" class="btn btn-primary btn-xs">Documentos</button>
+                <button ng-click="documentos(l)" class="btn btn-primary btn-xs">
+                    <span class="glyphicon glyphicon-file"></span>
+                </button>
                 <a ui-sref="preguntas({id : l.id})" class="btn btn-primary btn-xs">Preguntas</a>
-                <a ui-sref="finalizar({id : l.id})" class="btn btn-primary btn-xs">Imprimir</a>
+                <a ui-sref="finalizar({id : l.id})" class="btn btn-warning btn-xs">
+                    <span class="glyphicon glyphicon-print"></span>
+                </a>
             </td>
         </tr>
     </table>
@@ -105,7 +109,9 @@
                 <input ng-if="validPdf()"  nv-file-select="" uploader="uploader" type="file" accept="application/pdf" id="pdf" ng-show="false">
                 <input ng-if="validZip()" nv-file-select="" uploader="uploader" type="file" accept=".mht" id="html" ng-show="false">
                 <button class="btn btn2 btn-success col-lg-2" ng-disabled="uploader.queue.length < 2 || !nombre" ng-click="uploader.uploadAll()">
-                    <span ng-if="!uploading">Guardar</span>
+                    <span ng-if="!uploading">
+                        <span class="glyphicon glyphicon-floppy-disk"></span>
+                    </span>
                     <span ng-if="uploading" class="glyphicon glyphicon-refresh load active"></span>
                 </button>
                 <div style="clear: both"></div>
@@ -114,7 +120,9 @@
             <ul class="list-group col-lg-12">
                 <li class="list-group-item" ng-repeat="d in documentos">
                         {{d.nombre_doc}}
-                    <button class="btn btn-default pull-right btn-xs" ng-click="openVisor(d.ubicacion)">ver</button>
+                    <button class="btn btn-default pull-right btn-xs" ng-click="openVisor(d.ubicacion)">
+                        <span class="glyphicon glyphicon-eye-open"></span>
+                    </button>
                 </li>
             </ul>
             <div style="clear: both"></div>

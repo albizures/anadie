@@ -14,8 +14,12 @@
                 <span >{{rol.nombre}}</span>
             </td>
             <td data-title="'Acciones'" width="125">
-                <a ng-click="editar(rol.id); rol.$edit = true" class="btn btn-primary btn-xs" >Editar</a>
-                <a ng-click="eliminar(rol.id,$index)" class="btn btn-default btn-xs">Eliminar</a>
+                <a ng-click="editar(rol.id); rol.$edit = true" class="btn btn-primary btn-xs" >
+                    <span class="glyphicon glyphicon-pencil"></span>
+                </a>
+                <a ng-click="eliminar(rol.id,$index)" class="btn btn-danger btn-xs">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </a>
             </td>
         </tr>
     </table>
@@ -44,11 +48,15 @@
                     <ul class="list-group" >
                         <li ng-if="opcionesRol.length > 0 " ng-repeat="opcion in opcionesRol" class="list-group-item">
                             {{opcion.opcion}}
-                            <button type="button" ng-click="eliminarOpcion(opcion.idopcion)" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" ng-click="eliminarOpcion(opcion.idopcion)"  class="btn btn-danger btn-xs">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
                         </li>
                         <li ng-if="newOpcionesRol.length > 0" ng-repeat="opcion in newOpcionesRol" class="list-group-item">
                             {{opcion.opcion}}
-                            <button type="button" ng-click="eliminarOpcion(opcion.idopcion)" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" ng-click="eliminarOpcion(opcion.idopcion)" class="btn btn-danger btn-xs">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </button>
                         </li>
                     </ul>
                 </div>

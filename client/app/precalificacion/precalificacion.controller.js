@@ -174,4 +174,32 @@ angular.module('anApp')
                     actualizarConsultores(true);
                 });
             };
+            $scope.eliminar = function (elemento,tipo) {
+                $scope.confirm('Desea eliminar al ' + tipo,confirm);
+
+                function confirm (result) {
+                    if(!result) return;
+                    var ruta =  tipo == 'precalificado'?
+                        'eventoUserDel/' + elemento.id + '/' + $scope.licitacionSel.id:
+                        'eventoConsultorD/' + elemento.id + '/' + $scope.licitacionSel.id + '/' + elemento.id_ambito;
+
+                    Data.get(ruta)
+                        .then(function (result) {
+                            Data.toast(result);
+                            if(result.status == 'success'){
+                                var arreglo = tipo == 'precalificado'? 'usuarios' : 'consultores';
+
+                                for (var i = 0; i < $scope[arreglo]; i++) {
+                                    if($scope[arreglo][i].id == elemento.id){
+                                        $scope[arreglo].splice(index,1);
+                                        tipo == 'precalificado'? actualizarUsuarios() : actualizarConsultores();
+                                        return;
+                                    }
+
+                                }
+                            }
+
+                        });
+                }
+            };
         }]);

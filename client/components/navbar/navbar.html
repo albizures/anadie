@@ -2,7 +2,7 @@
     <div class="logotipo">
         <img src="client/assets/imagenes/logo1.png" width="200" alt="">
         <div class="pull-right">
-            <button class="pull-right btn btn-default btn-xs" ng-click="logout()">Salir</button>
+            <button ng-if="$root.usuario" class="pull-right btn btn-default btn-xs" ng-click="logout()">Salir</button>
             <div>{{$root.usuario.nombre}}</div>
         </div>
     </div>

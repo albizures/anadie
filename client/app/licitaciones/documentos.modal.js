@@ -9,6 +9,7 @@ angular.module('anApp')
             $scope.create = true;
 
             var zip = ['application/zip', 'application/x-zip', 'application/x-zip-compressed', 'application/octet-stream', 'multipart/x-zip'];
+			var tnombre = "";
 
             function traerDocumentos() {
                 Data.get('eventoFileSel/'+ licitacion.id)
@@ -62,10 +63,11 @@ angular.module('anApp')
             $scope.uploader.onBeforeUploadItem = function(item) {
                 console.info('onBeforeUploadItem', item);
                 console.log($scope);
+				tnombre = $scope.nombre + ' - ' + (item.file.type == "application/pdf"? 'PDF' : 'HTML');
                 item.formData.push({
                     tipo : item.file.type == "application/pdf"? 'PDF' : 'ZIP',
                     idEvento : licitacion.id,
-                    nombre_doc : $scope.nombre// + '.' + item.file.type == "application/pdf"? 'PDF' : 'ZIP'
+                    nombre_doc : tnombre// + ' - ' + item.file.type == "application/pdf"? 'PDF' : 'ZIP'
                 });
                 $scope.uploading = true;
                 $scope.create = false;

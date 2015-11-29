@@ -1,0 +1,94 @@
+<div>
+    <br/>
+    <section class="form-inline">
+        <button ng-click="limpiar()" class="btn btn2 btn-default pull-right">Limpiar filtro</button>
+        <button type="button" class="btn btn2 btn-primary pull-right" ng-model="filtro" btn-checkbox>
+            <span class="glyphicon glyphicon-filter"></span>
+        </button>
+        <button ng-click="agregar()" class="btn btn2 btn-primary"><i class="icon-white icon-plus"></i> Agregar Resolución</button>
+    </section>
+    <br/>
+    <table ng-table="tabBase"  show-filter="filtro" class="table table-striped">
+        <tr ng-repeat="base in $data">
+            <td data-title="'Organo'"  sortable="'nombreTipo'" width="25" filter="{ 'nombreTipo': 'text' }">
+                <span >{{base.nombreTipo}}</span>
+            </td>
+            <td data-title="'Documento'" sortable="'nombreProyecto'" width="25" filter="{ 'nombreProyecto': 'text' }">
+                <span >{{base.nombreProyecto}}</span>
+            </td>
+            <td data-title="'Número'" sortable="'fechaAp'" width="270" filter="{ 'fechaAp': 'text' }">
+                <span >{{base.fechaAp}}</span>
+            </td>
+            <td data-title="'Proyecto'" width="50">
+                <a ng-click="editar(prec.id); prec.$edit = true" class="btn btn-primary btn-xs" ><span class="glyphicon glyphicon-pencil"></span></a>
+            </td>
+            <td data-title="'Fecha'" width="30">
+                <a ng-click="editar(prec.id); prec.$edit = true" class="btn btn-primary btn-xs" ><span class="glyphicon glyphicon-pencil"></span></a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<script type="text/ng-template" id="modalResolucion">
+	<div>
+        <div class="modal-header">
+             <h3 class="modal-title">Ingrese los datos de la Resolución</h3>
+        </div>
+		<div class="modal-body">
+			<form novalidate name="formOpcion" >
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="tipo">Organo </label>
+                            <select ng-model="pre.id_tipo_pre" id="tipo" ng-options="u.id as u.nombre for u in tipos" class="form-control" required=""></select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="tipo">Documento </label>
+                            <select ng-model="pre.id_tipo_pre" id="tipo" ng-options="u.id as u.nombre for u in tipos" class="form-control" required=""></select>
+                        </div>
+                    </div>
+                </div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group" ng-show="pre.id_tipo_pre == 1 || pre.id_tipo_pre == 4">
+							<label><input  type="radio" ng-model="rdtipo" ng-init="rdtipo='persona'" id="persona" name="tipo" value="persona" checked="checked">Persona</label>
+						</div>
+                        <div class="form-group">
+                            <label for="nombre">Proyecto</label>
+                            <input ng-disabled="disable" ng-model="pre.lugar" type="text" class="form-control" id="lugar" placeholder="Nombre del proyecto" required/>
+                        </div>
+						<div class="form-group">
+							<label for="nombre">Número de registro</label>
+							<input ng-disabled="disable" ng-model="pre.nombre" type="text" class="form-control" id="nombre" placeholder="Número de Registro" required/>
+						</div>
+						<div class="form-group">
+							<label for="nombre">Tema</label>
+							<input ng-disabled="disable" ng-model="pre.nombre" type="text" class="form-control" id="nombre" placeholder="Tema" required/>
+						</div>
+						<div class="form-group">
+							<label for="nombre">Sinopsis</label>
+							<input ng-disabled="disable" ng-model="pre.nombre" type="text" class="form-control" id="nombre" placeholder="Sinopsis" required/>
+						</div>
+					</div>
+					<div class="col-md-6">
+                        <div class="form-group">
+                            <label >Fecha</label>
+                            <div class="col-md-12 fecha ">
+                                <select ng-options="i for i in dias" ng-model="pre.dia" id="dia" class="form-control"></select>
+                                <select ng-options="i.id as i.nombre for i in meses" ng-model="pre.mes" id="mes" class="form-control"></select>
+                                <select ng-options="i for i in anios" ng-model="pre.anio" id="anios" class="form-control"></select>
+                            </div>
+                        </div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn2 btn-primary" ng-disabled="!formOpcion.$valid" ng-click="ok()">Aceptar</button>
+			<button class="btn btn2 btn-warning" ng-click="cancel()">Cancelar</button>
+		</div>
+	</div>
+</script>

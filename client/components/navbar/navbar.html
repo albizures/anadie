@@ -3,8 +3,6 @@
         <img src="client/assets/imagenes/logo1.png" width="200" alt="">
 		<img src="client/assets/imagenes/logo2.png" width="200" align="right">
         <div class="pull-right">
-            <button ng-if="$root.usuario" class="pull-right btn btn-default btn-xs" ng-click="logout()">Salir</button>
-            <div>{{$root.usuario.nombre}}</div>
         </div>
     </div>
     <nav>
@@ -13,6 +11,20 @@
                 <a ui-sref="main">Inicio</a>
             </li>
             <li ng-repeat="item in $root.opciones" menu-item="item">{{item}}</li>
+            <li ng-if="$root.usuario"  uib-dropdown class="btn-group pull-right">
+                <button>{{$root.usuario.nombre | capitalize}} <span class="caret"></span></button>
+                <ul role="menu" class="dropdown-menu">
+                    <li>
+                        <a ng-click="logout()">Salir</a>
+                    </li>
+                    <li class="divider">
+                    </li>
+                    <li>
+                        <a href="">Cambiar contraseña</a>
+                    </li>
+                </ul>
+
+            </li>
             <li class="contacto pull-right">
                 <a ui-sref="contacto">Aviso legal</a>
             </li>

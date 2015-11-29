@@ -107,17 +107,18 @@ angular.module('anApp')
             },
             template: '<li ></li>',
             link: function (scope, element, attrs) {
-                if (scope.item.divider) {
+                if(!hasVal(scope.item)) return;
+                if (scope.item.titulo == "----------") {
                     element.addClass('divider');
                     element.empty();
                 }
-                if (scope.item.submenu) {
+                if ( scope.item.submenu) {
                     //console.log('item',scope);
                     element.attr('dropdown','');
                     element.addClass('btn-group');
                     var text = element.children('a').text();
                     element.empty();
-                    var $a = $('<button>'+scope.item.titulo +' <span class="caret"></span></div>');
+                    var $a = $('<button>'+scope.item.titulo +' <span class="caret"></span></button>');
                     element.append($a);
 
                     var $submenu = $('<div menu="item.submenu" menu-empty="true" class="dropdown-menu"></div>');
@@ -125,7 +126,7 @@ angular.module('anApp')
                 }else{
                     element.addClass('submenu');
                     element.attr('role','menuitem');
-                    var link = $('<a ui-sref="'+ scope.item.nombre.toLowerCase() +'">'+scope.item.titulo+'</a>')
+                    var link = $('<a ui-sref="'+ scope.item.nombre.toLowerCase() +'">'+scope.item.titulo+'</a>');
                     element.append(link);
                     //element.text(scope.item.titulo);
                 }

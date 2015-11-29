@@ -5,7 +5,7 @@
         </div>
         <br/>
         <table ng-table="tableLicitaciones"  show-filter="filtro" class="table table-striped">
-            <tr ng-repeat="l in $data" ng-click="selLicitacion(l)" ng-class="{info : licitacionSel == l}">
+            <tr ng-repeat="l in $data" an-preview="l.url" ng-click="selLicitacion(l)" ng-class="{info : licitacionSel == l}">
                 <td data-title="'Nombre'" sortable="'nombre'" width="400" filter="{ 'nombre': 'text' }">
                     <span >{{l.nombre}}</span>
                 </td>

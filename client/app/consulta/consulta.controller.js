@@ -12,7 +12,7 @@ angular.module('anApp')
                         return;
                     }
                     for(index in results){
-                        results[index] = utils.convertNumber(results[index]);
+                        results[index].url = 'http://randomimage.setgetgo.com/get.php';//'http://lorempixel.com/400/200/sports/'+results[index].id+'/';
                     }
                     //console.log(results);
                     $scope.licitaciones = results;

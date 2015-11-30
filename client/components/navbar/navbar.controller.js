@@ -2,7 +2,7 @@
  * Created by josec on 6/26/2015.
  */
 angular.module('anApp')
-    .controller('NavbarCtrl', ['$scope', '$location','$rootScope','Auth',function ($scope, $location,$rootScope,Auth) {
+    .controller('NavbarCtrl', ['$scope', '$location','$rootScope','Auth','$modal',function ($scope, $location,$rootScope,Auth,$modal) {
 
         $rootScope.$watch('opciones', function () {
             //console.log($rootScope.opciones); // alert('cambio');
@@ -11,6 +11,13 @@ angular.module('anApp')
         $scope.logout = function () {
             Auth.logout(function () {
                 $location.path('/login');
+            });
+        };
+        $scope.cambiarPass = function () {
+            $modal.open({
+                templateUrl : 'modal.pass',
+                controller : 'PassCtrl',
+                size : 'sm'
             });
         };
         $scope.menu = [

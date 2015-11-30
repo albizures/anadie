@@ -47,7 +47,7 @@ angular.module('anApp')
         };
         $scope.editar = function (id) {
             var modalUsuarios = $modal.open({
-                templateUrl: 'modelUsuarios',
+                templateUrl: 'usuarios.modal',
                 controller: 'ModalUsuariosCtrl',
                 resolve: {
                     usuario : function () {
@@ -75,7 +75,7 @@ angular.module('anApp')
         };
         $scope.agregar = function () {
             var modalOpciones = $modal.open({
-                templateUrl : 'modelUsuarios',
+                templateUrl : 'usuarios.modal',
                 controller : 'ModalUsuariosCtrl',
                 resolve : {
                     usuario : function () {

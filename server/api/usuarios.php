@@ -140,16 +140,15 @@ $app->post('/userU','sessionAlive',function() use ($app){
     $column_names = array('id','nombre', 'nombres', 'apellidos', 'idrol','idorganizacion','estado','email','cargo');
 	// $db->insertIntoTable($r->opcion, $column_names, 'seg_usuario' );
 	$resId = $db->updateRecord("call sp_upd_seg_usuario(?,?,?,?,?,?,?,?,?)", $r->user, $column_names,'isssiiiss');
-	
-    if ($resId == 0) {
+    if ($resId == 1) {
 		$response['status'] = "info";
 		$response['message'] = 'Datos actualizados';
-		}else{
+	}else{
 		if ($resId < 0) {
 				$response['status'] = "error " . $resId;
 				$response['message'] = 'No pudo actualizar los Datos';
 			}
-		}
+	}
 	
     echoResponse(200, $response);
 });

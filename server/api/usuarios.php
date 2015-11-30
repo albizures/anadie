@@ -173,7 +173,7 @@ $app->post('/userUpdclave','sessionAlive',function() use ($app){
 		if(passwordHash::check_password($usuario['clave'],$clave1)){
 			$column_names = array('id','clave2');
 			$r2['id'] = $usuario['id'];
-			$r2['clave2'] = $r->user->clave2;
+			$r2['clave2'] = passwordHash::hash($r->user->clave2);
 			$resId = $db->updateRecord("call sp_upd_seg_usuario_clave(?,?)", $r2, $column_names,'is');
 			if ($resId == 1) {
 				$response['status'] = "info";

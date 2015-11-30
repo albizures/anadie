@@ -144,9 +144,9 @@ $app->post('/userU','sessionAlive',function() use ($app){
 		$response['status'] = "info";
 		$response['message'] = 'Datos actualizados';
 	}else{
-		if ($resId < 0) {
+		if ($resId <= 0) {
 				$response['status'] = "error " . $resId;
-				$response['message'] = 'No pudo actualizar los Datos';
+				$response['message'] = 'No pudo actualizar los Datos: ' . $resId;
 			}
 	}
 	
@@ -175,6 +175,7 @@ $app->post('/userUpdclave','sessionAlive',function() use ($app){
 			$r2['id'] = $usuario['id'];
 			$r2['clave2'] = passwordHash::hash(str_rot13($r->user->clave2));
 			$resId = $db->updateRecord("call sp_upd_seg_usuario_clave(?,?)", $r2, $column_names,'is');
+			
 			if ($resId == 1) {
 				$response['status'] = "info";
 				$response['message'] = 'Su clave ha sido actualizada';

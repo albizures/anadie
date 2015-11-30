@@ -104,6 +104,8 @@ $app->post('/login',function() use ($app){
 			$_SESSION['uid'] = $id;
 			$_SESSION['name'] = $usuario['nombre'];
 			// 
+			$name = $usuario['nombre'];
+			$resx = $db->get1Record("select fn_ins_seg_user_logging( '$id', '$id', '$user') as id");
 			// Ya tiene los accesos , ahora busca las opciones asignadas de acuerdo a su rol
 			$res = $db->getAllRecord("call sp_sel_opciones_menu( '$id' )" );
 			

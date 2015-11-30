@@ -153,6 +153,50 @@ $app->post('/userU','sessionAlive',function() use ($app){
     echoResponse(200, $response);
 });
 
+// Actualizacion de clave
+$app->post('/userUpdclave','sessionAlive',function() use ($app){
+
+	// Recupera los datos de la forma
+	//
+    $r = json_decode($app->request->getBody());
+	
+	$user   = $_SESSION['name'];
+	$clave1 = $r->user->clave1;
+	$r2 = array();
+    	
+    $response = array();
+	//
+    $db = new DbHandler();
+	$usuario = $db->get1Record("call sp_sel_seg_usuario( '$user' )");
+    if ($usuario != NULL) {
+        //if($clave == $usuario['clave']/*passwordHash::check_password($usuario['clave'],$clave)*/){
+		if(passwordHash::check_password($usuario['clave'],$clave1)){
+			$column_names = array('id','clave2');
+			$r2['id'] = $usuario['id'];
+			$r2['clave2'] = $r->user->clave2;
+			$resId = $db->updateRecord("call sp_upd_seg_usuario_clave(?,?)", $r2, $column_names,'is');
+			if ($resId == 1) {
+				$response['status'] = "info";
+				$response['message'] = 'Su clave ha sido actualizada';
+			}
+			else{
+				$response['status'] = "error";
+				$response['message'] = 'No pudo actualizarse la Clave';
+			}	
+		}
+		else{
+			$response['status'] = "error";
+			$response['message'] = "No se pudo validar al usuario o clave";
+		}
+	}
+	else{
+		$response['status'] = "error";
+		$response['message'] = 'No se pudo validar al usuario o clave';
+		}	
+	
+    echoResponse(200, $response);
+});
+
 $app->get('/userD/:id','sessionAlive',function($id) use ($app){
 
     $response = array();

@@ -348,6 +348,26 @@ $app->get('/preguntaSelEvento/:id','sessionAlive', function($idEvento) use ($app
     echoResponse(200, $response);
 });
 
+// Opcion para obtener la totalidad de las preguntas, de todos los documentos de un evento de quien la hizo (usuario precalificado )
+$app->get('/preguntaSelEventoPrec/:id','sessionAlive', function($idEvento) use ($app){
+
+    $response = array();
+	//
+    $db = new DbHandler();
+	
+	$idConsultor = $_SESSION['uid'];
+    $datos = $db->getAllRecord("call sp_sel_pyr_pregunta_evento_prec('$idEvento','$idConsultor')");
+    //var_dump($datos);
+    if ($datos != NULL) {
+			$response = $datos;
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No hay datos';
+    }
+
+    echoResponse(200, $response);
+});
+
 // Seleccion de preguntas que pertenecen a un evento y a un ámbito específicos
 // sp_sel_pyr_pregunta_eventoAmbito
 $app->get('/preguntaSelEventoAmbito/:evento/:ambito','sessionAlive', function($evento,$ambito) use ($app){

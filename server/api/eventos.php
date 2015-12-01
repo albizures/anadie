@@ -214,14 +214,16 @@ class R {
 		{
 			$z = new ZipArchive();
 			$z->open($ubicacion);
-			$z->extractTo($target_dir_rel);
+			$z->extractTo($target_dir);
 			$z->close($ubicacion);
 			
 		////	$nombre_doc = str_replace('pdf','zip',$nombre_doc);
 		}
+		$vzip = array('.zip','.ZIP');
+		$new_ubicacion_rel = str_replace($vzip,'.html',$ubicacion_rel);
 		
 		$db = new DbHandler();
-		$id = $db->get1Record("select fn_ins_pyr_evento_doc_det( '$idEvento', '$nombre_doc', '$ubicacion_rel', '$usuario' ) as id");
+		$id = $db->get1Record("select fn_ins_pyr_evento_doc_det( '$idEvento', '$nombre_doc','$new_ubicacion_rel' , '$usuario' ) as id");
 
 		$response['status'] = "success";
 		$response['message'] = "Archivo recibido";

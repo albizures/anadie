@@ -104,6 +104,8 @@
         <script src="/client/app/precalificado/precalificado.modal.js"></script>
         <script src="/client/app/preguntas/preguntas.controller.js"></script>
         <script src="/client/app/preguntas/preguntas.js"></script>
+        <script src="/client/app/preguntas2/preguntas2.controller.js"></script>
+        <script src="/client/app/preguntas2/preguntas2.js"></script>
         <script src="/client/app/resolucion/resolucion.controller.js"></script>
         <script src="/client/app/resolucion/resolucion.js"></script>
         <script src="/client/app/resolucion/resolucion.modal.js"></script>
@@ -140,6 +142,57 @@
                     <br/>
                     <button class="btn btn2 btn-default pull-right" ng-click="ok(false)">cancelar</button>
                     <button class="btn btn2 btn-primary pull-right" ng-click="ok(true)">aceptar</button>
+                </div>
+            </div>
+        </script>
+        <script type="text/ng-template" id="documentos.licitaciones.modal">
+            <div>
+                <div class="modal-header">
+                    <h3 class="modal-title">Seleccione los archivos</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="" ng-if="cargar">
+                        <div class="col-lg-10">
+                            <input class="form-control" type="text" ng-model="nombre" placeholder="Nombre"/>
+                            <br/>
+                        </div>
+                        <div class="col-lg-5">
+                            <label for="pdf" class="btn btn2 btn-default col-lg-12 truncate">
+                                <span ng-if="!validPdf()">{{getPdf().file.name}}</span>
+                                <span ng-if="validPdf()">PDF</span>
+                            </label>
+                        </div>
+                        <div class="col-lg-5">
+                            <label for="html"  class="btn btn2 btn-default col-lg-12 truncate">
+                                <span ng-if="!validZip()">{{getZip().file.name}}</span>
+                                <span ng-if="validZip()">HTML</span>
+                            </label>
+                        </div>
+
+                        <input ng-if="validPdf()"  nv-file-select="" uploader="uploader" type="file" accept="application/pdf" id="pdf" ng-show="false">
+                        <input ng-if="validZip()" nv-file-select="" uploader="uploader" type="file" accept=".mht" id="html" ng-show="false">
+                        <button class="btn btn2 btn-success col-lg-2" ng-disabled="uploader.queue.length < 2 || !nombre" ng-click="uploader.uploadAll()">
+                    <span ng-if="!uploading">
+                        <span class="glyphicon glyphicon-floppy-disk"></span>
+                    </span>
+                            <span ng-if="uploading" class="glyphicon glyphicon-refresh load active"></span>
+                        </button>
+                        <div style="clear: both"></div>
+                    </div>
+                    <br/>
+                    <ul class="list-group col-lg-12">
+                        <li class="list-group-item" ng-repeat="d in documentos | filter : validarPdf ">
+                            {{d.nombre_doc}}
+                            <button class="btn btn-default pull-right btn-xs" ng-click="openVisor(d.ubicacion)">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                            </button>
+                        </li>
+                    </ul>
+                    <div style="clear: both"></div>
+                    <br/>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn2 btn-warning" ng-click="ok()">Salir</button>
                 </div>
             </div>
         </script>

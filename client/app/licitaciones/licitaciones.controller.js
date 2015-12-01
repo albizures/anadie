@@ -47,6 +47,9 @@ angular.module('anApp')
                 resolve : {
                     licitacion : function () {
                         return licitacion;
+                    },
+                    cargar : function () {
+                        return true;
                     }
                 }
             });

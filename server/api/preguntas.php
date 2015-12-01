@@ -349,20 +349,22 @@ $app->get('/preguntaSelEvento/:id','sessionAlive', function($idEvento) use ($app
 });
 
 // Opcion para obtener la totalidad de las preguntas, de todos los documentos de un evento de quien la hizo (usuario precalificado )
-$app->get('/preguntaSelEventoPrec/:id','sessionAlive', function($idEvento) use ($app){
+$app->get('/preguntaSelEventoPrec/:id','sessionAlive', function($id) use ($app){
 
     $response = array();
 	//
     $db = new DbHandler();
 	
 	$idConsultor = $_SESSION['uid'];
-    $datos = $db->getAllRecord("call sp_sel_pyr_pregunta_evento_prec('$idEvento','$idConsultor')");
+    $datos = $db->getAllRecord("call sp_sel_pyr_pregunta_evento_prec('$id','$idConsultor')");
     //var_dump($datos);
     if ($datos != NULL) {
 			$response = $datos;
     }else{
         $response['status'] = "info";
         $response['message'] = 'No hay datos';
+        $response['id'] = $id;
+        $response['usuarios'] = $idConsultor;
     }
 
     echoResponse(200, $response);

@@ -11,10 +11,6 @@ angular.module('anApp')
                         Data.toast(results);
                         return;
                     }
-                    for(index in results){
-                        results[index].url = 'http://randomimage.setgetgo.com/get.php';//'http://lorempixel.com/400/200/sports/'+results[index].id+'/';
-                    }
-                    //console.log(results);
                     $scope.licitaciones = results;
                     $scope.tableLicitaciones = new ngTableParams({
                             page : 1,
@@ -79,5 +75,9 @@ angular.module('anApp')
             }
             $scope.ver = function (documento) {
                 $state.go('visor', {id: documento.id ,documento : documento});
+            };
+            $scope.descargar = function (url) {
+                console.log(url.replace('mth','pdf').replace('html','pdf'));
+                $scope.openVisor(url.replace('mht','pdf').replace('html','pdf'));
             };
         }]);

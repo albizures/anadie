@@ -5,9 +5,12 @@
         </div>
         <br/>
         <table ng-table="tableLicitaciones"  show-filter="filtro" class="table table-striped">
-            <tr ng-repeat="l in $data" an-preview="l.url" ng-click="selLicitacion(l)" ng-class="{info : licitacionSel == l}">
+            <tr ng-repeat="l in $data" ng-click="selLicitacion(l)" ng-class="{info : licitacionSel == l}">
                 <td data-title="'Nombre'" sortable="'nombre'" width="400" filter="{ 'nombre': 'text' }">
                     <span >{{l.nombre}}</span>
+                </td>
+                <td width="50">
+                    <a ui-sref="preguntas2({id : l.id_proyecto_licitacion})" class="btn btn-primary btn-xs">Preguntas</a>
                 </td>
             </tr>
         </table>
@@ -25,6 +28,9 @@
                 <td width="50">
                     <button class="btn btn-default btn-xs" ng-click="ver(l)">
                         <span class="glyphicon glyphicon-eye-open"></span>
+                    </button>
+                    <button class="btn btn-default btn-xs" ng-click="descargar(l.ubicacion)">
+                        <span class="glyphicon glyphicon-file"></span>
                     </button>
                 </td>
             </tr>

@@ -95,7 +95,8 @@ var anApp = angular.module("anApp",[
             return moment(date).unix();
         };
         $rootScope.openVisor = function (name) {
-            var modalVisor = $modal.open({
+            window.open(name);
+           /* var modalVisor = $modal.open({
                 templateUrl : 'modalVisor',
                 controller : 'ModalVisorCtrl',
                 windowClass : 'visor',
@@ -105,7 +106,7 @@ var anApp = angular.module("anApp",[
                         return name;
                     }
                 }
-            });
+            });*/
         };
     }]).filter('capitalize', function() {
         return function(input, scope) {

@@ -3,8 +3,10 @@
  */
 
 angular.module('anApp')
-    .controller('ModalDocumentosLicitacionCtrl',["$scope", '$modalInstance','Data','utils','FileUploader','$modal','licitacion',
-        function ($scope,$modalIntance, Data, utils,FileUploader,$modal,licitacion) {
+    .controller('ModalDocumentosLicitacionCtrl',["$scope", '$modalInstance','Data','utils','FileUploader','$modal','licitacion','cargar',
+        function ($scope,$modalIntance, Data, utils,FileUploader,$modal,licitacion,cargar) {
+            $scope.cargar = cargar;
+            
             $scope.uploading = false;
             $scope.create = true;
 
@@ -59,6 +61,10 @@ angular.module('anApp')
                 $scope.create = true;
                 traerDocumentos();
 
+            };
+            $scope.validarPdf = function (documento) {
+                if(cargar) return true;
+                return documento.ubicacion.indexOf('pdf') != -1;
             };
             $scope.uploader.onBeforeUploadItem = function(item) {
                 console.info('onBeforeUploadItem', item);

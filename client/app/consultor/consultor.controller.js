@@ -52,6 +52,21 @@ angular.module('anApp')
                     }
                 });
             };
+            $scope.documentos = function (licitacion) {
+                var modalDocumentos = $modal.open({
+                    templateUrl : 'documentos.licitaciones.modal',
+                    controller : 'ModalDocumentosLicitacionCtrl',
+                    backdrop : 'static',
+                    resolve : {
+                        licitacion : function () {
+                            return licitacion;
+                        },
+                        cargar : function () {
+                            return false;
+                        }
+                    }
+                });
+            };
             $scope.agregar = function () {
                 var modalEventos = $modal.open({
                     templateUrl : 'licitaciones.modal',

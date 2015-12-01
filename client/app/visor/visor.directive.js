@@ -36,7 +36,7 @@ angular.module('anApp')
                     var ps = $(element).find('p');
                     ps.off('click');
                     ps.on('click',function (evt) {
-                        if($(this).find('font').length == 0 && $(this).find('img').length == 0) return;
+                        if($(this).find('span').length == 0 && $(this).find('img').length == 0) return;
                         scope.estado.comentando = true;
                         $(element).find('p.active').removeClass('active');
                         if(this == scope.estado.objeto){

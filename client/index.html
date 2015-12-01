@@ -29,7 +29,7 @@
             </div>
         </script>
 		<footer>
-			<p></p>
+			<p>Luis Albizures - la-innovagt.com</p>
 		</footer>
         <toaster-container></toaster-container>
         <script src="//localhost:35729/livereload.js"></script>
@@ -170,7 +170,7 @@
                         </div>
 
                         <input ng-if="validPdf()"  nv-file-select="" uploader="uploader" type="file" accept="application/pdf" id="pdf" ng-show="false">
-                        <input ng-if="validZip()" nv-file-select="" uploader="uploader" type="file" accept=".mht" id="html" ng-show="false">
+                        <input ng-if="validZip()" nv-file-select="" uploader="uploader" type="file" accept="application/zip" id="html" ng-show="false">
                         <button class="btn btn2 btn-success col-lg-2" ng-disabled="uploader.queue.length < 2 || !nombre" ng-click="uploader.uploadAll()">
                     <span ng-if="!uploading">
                         <span class="glyphicon glyphicon-floppy-disk"></span>

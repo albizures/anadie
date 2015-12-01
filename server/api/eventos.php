@@ -210,15 +210,15 @@ class R {
 
     if (move_uploaded_file($_FILES["file"]["tmp_name"], $ubicacion)){
 		//echo "el archivo vino bien\n";
-		//if (strtoupper($tipo_doc) == "MHT")
-		//{
-		//	$z = new ZipArchive();
-		//	$z->open($ubicacion);
-		//	$z->extractTo($target_dir_rel);
-		//	$z->close($ubicacion);
+		if (strtoupper($tipo_doc) == "ZIP")
+		{
+			$z = new ZipArchive();
+			$z->open($ubicacion);
+			$z->extractTo($target_dir_rel);
+			$z->close($ubicacion);
 			
-		//	$nombre_doc = str_replace('pdf','html',$nombre_doc);
-		//}
+		////	$nombre_doc = str_replace('pdf','zip',$nombre_doc);
+		}
 		
 		$db = new DbHandler();
 		$id = $db->get1Record("select fn_ins_pyr_evento_doc_det( '$idEvento', '$nombre_doc', '$ubicacion_rel', '$usuario' ) as id");

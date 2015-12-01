@@ -35,7 +35,7 @@ angular.module('anApp')
             };
             $scope.validZip = function () {
                 var result = $scope.uploader.queue.filter(function (item) {
-                    return item.file.name.indexOf('mht') !== -1
+                    return item.file.name.indexOf('zip') !== -1;
                 });
                 return result.length == 0;
             };
@@ -48,7 +48,7 @@ angular.module('anApp')
             };
             $scope.getZip = function () {
                 var result = $scope.uploader.queue.filter(function (item) {
-                    return item.file.name.indexOf('mht') !== -1
+                    return item.file.name.indexOf('zip') !== -1
                 });
                 if(result.length != 0) return result[0];
                 return undefined;
@@ -66,9 +66,10 @@ angular.module('anApp')
                 if(cargar) return true;
                 return documento.ubicacion.indexOf('pdf') != -1;
             };
+			
             $scope.uploader.onBeforeUploadItem = function(item) {
                 console.info('onBeforeUploadItem', item);
-                console.log($scope);
+				console.log('nombre: ',$scope.nombre);
 				tnombre = $scope.nombre + ' - ' + (item.file.type == "application/pdf"? 'PDF' : 'HTML');
                 item.formData.push({
                     tipo : item.file.type == "application/pdf"? 'PDF' : 'ZIP',

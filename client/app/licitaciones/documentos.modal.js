@@ -6,7 +6,7 @@ angular.module('anApp')
     .controller('ModalDocumentosLicitacionCtrl',["$scope", '$modalInstance','Data','utils','FileUploader','$modal','licitacion','cargar',
         function ($scope,$modalIntance, Data, utils,FileUploader,$modal,licitacion,cargar) {
             $scope.cargar = cargar;
-            
+
             $scope.uploading = false;
             $scope.create = true;
 
@@ -68,8 +68,6 @@ angular.module('anApp')
             };
 			
             $scope.uploader.onBeforeUploadItem = function(item) {
-                console.info('onBeforeUploadItem', item);
-				console.log('nombre: ',$scope.nombre);
 				tnombre = $scope.nombre + ' - ' + (item.file.type == "application/pdf"? 'PDF' : 'HTML');
                 item.formData.push({
                     tipo : item.file.type == "application/pdf"? 'PDF' : 'ZIP',

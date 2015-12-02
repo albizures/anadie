@@ -7,7 +7,7 @@ angular.module('anApp')
         return {
             template : '<div class="row">' +
                             '<div class="col-sm-12 z-depth-1 box">' +
-                                '<textarea placeholder="Escriba aqui su pregunta..." ng-model="pregunta"></textarea>' +
+                                '<textarea placeholder="Escriba aqui su pregunta/comentario..." ng-model="pregunta"></textarea>' +
                                 //'<div ng-class="pregunta? \'active\' : \'\'" ng-model="pregunta" contenteditable  class="textarea form-control" name="" id=""  rows="5"></div>' +
                                 '<br>'+
                                 '<div ng-repeat="a in ambitos" class="col-lg-6">' +
@@ -17,7 +17,7 @@ angular.module('anApp')
                                 '</div>' +
                                 '<button ng-disabled="!pregunta || !validAmbitos(ambitosSel)" ng-click="enviar()" class="btn btn-success btn2 col-sm-12">Enviar</button>' +
                             '</div>'+
-                            '<div class="col-sm-12 z-depth-1 coment">Preguntas anteriores:</div>'+
+                            '<div class="col-sm-12 z-depth-1 coment">Preguntas/comentarios anteriores:</div>'+
                             '<div class="col-sm-12 z-depth-1 coment" ng-repeat="p in preguntas">' +
                                 '<span ng-bind-html="p.pregunta"></span>    '+
                                 '<br/><span class="pull-right fecha">{{p.fecha_crea}}</span> '+
@@ -65,7 +65,7 @@ angular.module('anApp')
                     if(hasVal(newValue) && newValue !== ''){
                         traerComentarios(newValue);
                     }else{
-                        $scope.preguntas = [{pregunta : 'No hay preguntas...'}];
+                        $scope.preguntas = [{pregunta : 'No hay preguntas/comentarios...'}];
                     }
                 });
                 function traerComentarios (id) {
@@ -73,7 +73,7 @@ angular.module('anApp')
                     $scope.ambitosSel = [];
                     Data.get('preguntaSelOBJ/'+ $scope.documento  + '/' +id )
                         .then(function (result) {
-                            if(result.status) return $scope.preguntas = [{pregunta : 'No hay preguntas...'}];
+                            if(result.status) return $scope.preguntas = [{pregunta : 'No hay preguntas/comentarios...'}];
                             for(var i in result){
                                 result[i].fecha_crea = moment(result[i].fecha_cre).format('DD/MM/YYYY');
                             }

@@ -200,30 +200,45 @@ class R {
 	$r->nombre_doc  = $nombre_doc;
 	$r->ubicacion   = $ubicacion;
 	$r->usuario     = $usuario;
-/* create table pyr_evento_doc_det (
- id            int not null auto_increment,
- id_evento     int not null,
- nombre_doc    varchar(100) not null,
- ubicacion     varchar(100) not null,
- fecha_carga   date not null,
- usuario_carga int not null, primary key (id) );   */	
-
+	$extension      = (strtoupper($tipo_doc) == "PDF") ? '.pdf' : '.html';
+	
+	
     if (move_uploaded_file($_FILES["file"]["tmp_name"], $ubicacion)){
 		//echo "el archivo vino bien\n";
-		if (strtoupper($tipo_doc) == "ZIP")
+
+		$new_ubicacion_rel = $ubicacion;
+		$new_fname = $fname;
+		if (strtoupper($tipo_doc) == "ZIP")     // Si es un ZIP lo desempaca
 		{
 			$z = new ZipArchive();
 			$z->open($ubicacion);
 			$z->extractTo($target_dir);
 			$z->close($ubicacion);
-			
-		////	$nombre_doc = str_replace('pdf','zip',$nombre_doc);
+		
+		    unlink( $ubicacion );              // Una vez desempacado, elimina el ZIP
+
+												// El nombre del ARCHIVO no es ZIP, debe ser HTML (que es lo que viene adentro del ZIP)
+			$vzip = array('.zip','.ZIP');
+			$new_ubicacion_rel = str_replace($vzip,'.html',$ubicacion);
+			$new_fname = str_replace($vzip,'.html',$fname);
 		}
-		$vzip = array('.zip','.ZIP');
-		$new_ubicacion_rel = str_replace($vzip,'.html',$ubicacion_rel);
 		
 		$db = new DbHandler();
-		$id = $db->get1Record("select fn_ins_pyr_evento_doc_det( '$idEvento', '$nombre_doc','$new_ubicacion_rel' , '$usuario' ) as id");
+		//$id = $db->get1Record("select fn_ins_pyr_evento_doc_det( '$idEvento', '$nombre_doc','$new_ubicacion_rel' , '$usuario' ) as id");
+		$id = $db->get1Record("select fn_ins_pyr_evento_doc_det( '$idEvento', '$nombre_doc','$target_dir_rel' , '$usuario', '$extension' ) as id");
+		// Una vez generado el ID del documento en la base de datos, este usaremos para nombrar al archivo, así si se suben varios con el mismo nombre
+		//                     no se tiene conflicto.
+		
+		if (strtoupper($tipo_doc) == "PDF") {
+			$ultimo_name = $target_dir . 'f_id_' . $id['id'] . '.pdf';
+		}
+		else {
+			$ultimo_name = $target_dir . 'f_id_' . $id['id'] . '.html';
+			rename(str_replace(".html","_archivos",$new_ubicacion_rel),$target_dir . 'f_id_' . $id['id'] . '_archivos');
+		}
+		
+		rename($new_ubicacion_rel,$ultimo_name);
+		
 
 		$response['status'] = "success";
 		$response['message'] = "Archivo recibido";

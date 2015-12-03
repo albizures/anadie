@@ -1,9 +1,8 @@
 <header class="head navbar" ng-controller="NavbarCtrl">
     <div class="logotipo">
-        <img src="client/assets/imagenes/logo1.png" width="200" alt="">
-        {{ImgEvento}}
-		<img src="client/assets/imagenes/logo2.png" width="200" align="right">
-        <img ng-if="mostrarImg" ng-src="{{ImgEvento}}" align="right"/>
+        <img src="client/assets/imagenes/logo1.png" height="80" alt="">
+		<img src="client/assets/imagenes/logo2.png" height="80" align="right">
+        <img ng-if="mostrarImg" class="preview-evento" height="140" ng-src="{{ImgEvento}}" align="right"/>
         <div class="pull-right">
         </div>
     </div>

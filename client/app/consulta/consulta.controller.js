@@ -5,6 +5,7 @@
 angular.module('anApp')
     .controller('ConsultaCtrl',['$scope','Data','$rootScope','ngTableParams','$filter','$modal','utils','$state',
         function ($scope,Data, $rootScope, ngTableParams, $filter , $modal, utils, $state) {
+            $rootScope.mostrarImg = true;
             Data.get('eventoUserSel')
                 .then(function (results) {
                     if(results.message){
@@ -33,6 +34,8 @@ angular.module('anApp')
                 });
             $scope.selLicitacion = function (licitacion) {
                 $scope.licitacionSel = licitacion;
+                $rootScope.ImgEvento = $scope.licitacionSel.pos_imagen;
+                $rootScope.$applyAsync();
                 actualizarDocumentos(true);
 
             };

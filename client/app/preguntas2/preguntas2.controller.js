@@ -51,6 +51,10 @@ angular.module('anApp')
                     }
                 );
             }
+
+            $scope.pdfRespuesta = function (id) {
+                window.open('server/uploaded_files/1_prueba6.pdf');
+            };
             $scope.limpiar = function () {
                 $scope.tablePreguntas.sorting({});
                 $scope.tablePreguntas.filter({});

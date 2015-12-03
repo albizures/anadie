@@ -3,8 +3,9 @@
  */
 
 angular.module('anApp')
-    .controller('VisorCtrl',['$scope','$stateParams','Data',function ($scope,$stateParams,Data) {
+    .controller('VisorCtrl',['$scope','$stateParams','Data','$rootScope',function ($scope,$stateParams,Data,$rootScope ) {
         $scope.estado = {};
+        $rootScope.mostrarImg = true;
         if($stateParams.documento === null){
             Data.get('eventoFileSelID/'+ $stateParams.id)
                 .then(function (result) {

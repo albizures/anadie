@@ -20,6 +20,10 @@ angular.module('anApp')
                 size : 'sm'
             });
         };
+        $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
+            console.log(toState,fromState);
+            $rootScope.mostrarImg = toState.name == 'visor' || fromState.name == 'consulta';
+        });
         $scope.menu = [
         {
            "title": "Home",

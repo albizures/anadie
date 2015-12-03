@@ -21,8 +21,11 @@ angular.module('anApp')
             });
         };
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){
-            console.log(toState,fromState);
-            $rootScope.mostrarImg = toState.name == 'visor' || fromState.name == 'consulta';
+            //console.log(toState.name,toState.name);
+			$rootScope.ImgEvento = (toState.name == 'visor' || toState.name == 'consulta') ? $rootScope.ImgEvento : '';
+			//console.log($rootScope.ImgEvento,toState.name == 'visor' || toState.name == 'consulta');
+			//$rootScope.$applyAsync();
+            $rootScope.mostrarImg = toState.name == 'visor' || toState.name == 'consulta';
         });
         $scope.menu = [
         {

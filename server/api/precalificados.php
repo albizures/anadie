@@ -38,13 +38,13 @@ $app->post('/precalificadosIn','sessionAlive',function() use ($app){
 	$fecha         = $r->prec->fecha; 
 	$tipo_persona  = $r->prec->tipo_persona; 
 	
-	$nombre        = $r->prec->nombre; 
-	$DPI           = $r->prec->DPI; 
-	$pasaporte     = $r->prec->pasaporte; 
-	$nit           = $r->prec->nit; 
-	$id_pais_nac   = $r->prec->id_pais_nac;
-    $razon_social  = $r->prec->razon_social; 
-	$ofis_principal = $r->prec->ofis_principal; 
+	$nombre         = $r->prec->nombre; 
+	$DPI            = $r->prec->DPI; 
+	$pasaporte      = $r->prec->pasaporte; 
+	$nit            = $r->prec->nit; 
+	$id_pais_nac    = $r->prec->id_pais_nac;
+    $razon_social   = isset($r->prec->razon_social) ? $r->prec->razon_social : 'N/A';       // Caso de peritos no lo necesitan
+	$ofis_principal = isset($r->prec->ofis_principal) ? $r->prec->ofis_principal : 'N/A';   // Caso de peritos no lo necesitan
 	$Domicilio      = $r->prec->domicilio;
 	$dir_recibe_notificacion = $r->prec->dir_recibe_notificacion; 
 	$Telefono       = $r->prec->telefono;
@@ -57,6 +57,7 @@ $app->post('/precalificadosIn','sessionAlive',function() use ($app){
 	$perj_dir_recibe_notificacion = '';//$r->prec->perj_dir_recibe_notificacion;
 	$perj_Telefono  = '';//$r->prec->perj_Telefono;
 	$perj_rep_legal = '';//$r->prec->perj_rep_legal;
+	$email          = $r->prec->email;
 	$perj_DPI       = $r->prec->perj_DPI; 
 	$titulo         = $r->prec->titulo;
 	$grado          = $r->prec->grado;
@@ -76,9 +77,8 @@ $app->post('/precalificadosIn','sessionAlive',function() use ($app){
 											'$perj_nombre', '$perj_razon_social', '$perj_ofis_principal', 
 											'$perj_Domicilio', '$perj_dir_recibe_notificacion',
 											'$perj_Telefono', '$perj_rep_legal', '$perj_DPI', 
-											'$id_usuario_crea','$titulo','$grado','$universidad','$anio_egreso' ) as id")['id'];
-	
-	if ($error == "no") {
+											'$id_usuario_crea','$titulo','$grado','$universidad','$anio_egreso', '$email' ) as id")['id'];
+	if ($id != NULL) {
 			$response['status'] = "success";
 			$response['message'] = 'Se agrego correctamente';
 			$response['data'] = $id;

@@ -3,8 +3,9 @@
  */
 
 angular.module('anApp')
-    .controller('VisorCtrl',['$scope','$stateParams','Data','$rootScope',function ($scope,$stateParams,Data,$rootScope ) {
+    .controller('VisorCtrl',['$scope','$stateParams','Data','$rootScope','$location',function ($scope,$stateParams,Data,$rootScope,$location ) {
         $scope.estado = {};
+        $scope.estado.preguntaSel = $location.hash();
         $rootScope.mostrarImg = true;
         if($stateParams.documento === null){
             Data.get('eventoFileSelID/'+ $stateParams.id)
@@ -12,6 +13,7 @@ angular.module('anApp')
                     if(result.message){
                         return Data.toast(result);
                     }
+                    result[0].ubicacion = result[0].ubicacion + '?' + Date.now();
                     $scope.documento = result[0];
                 });
         }else{

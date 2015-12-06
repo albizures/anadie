@@ -16,9 +16,12 @@
                 <td data-title="'Estado'" sortable="'est'" width="400" filter="{ 'est': 'text' }">
                     {{i.est}}
                 </td>
-                <td data-title="''" width="40">
+                <td data-title="''" width="80">
                     <button type="button"  class="btn btn-primary btn-xs" ng-click="pdfRespuesta(i.id)">
                         <span class="glyphicon glyphicon-file"></span>
+                    </button>
+                    <button type="button"  class="btn btn-primary btn-xs" ng-click="irPregunta(i.id_doc_det,i.id_objeto)">
+                        <span class="glyphicon glyphicon-eye-open"></span>
                     </button>
                 </td>
             </tr>

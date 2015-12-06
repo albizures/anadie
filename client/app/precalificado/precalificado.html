@@ -14,7 +14,8 @@
                 <span >{{prec.precalificado}}</span>
             </td>
             <td data-title="'Persona/Empresa'" sortable="'tipo_persona'" width="25" filter="{ 'tipo_persona': 'text' }">
-                <span >{{prec.tipo_persona}}</span>
+                <span >{{formatearTipo(prec.tipo_persona)}}</span>
+
             </td>
             <td data-title="'Nombre'" sortable="'nombre'" width="300" filter="{ 'nombre': 'text' }">
                 <span >{{prec.nombre}}</span>
@@ -23,7 +24,10 @@
                 <span >{{prec.Domicilio}}</span>
             </td>
             <td data-title="'Acciones'" width="50">
-                <a ng-click="editar(prec.id); prec.$edit = true" class="btn btn-primary btn-xs" ><span class="glyphicon glyphicon-pencil"></span></a>
+                <!--<a ng-click="editar(prec.id); prec.$edit = true" class="btn btn-primary btn-xs" ><span class="glyphicon glyphicon-pencil"></span></a>-->
+                <button ng-click="ver(prec.id); prec.$edit = true" class="btn btn-primary btn-xs" >
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                </button>
             </td>
         </tr>
     </table>
@@ -57,101 +61,107 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group" ng-show="pre.id_tipo_pre == 1 || pre.id_tipo_pre == 4">
-							<label><input  type="radio" ng-model="rdtipo" ng-init="rdtipo='persona'" id="persona" name="tipo" value="persona" checked="checked">Persona</label>
+							<label>
+                                <input type="radio" ng-model="rdtipo" ng-init="rdtipo='0'" id="persona" name="tipo" value="0" checked="checked">
+                                Persona
+                            </label>
 						</div>
                         <div class="form-group">
                             <label for="nombre">Lugar</label>
-                            <input ng-disabled="disable" ng-model="pre.lugar" type="text" class="form-control" id="lugar" placeholder="Lugar" required/>
+                            <input  ng-model="pre.lugar" type="text" class="form-control" id="lugar" placeholder="Lugar" required/>
                         </div>
 						<div class="form-group">
 							<label for="nombre">Nombre</label>
-							<input ng-disabled="disable" ng-model="pre.nombre" type="text" class="form-control" id="nombre" placeholder="Nombre" required/>
+							<input  ng-model="pre.nombre" type="text" class="form-control" id="nombre" placeholder="Nombre" required/>
 						</div>
 						<div class="form-group">
-							<div ng-if="rdtipo == 'persona'">
+							<div ng-if="rdtipo == '0'">
 								<label for="DPI">DPI</label>
-								<input ng-disabled="disable" ng-model="pre.DPI" type="text" class="form-control" id="DPI" placeholder="DPI" required/>
+								<input  ng-model="pre.DPI" type="text" class="form-control" id="DPI" placeholder="DPI" required/>
 							</div>
 							<div ng-if="rdtipo == 'empresa' || pre.id_tipo_pre == 5">
 								<label for="razonsocial">Razon Social</label>
-								<input ng-disabled="disable" ng-model="pre.razon_social" type="text" class="form-control" id="razonsocial" placeholder="Razon Social" required/>
+								<input  ng-model="pre.razon_social" type="text" class="form-control" id="razonsocial" placeholder="Razon Social" required/>
 							</div> 						
 						</div>
 						<div class="form-group">
-						    <div ng-if="rdtipo == 'persona'">
-								<label for="paisnac">Pais de Nacionalidad</label>
-								<input ng-disabled="disable" ng-model="pre.paisnac" type="text" class="form-control" id="paisnac" placeholder="Pais de Nacionalidad" required/>
-							</div>
+						    <div ng-if="rdtipo == '0'">
+								<label for="pais">Pais de Nacionalidad</label>
+                                <select ng-disabled="!paises || disable" ng-options="item.id as item.nombre for item in paises" required ng-model="pre.paisnac" id="pais" class="form-control"></select>
+                            </div>
                         </div>
                         <div class="form-group">
 							<div ng-if="rdtipo == 'empresa' || pre.id_tipo_pre == 5">
 								<label for="oficina">Oficina principal o Sucursal</label>
-								<input ng-disabled="disable" ng-model="pre.ofis_principal" type="text" class="form-control" id="oficina" placeholder="Oficina principal o Sucursal" required/>
+								<input  ng-model="pre.ofis_principal" type="text" class="form-control" id="oficina" placeholder="Oficina principal o Sucursal" required/>
 							</div>
 						</div>
 						<div class="form-group">
 							<label for="domicilio">Domicilio</label>
-							<input ng-disabled="disable" ng-model="pre.domicilio" type="text" class="form-control" id="domicilio" placeholder="Domicilio" required/>
+							<input  ng-model="pre.domicilio" type="text" class="form-control" id="domicilio" placeholder="Domicilio" required/>
 						</div>
 						<div class="form-group">
 							<label for="direccion">Dirección para recibir notificaciones</label>
-							<input ng-disabled="disable" ng-model="pre.dir_recibe_notificacion" type="text" class="form-control" id="direccion" placeholder="Dirección para notificaciones" required/>
+							<input  ng-model="pre.dir_recibe_notificacion" type="text" class="form-control" id="direccion" placeholder="Dirección para notificaciones" required/>
 						</div>
 						<div class="form-group">
 							<label for="telefono">Teléfono</label>
-							<input ng-disabled="disable" ng-model="pre.telefono" type="text" class="form-control" id="telefono" placeholder="Teléfono" required/>
+							<input  ng-model="pre.telefono" type="text" class="form-control" id="telefono" placeholder="Teléfono" required/>
 						</div>
 						<div class="form-group" ng-if="pre.id_tipo_pre != 5">
 							<label for="especialidades">Especialidades que desea se le asigne</label>
-							<input ng-disabled="disable" ng-model="pre.especialidades" type="text" class="form-control" id="especialidades" placeholder="Especialidades" required/>
+							<input  ng-model="pre.especialidades" type="text" class="form-control" id="especialidades" placeholder="Especialidades" required/>
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group" ng-show="pre.id_tipo_pre == 1 || pre.id_tipo_pre == 4">
-							<label><input type="radio"  id="empresa" name="tipo" ng-model="rdtipo" value="empresa">Empresa</label>
+							<label>
+                                <input type="radio"  id="empresa" name="tipo" ng-model="rdtipo" value="1">
+                                Empresa
+                            </label>
 						</div>
                         <div class="form-group">
                             <label >Fecha</label>
                             <div class="col-md-12 fecha ">
-                                <select ng-options="i for i in dias" ng-model="pre.dia" id="dia" class="form-control"></select>
-                                <select ng-options="i.id as i.nombre for i in meses" ng-model="pre.mes" id="mes" class="form-control"></select>
-                                <select ng-options="i for i in anios" ng-model="pre.anio" id="anios" class="form-control"></select>
+                                <select ng-options="i for i in dias" ng-init="pre.dia = today.day" ng-model="pre.dia" id="dia" class="form-control"></select>
+                                <select ng-options="i.id as i.nombre for i in meses" ng-init="pre.mes = today.month" ng-model="pre.mes" id="mes" class="form-control"></select>
+                                <select ng-options="i for i in anios" ng-init="pre.anio = today.year" ng-model="pre.anio" id="anios" class="form-control"></select>
                             </div>
                         </div>
 						<div class="form-group">
 							<label for="nombre">NIT</label>
-							<input ng-disabled="disable" ng-model="pre.nit" type="text" class="form-control" id="nit" placeholder="NIT" required/>
+							<input ng-model="pre.nit" type="text" class="form-control" id="nit" placeholder="NIT" required/>
 						</div>
 						<div class="form-group">
 							<label for="nombre">Correo electrónico</label>
-							<input ng-disabled="disable" ng-model="pre.email" type="text" class="form-control" id="email" placeholder="Correo electrónico" required/>
+							<input  ng-model="pre.email" type="email" class="form-control" id="email" placeholder="Correo electrónico" required/>
 						</div>
-                        <div class="form-group" ng-if="rdtipo == 'empresa' && pre.id_tipo_pre == 4">
+                        <div class="form-group" ng-if="rdtipo == '1' && pre.id_tipo_pre == 4">
                             <label for="bienes">Bienes o servicios a ofertar</label>
                             <input  ng-model="pre.bienes" type="text" class="form-control" id="bienes" placeholder="Bienes o servicios a ofertar" required/>
                         </div>
                         <div class="form-group">
-							<div ng-if="rdtipo == 'empresa' || pre.id_tipo_pre == 5">
+							<div ng-if="rdtipo == '1' || pre.id_tipo_pre == 5">
 								<label for="nombre">Datos del</label><br>
 								<label for="nombre">Representante Legal</label>
                                 <input ng-model="pre.rep_legal" type="text" class="form-control" id="rep_legal" placeholder="Representante legal" required/>
 							</div>
 						</div>
 						<div class="form-group">
-							<div ng-if="rdtipo == 'empresa'">
+							<div ng-if="rdtipo == '1'">
 								<label for="perj_DPI">DPI</label>
-								<input ng-disabled="disable" ng-model="pre.perj_DPI" type="text" class="form-control" id="perj_DPI" placeholder="DPI" required/>
+								<input  ng-model="pre.perj_DPI" type="text" class="form-control" id="perj_DPI" placeholder="DPI" required/>
 							</div>
 						</div>
 						<div class="form-group">
-							<div ng-if="rdtipo == 'empresa'">
-								<label for="nombre">Pais de Nacionalidad</label>
-								<input ng-disabled="disable" ng-model="pre.id_pais_nac" type="text" class="form-control" id="paisnac" placeholder="Pais de Nacionalidad" required/>
+							<div ng-if="rdtipo == '1'">
+								<label for="id_pais_nac">Pais de Nacionalidad</label>
+                                <select ng-disabled="!paises || disable" ng-options="item.id as item.nombre for item in paises" required ng-model="pre.id_pais_nac" id="id_pais_nac" class="form-control"></select>
 							</div>
 						</div>
 						<div class="form-group">
                             <label for="pasaporte">Pasaporte</label>
-                            <input ng-disabled="disable" ng-model="pre.pasaporte" type="text" class="form-control" id="pasaporte" placeholder="Número de Pasaporte" required/>
+                            <input  ng-model="pre.pasaporte" type="text" class="form-control" id="pasaporte" placeholder="Número de Pasaporte" required/>
 						</div>
                         <div class="form-group" ng-if="pre.id_tipo_pre == 2 || pre.id_tipo_pre == 3">
                             <div>

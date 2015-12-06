@@ -5,8 +5,23 @@
 angular.module('anApp')
     .controller('ModalPrecalificadoCtrl',["$scope", '$modalInstance','Data','utils','precalificado',
         function ($scope,$modalIntance, Data, utils,precalificado) {
-            var PERSONA = 'persona',
-                EMPRESA = 'empresa';
+            var PERSONA = '0',
+                EMPRESA = '1',
+                anioTemp = $scope.today.year -  5;
+            $scope.anios = [];
+            Data.get('paisSel')
+                .then(function (result) {
+                    if(result.message){
+                        Data.toast(result);
+                        return;
+                    }
+                    $scope.paises = result;
+                    $scope.pre.paisnac = '1';
+                    
+                });
+            for (var i = 0; i < 7; i++) {
+                $scope.anios[i] = anioTemp + i;
+            }
             $scope.pre = precalificado || {};
             Data.get('tpSel')
                 .then(function (result) {
@@ -75,7 +90,7 @@ angular.module('anApp')
                 Data.post('precalificadosIn',{ prec : $scope.pre})
                     .then(function (result) {
                         Data.toast(result);
-                        $modalIntance.close($scope.precalificado);
+                        $modalIntance.close($scope.pre);
                     });
 
             };

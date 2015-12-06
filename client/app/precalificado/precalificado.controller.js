@@ -15,57 +15,70 @@ angular.module('anApp')
 
                 }
             });
-            Data.get('precalificadosSel')
-                .then(function (results) {
-                    for(index in results){
+            function traer() {
+                Data.get('precalificadosSel')
+                    .then(function (results) {
+                        $scope.precalificados = results;
+                        for(index in $scope.precalificados){
 
-                        results[index] = utils.convertNumber(results[index]);
-                    }
-                    // console.log(results);
-                    $scope.opciones = results;
-                    for(index in $scope.opciones){
-
-                        $scope.opciones[index].tipo = {
-                            codTipo : $scope.opciones[index].codTipo,
-                            id  : $scope.opciones[index].idTipo,
-                            nombreTipo : $scope.opciones[index].nombreTipo
-                        }
-                    }
-                    $scope.tabPrecalificado = new ngTableParams({
-                            page : 1,
-                            count : 10,
-                            sorting : {
-                                nombre : 'asc'
+                            $scope.precalificados[index].tipo = {
+                                codTipo : $scope.precalificados[index].codTipo,
+                                id  : $scope.precalificados[index].idTipo,
+                                nombreTipo : $scope.precalificados[index].nombreTipo
                             }
-                        },{
-                            total : $scope.opciones.length,
-                            filterDelay: 350,
-                            getData : function ($defer, params) {
-                                var orderedData = params.sorting() ? $filter('orderBy')($scope.opciones, params.orderBy()) : $scope.opciones;
-                                if($scope.filtro){
-                                    orderedData = params.filter() ? $filter('filter')(orderedData, params.filter()) : orderedData;
+                        }
+                        if($scope.tabPrecalificado){
+                            $scope.tabPrecalificado.reload();
+                        }else{
+                            $scope.tabPrecalificado = new ngTableParams({
+                                    page : 1,
+                                    count : 10,
+                                    sorting : {
+                                        nombre : 'asc'
+                                    }
+                                },{
+                                    total : $scope.precalificados.length,
+                                    filterDelay: 350,
+                                    getData : function ($defer, params) {
+                                        var orderedData = params.sorting() ? $filter('orderBy')($scope.precalificados, params.orderBy()) : $scope.precalificados;
+                                        if($scope.filtro){
+                                            orderedData = params.filter() ? $filter('filter')(orderedData, params.filter()) : orderedData;
+                                        }
+                                        $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                                    }
                                 }
-                                $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-                            }
+                            );
                         }
-                    );
-                });
-        $scope.agregar = function () {
-            var modalProyectos = $modal.open({
-                templateUrl : 'modalPrecalificado',
-                controller : 'ModalPrecalificadoCtrl',
-                size : 'lg',
-                backdrop : 'static',
-                resolve :{
-                    precalificado: function () {
-                        return undefined;
+                    });
+            }
+
+            $scope.agregar = function () {
+                var modalPrecalificado = $modal.open({
+                    templateUrl : 'modalPrecalificado',
+                    controller : 'ModalPrecalificadoCtrl',
+                    size : 'lg',
+                    backdrop : 'static',
+                    resolve :{
+                        precalificado: function () {
+                            return undefined;
+                        }
                     }
-                }
-            });
-		};
+                });
+                modalPrecalificado.result.then(function (precalificado) {
+                    //$scope.precalificados.push(precalificado);
+                    traer();
+
+                });
+            };
 			$scope.limpiar = function () {
                 $scope.tabPrecalificado.sorting({});
                 $scope.tabPrecalificado.filter({});
                 $scope.filtro = false;
             };
+            $scope.formatearTipo = function (val) {
+                if (val == 0) return 'Persona';
+                if (val == 1) return 'Empresa';
+                return val;
+            };
+            traer();
         }]);

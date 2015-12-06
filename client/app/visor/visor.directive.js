@@ -25,6 +25,10 @@ angular.module('anApp')
                 scope.estado.comentando = false;
                 scope.termino = function () {
                     scope.estado.cargando = false;
+                    var pregunta = $('#' + scope.estado.preguntaSel);
+                    if(pregunta.length == 1 ){
+                        window.scrollTo(0,pregunta.offset().top + 20);
+                    }
                     init();
                 };
                 function reset() {
@@ -76,7 +80,8 @@ angular.module('anApp')
             controller : function ($scope) {
                 $scope.estado.ambitos = [];
                 $scope.uploader = new FileUploader({
-                    url: 'server/api/uploadFileUPD'
+                    url: 'server/api/uploadFileUPD',
+                    headers : 'Content-Type: text/html; charset=UTF-8',
                 });
                 $scope.enviar = function () {
                     var nuevo = $scope.estado.id == '',

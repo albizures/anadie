@@ -148,6 +148,10 @@ module.exports = function(grunt){
                             }
                         },
                         {
+                            match : /\<script src="\/\/localhost:35729\/livereload.js"><\/script>/,
+                            replace : ''
+                        },
+                        {
                             //Grab the <!--build-js-start--> and <!--build-js-end--> comments and everything in-between
                             match: /\<\!\-\- injector\:js[\s\S]* endinjector \-\-\>/,
                             replacement: function ( matchedString ) {

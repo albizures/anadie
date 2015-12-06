@@ -22,9 +22,9 @@ var anApp = angular.module("anApp",[
         $urlRouterProvider
             .otherwise('/');
 
-        $locationProvider.html5Mode(false);
+        $locationProvider.html5Mode(true);
     }])
-    .run(['$rootScope', '$location', 'Auth','utils','$modal',function ($rootScope, $location, Auth,utils,$modal) {
+    .run(['$rootScope', '$location', 'Auth','utils','$modal','$state',function ($rootScope, $location, Auth,utils,$modal,$state) {
         $rootScope.$watch('usuario', function(currentUser) {
             if (!currentUser && (['/', '/login', '/logout', '/signup'].indexOf($location.path()) == -1 )) {
                 Auth.currentUser();
@@ -90,6 +90,10 @@ var anApp = angular.module("anApp",[
         });
         $rootScope.timeFromNow = function (date) {
             return moment(date).fromNow();
+        };
+        $rootScope.irPregunta = function (documento,pregunta) {
+            $location.url('/visor/' + documento + '#' + pregunta);
+            //$state.go('visor',{id : documento, '#' : pregunta});
         };
         $rootScope.getUnixDate = function (date) {
             return moment(date).unix();

@@ -29,9 +29,6 @@ angular.module('anApp')
                         Data.toast(result);
                         return;
                     }
-                    for(var i in result){
-                        utils.convertNumber(result[i]);
-                    }
                     //result =
                     $scope.sectores = result;
                     //console.log(result,$scope.proyecto,'lala');

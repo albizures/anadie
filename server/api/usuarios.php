@@ -96,18 +96,25 @@ $app->post('/userIn','sessionAlive',function() use ($app){
     $db = new DbHandler();
 	// $column_names = array('nombre', 'descripcion', 'titulo', 'idPadre','idTipo','orden');
 	// $db->insertIntoTable($r->opcion, $column_names, 'seg_usuario' );
-	$id = $db->get1Record("select fn_ins_seg_usuario( '$nombre','$nombres','$apellidos', '$clave', $idrol , $idorganizacion, $estado, '$email', '$cargo' ) as id");
-
-    if ($id != NULL) {
-        $response['status'] = "success";
-        $response['message'] = 'Se agrego correctamente';
-		$response['data'] = $id;
-			
-    }else{
-        $response['status'] = "info";
-        $response['message'] = 'No fue posible agregar los datos';
-    }
-	
+	$id = $db->get1Record("select * from seg_usuario WHERE nombre = '$nombre'");
+	//var_dump($id);
+	if ($id == NULL) {
+		$id = $db->get1Record("select fn_ins_seg_usuario( '$nombre','$nombres','$apellidos', '$clave', $idrol , $idorganizacion, $estado, '$email', '$cargo' ) as id");
+		if ($id != NULL) {
+			$response['status'] = "success";
+			$response['message'] = 'Se agrego correctamente';
+			$response['data'] = $id;
+				
+			}else{
+				$response['status'] = "info";
+				$response['message'] = 'No fue posible agregar los datos';
+			}
+	}
+	else
+	{
+				$response['status'] = "info";
+				$response['message'] = 'El usuario ya existe';
+	} 
     echoResponse(200, $response);
 });
 

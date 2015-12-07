@@ -39,10 +39,10 @@ $app->post('/precalificadosIn','sessionAlive',function() use ($app){
 	$tipo_persona  = $r->prec->tipo_persona; 
 	
 	$nombre         = $r->prec->nombre; 
-	$DPI            = $r->prec->DPI; 
+	$DPI            = isset($r->prec->DPI) ? $r->prec->DPI : 'N/A';  // Caso de Arbitros no lo pide.
 	$pasaporte      = $r->prec->pasaporte; 
 	$nit            = $r->prec->nit; 
-	$id_pais_nac    = $r->prec->id_pais_nac;
+	$id_pais_nac    = isset($r->prec->id_pais_nac) ? $r->prec->id_pais_nac : 0;   // Caso de Arbitros no pide nacionalidad.
     $razon_social   = isset($r->prec->razon_social) ? $r->prec->razon_social : 'N/A';       // Caso de peritos no lo necesitan
 	$ofis_principal = isset($r->prec->ofis_principal) ? $r->prec->ofis_principal : 'N/A';   // Caso de peritos no lo necesitan
 	$Domicilio      = $r->prec->domicilio;
@@ -58,7 +58,7 @@ $app->post('/precalificadosIn','sessionAlive',function() use ($app){
 	$perj_Telefono  = '';//$r->prec->perj_Telefono;
 	$perj_rep_legal = '';//$r->prec->perj_rep_legal;
 	$email          = $r->prec->email;
-	$perj_DPI       = $r->prec->perj_DPI; 
+	$perj_DPI       = isset($r->prec->perj_DPI) ? $r->prec->perj_DPI : "N/A";  // Caso de Arbitros no lo usa.
 	$titulo         = $r->prec->titulo;
 	$grado          = $r->prec->grado;
 	$universidad    = $r->prec->universidad;

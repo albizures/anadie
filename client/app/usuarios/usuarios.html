@@ -1,11 +1,11 @@
 <div>
     <br/>
     <section class="form-inline">
-        <button ng-click="limpiar()" class="btn btn-default pull-right">Limpiar filtro</button>
-        <button type="button" class="btn btn-primary pull-right" ng-model="filtro" btn-checkbox>
+        <button ng-click="limpiar()" class="btn btn2 btn-default pull-right">Limpiar filtro</button>
+        <button type="button" class="btn btn2 btn-primary pull-right" ng-model="filtro" btn-checkbox>
             <span class="glyphicon glyphicon-filter"></span>
         </button>
-        <button ng-click="agregar()" class="btn btn-primary"><i class="icon-white icon-plus"></i> Agregar usuario</button>
+        <button ng-click="agregar()" class="btn btn2 btn-primary"><i class="icon-white icon-plus"></i> Agregar usuario</button>
     </section>
     <br/>
     <table ng-table="tableUsuarios"  show-filter="filtro" class="table table-striped">
@@ -41,12 +41,15 @@
                 <span>{{usuario.cargo}}</span>
             </td>
             <td data-title="'Acciones'" width="125">
-                <a ng-click="editar(usuario.id); usuario.$edit = true" class="btn btn-primary btn-xs" >
+                <button ng-click="editar(usuario.id); usuario.$edit = true" class="btn btn-primary btn-xs" >
                     <span class="glyphicon glyphicon-pencil"></span>
-                </a>
-                <a ng-click="eliminar(usuario.id,$index)" class="btn btn-danger btn-xs">
+                </button>
+                <button ng-click="eliminar(usuario.id,$index)" class="btn btn-danger btn-xs">
                     <span class="glyphicon glyphicon-remove"></span>
-                </a>
+                </button>
+                <button ng-click="cambiarPass(usuario.nombre)" class="btn btn-warning btn-xs">
+                    <i class="fa fa-lock"></i>
+                </button>
             </td>
         </tr>
     </table>
@@ -59,7 +62,7 @@
                 <form novalidate name="formOpcion" >
                     <div class="form-group">
                         <label for="nombre">Nombre de usuario</label>
-                        <input ng-model="usuario.nombre" type="text" class="form-control" id="nombre" placeholder="Nombre de usuario" required/>
+                        <input ng-model="usuario.nombre" maxlength="10" type="text" class="form-control" id="nombre" placeholder="Nombre de usuario" required/>
                     </div>
                     <div class="form-group">
                         <label for="nombres">Nombres</label>
@@ -97,7 +100,7 @@
                     </div>
                     <div class="form-group">
                         <label for="email">Correo</label>
-                        <input ng-model="usuario.email" id="email" class="form-control" type="text" placeholder="Correo" required/>
+                        <input ng-model="usuario.email" id="email" class="form-control" type="email" placeholder="Correo" required/>
                     </div>
                 </form>
             </div>

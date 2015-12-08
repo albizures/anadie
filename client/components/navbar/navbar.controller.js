@@ -17,7 +17,15 @@ angular.module('anApp')
             $modal.open({
                 templateUrl : 'modal.pass',
                 controller : 'PassCtrl',
-                size : 'sm'
+                size : 'sm',
+                resolve : {
+                    administrador : function () {
+                        return false
+                    },
+                    usuario : function () {
+                        return undefined
+                    }
+                }
             });
         };
         $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams){

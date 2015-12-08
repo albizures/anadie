@@ -45,6 +45,21 @@ angular.module('anApp')
             $scope.tableUsuarios.filter({});
             $scope.filtro = false;
         };
+        $scope.cambiarPass = function (usuario) {
+            $modal.open({
+                templateUrl : 'modal.pass',
+                controller : 'PassCtrl',
+                size : 'sm',
+                resolve : {
+                    administrador : function () {
+                        return true
+                    },
+                    usuario : function () {
+                        return usuario
+                    }
+                }
+            });
+        };
         $scope.editar = function (id) {
             var modalUsuarios = $modal.open({
                 templateUrl: 'usuarios.modal',

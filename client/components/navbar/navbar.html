@@ -36,22 +36,22 @@
     <div class="modal-header">
         <h3 class="modal-title">Cambiar contraseña</h3>
     </div>
-    <div class="modal-body">
-        <div class="form-group">
+    <div ng-form="password" class="modal-body">
+        <div class="form-group" ng-if="!administrador">
             <label for="curretPass">Contraseña actual</label>
-            <input ng-model="currentPass" type="password" class="form-control" id="curretPass" placeholder="Contraseña actual" required/>
+            <input ng-model="$parent.currentPass" required type="password" class="form-control" id="curretPass" placeholder="Contraseña actual" required/>
         </div>
         <div class="form-group">
             <label for="newPass">Nueva contraseña</label>
-            <input ng-model="newPass" type="password" class="form-control" id="newPass" placeholder="Nueva contraseña" required/>
+            <input ng-model="newPass" required type="password" class="form-control" id="newPass" placeholder="Nueva contraseña" required/>
         </div>
         <div class="form-group">
-            <label for="tempPass">Repita su contraseña</label>
-            <input ng-model="tempPass" type="password" class="form-control" id="tempPass" placeholder="Nueva contraseña" required/>
+            <label for="tempPass">Repita la contraseña</label>
+            <input ng-model="tempPass" required type="password" class="form-control" id="tempPass" placeholder="Nueva contraseña" required/>
         </div>
     </div>
     <div class="modal-footer">
-        <button class="btn btn2 btn-primary" ng-click="cambiar()">Cambiar</button>
+        <button class="btn btn2 btn-primary" ng-disabled="password.$invalid" ng-click="cambiar()">Cambiar</button>
         <button class="btn btn2 btn-warning" ng-click="cancel()">Cancelar</button>
     </div>
 </script>

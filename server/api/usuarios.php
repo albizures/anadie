@@ -205,6 +205,45 @@ $app->post('/userUpdclave','sessionAlive',function() use ($app){
     echoResponse(200, $response);
 });
 
+// Establece la clave del usuario que se solicite.
+$app->post('/userSetclave','sessionAlive',function() use ($app){
+
+	// Recupera los datos de la forma
+	//
+    $r = json_decode($app->request->getBody());
+	
+	$user   = $r->user->nombreUsuario;
+	$clave1 = $r->user->clave1;
+	$r2 = array();
+
+    $response = array();
+	//
+    $db = new DbHandler();
+	$usuario = $db->get1Record("call sp_sel_seg_usuario( '$user' )");
+    if ($usuario != NULL) {
+		$column_names = array('id','clave2');
+		$r2['id'] = $usuario['id'];
+		$r2['clave2'] = passwordHash::hash(str_rot13($r->user->clave2));
+		$resId = $db->updateRecord("call sp_upd_seg_usuario_clave(?,?)", $r2, $column_names,'is');
+		
+		if ($resId == 1) {
+			$response['status'] = "info";
+			$response['message'] = 'La clave ha sido actualizada';
+		}
+		else{
+			$response['status'] = "error";
+			$response['message'] = 'No pudo actualizarse la Clave';
+		}	
+		
+	}
+	else{
+		$response['status'] = "error";
+		$response['message'] = 'No se pudo validar al usuario';
+		}	
+	
+    echoResponse(200, $response);
+});
+
 $app->get('/userD/:id','sessionAlive',function($id) use ($app){
 
     $response = array();

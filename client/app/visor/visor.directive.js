@@ -27,7 +27,13 @@ angular.module('anApp')
                     scope.estado.cargando = false;
                     var pregunta = $('#' + scope.estado.preguntaSel);
                     if(pregunta.length == 1 ){
-                        window.scrollTo(0,pregunta.offset().top + 20);
+                        window.scrollTo(0,pregunta.offset().top - 60);
+                        pregunta.addClass('active');
+                        scope.estado.comentando = true;
+                        scope.estado.id = scope.estado.preguntaSel;
+                        scope.estado.offset = pregunta.offset().top - element.offset().top;
+                        scope.estado.objeto = pregunta[0];
+                        scope.$applyAsync();
                     }
                     init();
                 };
@@ -81,7 +87,7 @@ angular.module('anApp')
                 $scope.estado.ambitos = [];
                 $scope.uploader = new FileUploader({
                     url: 'server/api/uploadFileUPD',
-                    headers : 'Content-Type: text/html; charset=UTF-8',
+                    headers : 'Content-Type: text/html; charset=UTF-8'
                 });
                 $scope.enviar = function () {
                     var nuevo = $scope.estado.id == '',

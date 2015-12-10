@@ -254,6 +254,33 @@ class R {
     echoResponse(200, $response);
 });
 
+// Actualiza un archivo HTML basado en el ID del documento, con los datos que se le pidan
+$app->post('/updateDoc','sessionAlive',function() use ($app){
+    $r = json_decode($app->request->getBody());
+	
+	$idDoc       = $r->idDoc;
+	$textoOld  = $r->textoOld;
+	$textoNew = $r->textoNew;
+	
+//select * from pyr_evento_doc_det where id = 93	
+	$db = new DbHandler();
+	$id = $db->get1Record("select * from pyr_evento_doc_det where id = $idDoc");
+	$fname = $_SERVER['DOCUMENT_ROOT'] . $id['ubicacion'];
+
+	$file_contents = file_get_contents($fname);
+	$fh = fopen($file, "w");
+    $file_contents = str_replace($textoOld,$textoNew,$file_contents);
+    fwrite($fh, $file_contents);
+    fclose($fh);
+
+	$response = array("status" => "", "message" => "", "id" => 0);
+	$response['status'] = "success";
+	$response['message'] = 'Actualización realizada';
+	$response['id'] = 0;
+    echoResponse(200, $response);
+	
+}
+
 $app->post('/uploadFileUPD','sessionAlive',function() use ($app){
 
 	$target_dir     = $_SERVER['DOCUMENT_ROOT'] ;//. "/server/uploaded_files/";
@@ -301,8 +328,8 @@ $app->get('/eventoFileSel/:id','sessionAlive', function($id) use ($app){
 
     echoResponse(200, $response);
 });
-// Recupera solo los HTML asociados a un evento.
 
+// Recupera solo los HTML asociados a un evento.
 $app->get('/eventoFileSelHTML/:id','sessionAlive', function($id) use ($app){
 
     $r = json_decode($app->request->getBody());

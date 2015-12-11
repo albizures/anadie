@@ -245,7 +245,8 @@ $app->post('/preguntaAdicionalIn','sessionAlive',function() use ($app){
 	$idEvento      = $r->pregunta->idEvento;      // Id del evento
 	$idDoc         = $r->pregunta->idDoc;         // Id del documento
 	$idUser        = $_SESSION['uid'];//$r->pregunta->idUser;        // Id del usuario que crea la pregunta
-	$pregunta      = $r->pregunta->pregunta;      // Texto o contenido de la pregunta
+	
+	$pregunta      = addslashes($r->pregunta->pregunta);      // Texto o contenido de la pregunta ... con slashes evito que palabras como Moody's no causen problemas.
 	
     $response = array();
 	//

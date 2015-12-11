@@ -46,7 +46,7 @@ angular.module('anApp')
                     var ps = $(element).find('p');
                     ps.off('click');
                     ps.on('click',function (evt) {
-                        if($(this).find('span').length == 0 && $(this).find('img').length == 0) return;
+                        if($(this).find('span,font').length == 0 && $(this).find('img').length == 0) return;
                         scope.estado.comentando = true;
                         $(element).find('p.active').removeClass('active');
                         if(this == scope.estado.objeto){
@@ -76,9 +76,12 @@ angular.module('anApp')
                 scope.changeId = function (id) {
                     scope.estado.id = scope.estado.objeto.id = id;
                 };
-                scope.getHtml = function () {
-                    $(element).find('p.active').removeClass('active');
-                    var html = $('#archivo').html();
+                scope.getHtml = function (id) {
+                    var html = {};
+                    $(scope.estado.objeto).removeClass('active');
+                    html.textoOld = $("<div />").append($(scope.estado.objeto).clone()).html();
+                    scope.changeId(id);
+                    html.textoNew = $("<div />").append($(scope.estado.objeto).clone()).html();
                     $(scope.estado.objeto).addClass('active');
                     return html;
                 }
@@ -112,10 +115,9 @@ angular.module('anApp')
                         .then(function (result) {
                             Data.toast(result);
                             if(result.status == 'success'){
-                                $scope.changeId(data.clave);
                                 if(nuevo){
                                     console.log('unevo');
-                                    $scope.updFile();
+                                    $scope.updFile(data.clave);
 
                                 }else{
                                     $scope.$broadcast('actualizarComentario');
@@ -124,8 +126,14 @@ angular.module('anApp')
                             }
                         });
                 };
-                $scope.updFile = function () {
-                    var a = new File([$scope.getHtml()],'name.html', { type: "text/html"});
+                $scope.updFile = function (id) {
+                    var datos = $scope.getHtml(id);
+                    datos.idDoc = $scope.documento.id;
+                    Data.post('updateDoc',datos)
+                        .then(function (result) {
+                            Data.toast(result);
+                        });
+                    /*var a = new File([$scope.getHtml()],'name.html', { type: "text/html"});
                     var file = new FileUploader.FileItem($scope.uploader,a);
                     file.progress = 100;
                     file.isUploaded = true;
@@ -133,7 +141,7 @@ angular.module('anApp')
 
                     file.formData.push({'nombre_doc' : $scope.documento.ubicacion});
                     $scope.uploader.queue.push(file);
-                    $scope.uploader.queue[0].upload();
+                    $scope.uploader.queue[0].upload();*/
                 }
             }
 

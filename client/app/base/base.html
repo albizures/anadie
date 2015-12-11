@@ -58,7 +58,7 @@
 						</div>
                         <div class="form-group">
                             <label for="nombre">Sector</label>
-                            <input ng-disabled="disable" ng-model="pre.lugar" type="text" class="form-control" id="lugar" placeholder="Sector al que corresponde" required/>
+                            <select ng-disabled="disable"  ng-options="i.id as i.nombre for i in sectores" ng-model="pre.lugar" class="form-control"></select>
                         </div>
 						<div class="form-group">
 							<label for="nombre">Entidad contratante del Estado</label>
@@ -85,17 +85,17 @@
                         <div class="form-group">
                             <label >Fecha de Aprobación ICE</label>
                             <div class="col-md-12 fecha ">
-                                <select ng-options="i for i in dias" ng-model="pre.dia" id="dia" class="form-control"></select>
-                                <select ng-options="i.id as i.nombre for i in meses" ng-model="pre.mes" id="mes" class="form-control"></select>
-                                <select ng-options="i for i in anios" ng-model="pre.anio" id="anios" class="form-control"></select>
+                                <select ng-options="i for i in dias" ng-model="pre.dia"  class="form-control"></select>
+                                <select ng-options="i.id as i.nombre for i in meses" ng-model="pre.mes" class="form-control"></select>
+                                <select ng-options="i for i in anios" ng-model="pre.anio" class="form-control"></select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label >Fecha de Aprobación ANADIE</label>
                             <div class="col-md-12 fecha ">
-                                <select ng-options="i for i in dias" ng-model="pre.dia" id="dia" class="form-control"></select>
-                                <select ng-options="i.id as i.nombre for i in meses" ng-model="pre.mes" id="mes" class="form-control"></select>
-                                <select ng-options="i for i in anios" ng-model="pre.anio" id="anios" class="form-control"></select>
+                                <select ng-options="i for i in dias" ng-model="pre.dia" class="form-control"></select>
+                                <select ng-options="i.id as i.nombre for i in meses" ng-model="pre.mes" class="form-control"></select>
+                                <select ng-options="i for i in anios" ng-model="pre.anio" class="form-control"></select>
                             </div>
                         </div>
                         <div class="form-group">

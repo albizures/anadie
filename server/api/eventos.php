@@ -279,7 +279,7 @@ $app->post('/updateDoc','sessionAlive',function() use ($app){
 	$response['id'] = 0;
     echoResponse(200, $response);
 	
-}
+});
 
 $app->post('/uploadFileUPD','sessionAlive',function() use ($app){
 

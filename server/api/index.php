@@ -39,6 +39,7 @@ require_once "ambitos.php";
 require_once "documentos.php";
 require_once "tipoPrecalificados.php";
 require_once "precalificados.php";
+require_once "bases.php";
 /**
  * Verifying required params posted or not
  */

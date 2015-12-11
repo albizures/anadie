@@ -21,6 +21,13 @@ angular.module('anApp')
                 //$scope.proyecto.anio = $scope.today.year;
                 //$scope.proyecto.id_pais = 1;
             }
+            Data.get('sectorSel')
+                .then(function (result) {
+                    if(result.message){
+                       return Data.toast(result);
+                    }
+                    $scope.sectores = result;
+                });
 
 
             $scope.cancel = function () {

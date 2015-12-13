@@ -38,14 +38,8 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="tipo">Tipo </label>
-                            <select ng-model="pre.id_tipo_pre" id="tipo" ng-options="u.id as u.nombre for u in tipos" class="form-control" required=""></select>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group" ng-if="pre.id_tipo_pre == 3">
-                            <label for="tipo" >Lista</label>
-                            <select ng-model="pre.lista" id="lista" class="form-control" required="">
-                                <option value="P">Precalificación</option>
+                            <select ng-init="base.tipo_base = 'P'" ng-model="pre.tipo" id="tipo" class="form-control" required="">
+                                <option value="P" >Precalificación</option>
                                 <option value="L">Licitación</option>
                             </select>
                         </div>
@@ -53,58 +47,77 @@
                 </div>
 				<div class="row">
 					<div class="col-md-6">
-						<div class="form-group" ng-show="pre.id_tipo_pre == 1 || pre.id_tipo_pre == 4">
-							<label><input  type="radio" ng-model="rdtipo" ng-init="rdtipo='persona'" id="persona" name="tipo" value="persona" checked="checked">Persona</label>
-						</div>
                         <div class="form-group">
                             <label for="nombre">Sector</label>
                             <select ng-disabled="disable"  ng-options="i.id as i.nombre for i in sectores" ng-model="pre.lugar" class="form-control"></select>
                         </div>
-						<div class="form-group">
-							<label for="nombre">Entidad contratante del Estado</label>
-							<input ng-disabled="disable" ng-model="pre.nombre" type="text" class="form-control" id="nombre" placeholder="Nombre de Entidad Contratante del Estado" required/>
+                        <div class="form-group">
+							<label for="proyecto">Nombre de Proyecto</label>
+                            <select ng-options="i.id as i.nombre for i in proyectos" ng-model="base.idProyecto" id="proyecto"  class="form-control"></select>
 						</div>
 						<div class="form-group">
-							<label for="nombre">Nombre de Proyecto</label>
-							<input ng-disabled="disable" ng-model="pre.nombre" type="text" class="form-control" id="nombre" placeholder="Nombre" required/>
+							<label for="aprobacion">Documento de Aprobación</label>
+							<input ng-disabled="disable" ng-model="pre.nombre" type="text" class="form-control" id="aprobacion" placeholder="Documento de Aprobación" required/>
 						</div>
 						<div class="form-group">
-							<label for="nombre">Documento de Aprobación</label>
-							<input ng-disabled="disable" ng-model="pre.nombre" type="text" class="form-control" id="nombre" placeholder="Documento de Aprobación" required/>
+							<label for="anexos">Anexos</label>
+							<input ng-disabled="disable" ng-model="base.num_anexos" type="text" class="form-control" id="anexos" placeholder="Cantidad de Anexos" required/>
 						</div>
 						<div class="form-group">
-							<label for="nombre">Anexos</label>
-							<input ng-disabled="disable" ng-model="pre.nombre" type="text" class="form-control" id="nombre" placeholder="Cantidad de Anexos" required/>
-						</div>
-						<div class="form-group">
-							<label for="nombre">Folios</label>
-							<input ng-disabled="disable" ng-model="pre.nombre" type="text" class="form-control" id="nombre" placeholder="Número de folios" required/>
+							<label for="folios">Folios</label>
+							<input ng-disabled="disable" ng-model="base.num_folios" type="text" class="form-control" id="folios" placeholder="Número de folios" required/>
 						</div>
 					</div>
 					<div class="col-md-6">
                         <div class="form-group">
                             <label >Fecha de Aprobación ICE</label>
                             <div class="col-md-12 fecha ">
-                                <select ng-options="i for i in dias" ng-model="pre.dia"  class="form-control"></select>
-                                <select ng-options="i.id as i.nombre for i in meses" ng-model="pre.mes" class="form-control"></select>
-                                <select ng-options="i for i in anios" ng-model="pre.anio" class="form-control"></select>
+                                <select ng-init="base.diaICE = today.day" ng-options="i for i in dias" ng-model="base.diaICE"  class="form-control"></select>
+                                <select ng-init="base.mesICE = today.month" ng-options="i.id as i.nombre for i in meses" ng-model="base.mesICE" class="form-control"></select>
+                                <select ng-init="base.anioICE = today.year" ng-options="i for i in anios" ng-model="base.anioICE" class="form-control"></select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label >Fecha de Aprobación ANADIE</label>
                             <div class="col-md-12 fecha ">
-                                <select ng-options="i for i in dias" ng-model="pre.dia" class="form-control"></select>
-                                <select ng-options="i.id as i.nombre for i in meses" ng-model="pre.mes" class="form-control"></select>
-                                <select ng-options="i for i in anios" ng-model="pre.anio" class="form-control"></select>
+                                <select ng-init="base.diaAN = today.day" ng-options="i for i in dias" ng-model="base.diaAN" class="form-control"></select>
+                                <select ng-init="base.mesAN = today.month" ng-options="i.id as i.nombre for i in meses" ng-model="base.mesAN" class="form-control"></select>
+                                <select ng-init="base.anioAN = today.year" ng-options="i for i in anios" ng-model="base.anioAN" class="form-control"></select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label >Fecha de Aprobación CONADIE</label>
                             <div class="col-md-12 fecha ">
-                                <select ng-options="i for i in dias" ng-model="pre.dia" id="dia" class="form-control"></select>
-                                <select ng-options="i.id as i.nombre for i in meses" ng-model="pre.mes" id="mes" class="form-control"></select>
-                                <select ng-options="i for i in anios" ng-model="pre.anio" id="anios" class="form-control"></select>
+                                <select ng-init="base.diaCON = today.day" ng-options="i for i in dias" ng-model="base.diaCON" id="dia" class="form-control"></select>
+                                <select ng-init="base.mesCON = today.month" ng-options="i.id as i.nombre for i in meses" ng-model="base.mesCON" id="mes" class="form-control"></select>
+                                <select ng-init="base.anioCON = today.year" ng-options="i for i in anios" ng-model="base.anioCON" id="anios" class="form-control"></select>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="ices"> </label>
+                            <div class="input-group">
+                                <select name="ices" class="form-control" ng-options="i as ice.nombre for (i,ice) in ices" id="ices" ng-model="base.ice"></select>
+                                <span class="input-group-btn">
+                                    {{base.ice}}
+                                    <button class="btn btn-primary" ng-disabled="base.ice == undefined" ng-click="agregarICE(base.ice)"><span class="glyphicon glyphicon-plus"></span></button>
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <ul class="list-group" >
+                                <li ng-if="base.ices.length > 0 " ng-repeat="ice in base.ices" class="list-group-item">
+                                    {{ice.nombre}}
+                                    <button type="button" ng-click="eliminarOpcion($index)"  class="btn btn-danger btn-xs">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                </li>
+                               <!-- <li ng-if="newOpcionesRol.length > 0" ng-repeat="opcion in newOpcionesRol" class="list-group-item">
+                                    {{opcion.opcion}}
+                                    <button type="button" ng-click="eliminarOpcion(opcion.idopcion)" class="btn btn-danger btn-xs">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                </li>-->
+                            </ul>
                         </div>
 					</div>
 				</div>

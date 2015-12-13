@@ -28,20 +28,66 @@ angular.module('anApp')
                     }
                     $scope.sectores = result;
                 });
+            Data.get('iceSel')
+                .then(function (result) {
+                    if(result.message){
+                        return Data.toast(result);
+                    }
+                    console.info(result);
+                    $scope.ices = result;
+                    $scope.base.ice = result[0].id;
+                    $scope.base.ices = [];
+                });
 
+            Data.get('eventoSel')
+                .then(function (results) {
+                    if(results.message){
+                        Data.toast(results);
+                        return;
+                    }
+                    console.log(results);
+                    $scope.proyectos = results;
+                    $scope.base.idProyecto = results[0].id;
+
+                });
 
             $scope.cancel = function () {
                 $modalIntance.dismiss('cancel');
             };
             $scope.ok = function () {
+                $scope.evento = {};
+
                 console.log($scope.base);
-                var date =  moment([$scope.pre.anio,$scope.pre.mes,$scope.pre.dia]);
-                if(!date.isValid()){
+                var dateICE =  moment([
+                    $scope.base.anioICE,
+                    $scope.base.mesICE,
+                    $scope.base.diaICE
+                ]);
+                var dateAN =  moment([
+                    $scope.base.anioAN,
+                    $scope.base.mesAN,
+                    $scope.base.diaAN
+                ]);
+                var dateCON =  moment([
+                    $scope.base.anioCON,
+                    $scope.base.mesCON,
+                    $scope.base.diaCON
+                ]);
+                if(!dateICE.isValid()){
                     return Data.toast({status : 'error', message : 'Fecha invalida'});
                 }else{
-                    $scope.pre.fecha = date.format();
+                    $scope.evento.fecha_aprob_ice = dateICE.format();
                 }
-
+                if(!dateAN.isValid()){
+                    return Data.toast({status : 'error', message : 'Fecha invalida'});
+                }else{
+                    $scope.evento.fecha_aprob_anadie = dateAN.format();
+                }
+                if(!dateCON.isValid()){
+                    return Data.toast({status : 'error', message : 'Fecha invalida'});
+                }else{
+                    $scope.evento.fecha_aprob_conadie = dateCON.format();
+                }
 
                 // if($scope.rdtipo == EMPRESA){
                     // $scope.pre.DPI = $scope.pre.paisnac = '';
@@ -65,16 +111,19 @@ angular.module('anApp')
                     // $scope.pre.especialidades = '';
                 // }
                 // $scope.pre.tipo_persona = $scope.rdtipo;
-				
-                console.log(date.isValid());
-                Data.post('baseIn',{ base : $scope.base})
+
+                Data.post('baseIn',{ base : $scope.base , evento : $scope.evento})
                     .then(function (result) {
                         Data.toast(result);
                         $modalIntance.close($scope.base);
                     });
 
             };
-            $scope.cancel = function () {
-                $modalIntance.dismiss('cancel');
+            $scope.agregarICE = function (index) {
+                console.log(index);
+                $scope.base.ices.push($scope.ices.splice(index - 1,1)[0]);
+            };
+            $scope.eliminarOpcion = function (index) {
+                $scope.ices.push($scope.base.ices.splice(index, 1)[0]);
             };
         }]);

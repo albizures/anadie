@@ -10,10 +10,6 @@ angular.module('anApp')
                     Data.toast(results);
                     return;
                 }
-                for(index in results){
-                    results[index] = utils.convertNumber(results[index]);
-                }
-                console.log(results);
                 $scope.licitaciones = results;
                 $scope.tableLicitaciones = new ngTableParams({
                         page : 1,

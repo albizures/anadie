@@ -36,7 +36,7 @@ angular.module('anApp')
                     console.info(result);
                     $scope.ices = result;
                     $scope.base.ice = result[0].id;
-                    $scope.base.ices = [];
+                    $scope.base.icesTemp = [];
                 });
 
             Data.get('eventoSel')
@@ -58,17 +58,17 @@ angular.module('anApp')
                 $scope.evento = {};
 
                 console.log($scope.base);
-                var dateICE =  moment([
+                var dateICE = moment([
                     $scope.base.anioICE,
                     $scope.base.mesICE,
                     $scope.base.diaICE
                 ]);
-                var dateAN =  moment([
+                var dateAN = moment([
                     $scope.base.anioAN,
                     $scope.base.mesAN,
                     $scope.base.diaAN
                 ]);
-                var dateCON =  moment([
+                var dateCON = moment([
                     $scope.base.anioCON,
                     $scope.base.mesCON,
                     $scope.base.diaCON
@@ -88,30 +88,11 @@ angular.module('anApp')
                 }else{
                     $scope.evento.fecha_aprob_conadie = dateCON.format();
                 }
+                $scope.base.ices = [];
 
-                // if($scope.rdtipo == EMPRESA){
-                    // $scope.pre.DPI = $scope.pre.paisnac = '';
-                // }
-                // if($scope.rdtipo != EMPRESA && $scope.pre.id_tipo_pre != 5) {
-                    // $scope.pre.rep_legal = '';
-                // }
-                // if($scope.rdtipo != EMPRESA || $scope.pre.id_tipo_pre != 4){
-                    // $scope.pre.bienes = '';
-                // }
-                // if($scope.rdtipo == PERSONA){
-                    // $scope.pre.DPI = $scope.pre.perj_DPI = $scope.pre.id_pais_nac = '';
-                // }
-                // if($scope.rdtipo != EMPRESA && $scope.pre.id_tipo_pre != 5){
-                    // $scope.razon_social =  $scope.ofis_principal = '';
-                // }
-                // if($scope.pre.id_tipo_pre != 2 && $scope.pre.id_tipo_pre != 3){
-                    // $scope.pre.titulo =  $scope.pre.grado = $scope.pre.universidad = $scope.pre.anio_egreso = '';
-                // }
-                // if($scope.pre.id_tipo_pre == 5){
-                    // $scope.pre.especialidades = '';
-                // }
-                // $scope.pre.tipo_persona = $scope.rdtipo;
-
+                for(var index in $scope.base.icesTemp){
+                    $scope.base.ices.push($scope.base.icesTemp[index].id);
+                }
                 Data.post('baseIn',{ base : $scope.base , evento : $scope.evento})
                     .then(function (result) {
                         Data.toast(result);
@@ -120,10 +101,9 @@ angular.module('anApp')
 
             };
             $scope.agregarICE = function (index) {
-                console.log(index);
-                $scope.base.ices.push($scope.ices.splice(index - 1,1)[0]);
+                $scope.base.icesTemp.push($scope.ices.splice(index,1)[0]);
             };
             $scope.eliminarOpcion = function (index) {
-                $scope.ices.push($scope.base.ices.splice(index, 1)[0]);
+                $scope.ices.push($scope.base.icesTemp.splice(index, 1)[0]);
             };
         }]);

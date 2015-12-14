@@ -38,7 +38,7 @@ $app->post('/baseIn','sessionAlive',function() use ($app){
 	// Recupera los datos de la forma
 	//
     $r = json_decode($app->request->getBody());
-	
+	var_dump($r);
 	$tipo_base       = $r->base->tipo_base;
 	$ices            = $r->base->ices;         // Debe ser un arreglo con una lista de IDs corta de ice (instituciones contratantes del estado)
 	$idProyecto      = $r->base->idProyecto;

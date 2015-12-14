@@ -38,7 +38,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="tipo">Tipo </label>
-                            <select ng-init="base.tipo_base = 'P'" ng-model="pre.tipo" id="tipo" class="form-control" required="">
+                            <select ng-init="base.tipo_base = 'P'" ng-model="base.tipo_base" id="tipo" class="form-control" required="">
                                 <option value="P" >Precalificación</option>
                                 <option value="L">Licitación</option>
                             </select>
@@ -48,11 +48,7 @@
 				<div class="row">
 					<div class="col-md-6">
                         <div class="form-group">
-                            <label for="nombre">Sector</label>
-                            <select ng-disabled="disable"  ng-options="i.id as i.nombre for i in sectores" ng-model="pre.lugar" class="form-control"></select>
-                        </div>
-                        <div class="form-group">
-							<label for="proyecto">Nombre de Proyecto</label>
+							<label for="proyecto">Proyecto</label>
                             <select ng-options="i.id as i.nombre for i in proyectos" ng-model="base.idProyecto" id="proyecto"  class="form-control"></select>
 						</div>
 						<div class="form-group">
@@ -61,11 +57,11 @@
 						</div>
 						<div class="form-group">
 							<label for="anexos">Anexos</label>
-							<input ng-disabled="disable" ng-model="base.num_anexos" type="text" class="form-control" id="anexos" placeholder="Cantidad de Anexos" required/>
+							<input ng-disabled="disable" ng-model="base.num_anexos" type="number" class="form-control" id="anexos" placeholder="Cantidad de Anexos" required/>
 						</div>
 						<div class="form-group">
 							<label for="folios">Folios</label>
-							<input ng-disabled="disable" ng-model="base.num_folios" type="text" class="form-control" id="folios" placeholder="Número de folios" required/>
+							<input ng-disabled="disable" ng-model="base.num_folios" type="number" class="form-control" id="folios" placeholder="Número de folios" required/>
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -94,18 +90,17 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="ices"> </label>
+                            <label for="ices">ICEs</label>
                             <div class="input-group">
                                 <select name="ices" class="form-control" ng-options="i as ice.nombre for (i,ice) in ices" id="ices" ng-model="base.ice"></select>
                                 <span class="input-group-btn">
-                                    {{base.ice}}
                                     <button class="btn btn-primary" ng-disabled="base.ice == undefined" ng-click="agregarICE(base.ice)"><span class="glyphicon glyphicon-plus"></span></button>
                                 </span>
                             </div>
                         </div>
                         <div>
                             <ul class="list-group" >
-                                <li ng-if="base.ices.length > 0 " ng-repeat="ice in base.ices" class="list-group-item">
+                                <li ng-if="base.icesTemp.length > 0 " ng-repeat="ice in base.icesTemp" class="list-group-item">
                                     {{ice.nombre}}
                                     <button type="button" ng-click="eliminarOpcion($index)"  class="btn btn-danger btn-xs">
                                         <span class="glyphicon glyphicon-remove"></span>

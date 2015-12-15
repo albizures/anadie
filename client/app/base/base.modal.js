@@ -8,18 +8,21 @@ angular.module('anApp')
             if(base){
                 $scope.disable = true;
 
-                //var date = moment(proyecto.fecha_present_p);
-                //proyecto.dia = date.date();
-                //proyecto.mes = date.month();
-                //proyecto.anio = date.year();
+                var date = moment(base.fecha_aprob_ice);
+                proyecto.diaICE = date.date();
+                proyecto.mesICE = date.month();
+                proyecto.anioICE = date.year();
 
-                console.log(base);
-                //$scope.proyecto = proyecto;
-            }else{
-                //$scope.proyecto.dia = $scope.today.day;
-                //$scope.proyecto.mes = $scope.today.month;
-                //$scope.proyecto.anio = $scope.today.year;
-                //$scope.proyecto.id_pais = 1;
+                date = moment(base.fecha_aprob_anadie);
+                proyecto.diaAN = date.date();
+                proyecto.mesAN = date.month();
+                proyecto.anioAN = date.year();
+
+                date = moment(base.fecha_aprob_ice);
+                proyecto.diaCON = date.date();
+                proyecto.mesCON = date.month();
+                proyecto.anioCON = date.year();
+                $scope.base = base;
             }
             Data.get('sectorSel')
                 .then(function (result) {
@@ -46,7 +49,6 @@ angular.module('anApp')
                     $scope.base.ice = result[0].id;
                     $scope.base.icesTemp = [];
                 });
-
             Data.get('docSel')
                 .then(function (results) {
                     if(results.message){

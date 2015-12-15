@@ -49,11 +49,11 @@
 					<div class="col-md-6">
                         <div class="form-group">
 							<label for="proyecto">Proyecto</label>
-                            <select ng-options="i.id as i.nombre for i in proyectos" ng-model="base.idProyecto" id="proyecto"  class="form-control"></select>
+                            <select ng-disabled="disable" ng-options="i.id as i.nombre for i in proyectos" ng-model="base.idProyecto" id="proyecto"  class="form-control"></select>
 						</div>
 						<div class="form-group">
 							<label for="aprobacion">Documento de Aprobación</label>
-                            <select ng-options="i.id as i.nombre for i in documentos" ng-model="base.idDoc" id="aprobacion"  class="form-control"></select>
+                            <select ng-disabled="disable" ng-options="i.id as i.nombre for i in documentos" ng-model="base.idDoc" id="aprobacion"  class="form-control"></select>
 						</div>
 						<div class="form-group">
 							<label for="anexos">Anexos</label>
@@ -68,31 +68,31 @@
                         <div class="form-group">
                             <label >Fecha de Aprobación ICE</label>
                             <div class="col-md-12 fecha ">
-                                <select ng-init="base.diaICE = today.day" ng-options="i for i in dias" ng-model="base.diaICE"  class="form-control"></select>
-                                <select ng-init="base.mesICE = today.month" ng-options="i.id as i.nombre for i in meses" ng-model="base.mesICE" class="form-control"></select>
-                                <select ng-init="base.anioICE = today.year" ng-options="i for i in anios" ng-model="base.anioICE" class="form-control"></select>
+                                <select ng-disabled="disable"  ng-init="base.diaICE = today.day" ng-options="i for i in dias" ng-model="base.diaICE"  class="form-control"></select>
+                                <select ng-disabled="disable" ng-init="base.mesICE = today.month" ng-options="i.id as i.nombre for i in meses" ng-model="base.mesICE" class="form-control"></select>
+                                <select ng-disabled="disable" ng-init="base.anioICE = today.year" ng-options="i for i in anios" ng-model="base.anioICE" class="form-control"></select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label >Fecha de Aprobación ANADIE</label>
                             <div class="col-md-12 fecha ">
-                                <select ng-init="base.diaAN = today.day" ng-options="i for i in dias" ng-model="base.diaAN" class="form-control"></select>
-                                <select ng-init="base.mesAN = today.month" ng-options="i.id as i.nombre for i in meses" ng-model="base.mesAN" class="form-control"></select>
-                                <select ng-init="base.anioAN = today.year" ng-options="i for i in anios" ng-model="base.anioAN" class="form-control"></select>
+                                <select ng-disabled="disable" ng-init="base.diaAN = today.day" ng-options="i for i in dias" ng-model="base.diaAN" class="form-control"></select>
+                                <select ng-disabled="disable" ng-init="base.mesAN = today.month" ng-options="i.id as i.nombre for i in meses" ng-model="base.mesAN" class="form-control"></select>
+                                <select ng-disabled="disable" ng-init="base.anioAN = today.year" ng-options="i for i in anios" ng-model="base.anioAN" class="form-control"></select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label >Fecha de Aprobación CONADIE</label>
                             <div class="col-md-12 fecha ">
-                                <select ng-init="base.diaCON = today.day" ng-options="i for i in dias" ng-model="base.diaCON" id="dia" class="form-control"></select>
-                                <select ng-init="base.mesCON = today.month" ng-options="i.id as i.nombre for i in meses" ng-model="base.mesCON" id="mes" class="form-control"></select>
-                                <select ng-init="base.anioCON = today.year" ng-options="i for i in anios" ng-model="base.anioCON" id="anios" class="form-control"></select>
+                                <select ng-disabled="disable" ng-init="base.diaCON = today.day" ng-options="i for i in dias" ng-model="base.diaCON" id="dia" class="form-control"></select>
+                                <select ng-disabled="disable" ng-init="base.mesCON = today.month" ng-options="i.id as i.nombre for i in meses" ng-model="base.mesCON" id="mes" class="form-control"></select>
+                                <select ng-disabled="disable" ng-init="base.anioCON = today.year" ng-options="i for i in anios" ng-model="base.anioCON" id="anios" class="form-control"></select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="ices">ICEs</label>
-                            <div class="input-group">
-                                <select name="ices" class="form-control" ng-options="i as ice.nombre for (i,ice) in ices" id="ices" ng-model="base.ice"></select>
+                            <div ng-if="!disable" class="input-group">
+                                <select  name="ices" class="form-control" ng-options="i as ice.nombre for (i,ice) in ices" id="ices" ng-model="base.ice"></select>
                                 <span class="input-group-btn">
                                     <button class="btn btn-primary" ng-disabled="base.ice == undefined" ng-click="agregarICE(base.ice)"><span class="glyphicon glyphicon-plus"></span></button>
                                 </span>
@@ -102,7 +102,7 @@
                             <ul class="list-group" >
                                 <li ng-if="base.icesTemp.length > 0 " ng-repeat="ice in base.icesTemp" class="list-group-item">
                                     {{ice.nombre}}
-                                    <button type="button" ng-click="eliminarOpcion($index)"  class="btn btn-danger btn-xs">
+                                    <button ng-if="!disable" type="button" ng-click="eliminarOpcion($index)"  class="btn btn-danger btn-xs">
                                         <span class="glyphicon glyphicon-remove"></span>
                                     </button>
                                 </li>

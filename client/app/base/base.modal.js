@@ -18,6 +18,7 @@ angular.module('anApp')
                 proyecto.mesAN = date.month();
                 proyecto.anioAN = date.year();
 
+
                 date = moment(base.fecha_aprob_ice);
                 proyecto.diaCON = date.date();
                 proyecto.mesCON = date.month();

@@ -13,11 +13,11 @@ angular.module('anApp')
                     if(result.message){
                         return Data.toast(result);
                     }
-                    result[0].ubicacion = result[0].ubicacion + '?' + Date.now();
+                    result[0].ubicacionTemp = result[0].ubicacion + '?' + Date.now();
+                    result[0].ubicacion = result[0].ubicacion;// + '?' + Date.now();
                     $scope.documento = result[0];
                 });
         }else{
-            result[0].ubicacionTemp = result[0].ubicacion + '?' + Date.now();
             $scope.documento = $stateParams.documento;
         }
     }]);

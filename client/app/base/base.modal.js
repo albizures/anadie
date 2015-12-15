@@ -28,6 +28,14 @@ angular.module('anApp')
                     }
                     $scope.sectores = result;
                 });
+            Data.get('proyectoSel')
+                .then(function (result) {
+                    if(result.message){
+                        return Data.toast(result);
+                    }
+                    $scope.proyectos = result;
+                    $scope.base.idProyecto = result[0].id;
+                });
             Data.get('iceSel')
                 .then(function (result) {
                     if(result.message){
@@ -39,15 +47,15 @@ angular.module('anApp')
                     $scope.base.icesTemp = [];
                 });
 
-            Data.get('eventoSel')
+            Data.get('docSel')
                 .then(function (results) {
                     if(results.message){
                         Data.toast(results);
                         return;
                     }
                     console.log(results);
-                    $scope.proyectos = results;
-                    $scope.base.idProyecto = results[0].id;
+                    $scope.documentos = results;
+                    $scope.base.idDoc = results[0].id;
 
                 });
 

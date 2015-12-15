@@ -17,6 +17,7 @@ angular.module('anApp')
                     $scope.documento = result[0];
                 });
         }else{
+            result[0].ubicacionTemp = result[0].ubicacion + '?' + Date.now();
             $scope.documento = $stateParams.documento;
         }
     }]);

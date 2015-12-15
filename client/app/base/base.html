@@ -20,7 +20,7 @@
                 <span >{{base.fechaAp}}</span>
             </td>
             <td data-title="'Acciones'" width="50">
-                <a ng-click="editar(prec.id); prec.$edit = true" class="btn btn-primary btn-xs" ><span class="glyphicon glyphicon-pencil"></span></a>
+                <a ng-click="editar(prec.id); prec.$edit = true" class="btn btn-primary btn-xs" ><span class="glyphicon glyphicon-eye-open"></span></a>
             </td>
         </tr>
     </table>
@@ -53,7 +53,7 @@
 						</div>
 						<div class="form-group">
 							<label for="aprobacion">Documento de Aprobación</label>
-							<input ng-disabled="disable" ng-model="pre.nombre" type="text" class="form-control" id="aprobacion" placeholder="Documento de Aprobación" required/>
+                            <select ng-options="i.id as i.nombre for i in documentos" ng-model="base.idDoc" id="aprobacion"  class="form-control"></select>
 						</div>
 						<div class="form-group">
 							<label for="anexos">Anexos</label>

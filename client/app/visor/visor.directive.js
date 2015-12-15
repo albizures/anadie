@@ -6,7 +6,7 @@ angular.module('anApp')
     .directive('ngVisor',['Data','FileUploader',function (Data,FileUploader) {
         return {
             template :  '<div class="col-sm-12">' +
-                            '<div id="archivo" ng-class="estado.comentando? \'\' : \'col-sm-offset-2\'" class="col-sm-8 visor" ng-include="documento.ubicacion" onload="termino()">' +
+                            '<div id="archivo" ng-class="estado.comentando? \'\' : \'col-sm-offset-2\'" class="col-sm-8 visor" ng-include="documento.ubicacionTemp" onload="termino()">' +
                             '</div>' +
                             '<div ng-if="estado.comentando" ng-coment-box="estado.id" actualizar="actualizar" documento="documento.id" offset="estado.offset" enviar="enviar" pregunta="estado.pregunta" ambitos="estado.ambitos" class="coment-box col-sm-4"></div>' +
                             '<div ng-if="estado.cargando" class="load-doc col-sm-12">' +

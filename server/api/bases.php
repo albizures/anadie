@@ -38,8 +38,8 @@ $app->post('/baseIn','sessionAlive',function() use ($app){
 	// Recupera los datos de la forma
 	//
     $r = json_decode($app->request->getBody());
-	var_dump($r);
-	$tipo_base       = $r->base->tipo_base;
+	//var_dump($r);
+	$tipo_base       = ($r->base->tipo_base == 'P') ? 1 : 0;
 	$ices            = $r->base->ices;         // Debe ser un arreglo con una lista de IDs corta de ice (instituciones contratantes del estado)
 	$idProyecto      = $r->base->idProyecto;
 	$fecha_aprob_ice      = $r->evento->fecha_aprob_ice;
@@ -47,18 +47,22 @@ $app->post('/baseIn','sessionAlive',function() use ($app){
 	$fecha_aprob_conadie  = $r->evento->fecha_aprob_conadie;
 	$num_folios           = $r->base->num_folios;
 	$num_anexos           = $r->base->num_anexos;
-	$id_doc_aprobacion    = $r->base->idDoc;
+	$idDoc                = $r->base->idDoc;
 	$nog                  = isset($r->base->nog) ? $r->base->nog : "";
 
     $response = array();
 	//
 	//
     $db = new DbHandler();
-	$id = $db->get1Record("select fn_ins_sip_base( '$tipo_base', '$idProyecto', '$fecha_aprob_ice', '$fecha_aprob_anadie', '$fecha_aprob_conadie', '$idDoc', '$num_folios', '$num_anexos', '$nog' ) as id");
+	$id = $db->get1Record("select fn_ins_sip_base( '$tipo_base', '$idProyecto', '$fecha_aprob_ice', '$fecha_aprob_anadie', '$fecha_aprob_conadie', '$idDoc', '$num_folios', '$num_anexos', '$nog' ) as id")['id'];
 
     if ($id != NULL) {
 		
 		// ingresa cada uno de las ICEs que vienen en la lista $ices
+		foreach ($ices as $ice) {
+			//var_dump("ICE: ",$ice);
+			$id2 = $db->get1Record("select fn_ins_sip_base_ice( $id, $ice ) as id");
+		}
         $response['status'] = "success";
         $response['message'] = 'Se agrego correctamente';
 		$response['data'] = $id;

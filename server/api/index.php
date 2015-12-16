@@ -40,6 +40,8 @@ require_once "documentos.php";
 require_once "tipoPrecalificados.php";
 require_once "precalificados.php";
 require_once "bases.php";
+require_once "organos.php";
+require_once "resoluciones.php";
 /**
  * Verifying required params posted or not
  */

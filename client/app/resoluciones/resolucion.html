@@ -15,7 +15,7 @@
             </td>
             <td data-title="'Documento'" sortable="'nombreProyecto'" width="25" filter="{ 'nombreProyecto': 'text' }">
                 <span >{{base.nombreProyecto}}</span>
-            </td>
+            </td>			
             <td data-title="'Número'" sortable="'fechaAp'" width="270" filter="{ 'fechaAp': 'text' }">
                 <span >{{base.fechaAp}}</span>
             </td>
@@ -46,8 +46,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="tipo">Documento </label>
-                            <select ng-model="pre.id_tipo_pre" id="tipo" ng-options="u.id as u.nombre for u in tipos" class="form-control" required=""></select>
+                            <label for="documento">Documento </label>
+                            <select ng-disable="!documentos || disable" ng-options="item.id as item.nombre for item in documentos" ng-model="resolucion.id_documento" id="documento"  class="form-control" required=""></select>
                         </div>
                     </div>
                 </div>

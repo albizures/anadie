@@ -1,44 +1,42 @@
 <?php
 /**
  * Autor: Luis Albizures
- * fecha: 07/12/2015
- * Hora: 01:30
+ * fecha: 11/12/2015
+ * Hora: 16:50
  *
- * bases.php
+ * resoluciones.php
  
- * server CRUD para la tabla de sip_base de Bases de licitación de la ANADIE y servicios adicionales asociados a estas.
+ * server CRUD para la tabla de sip_resolucion de Resoluciones de la ANADIE y servicios adicionales asociados a estas.
  
  * Entidades de DB que se utilizan:
  *
-   sip_base
-   sip_base_ice
-   sip_base_doc_aprob
+   sip_resolucion
 
-   fn_ins_sip_base_ice
-   sp_sel_sip_base
-   sp_sel_sip_base_id
+   fn_ins_sip_resolucion
+   sp_sel_sip_resolucion
+   sp_del_sip_resolucion
    
-   -- Ingresa una base
-   $app->post('/baseIn'   
-		fn_ins_sip_base( ?, ?, ?, ? )
+   -- Ingresa una resolucion
+   $app->post('/resIn'   
+		fn_ins_sip_resolucion( ?, ?, ?, ? )
 		
-	-- Selecciona las bases existentes
-   $app->get('/baseSel'		
-		sp_sel_sip_base()
+	-- Selecciona las resoluciones existentes
+   $app->get('/resSel'		
+		sp_sel_sip_resolucion()
 		
-	-- Selecciona una base especifica
-   $app->get('/baseSelID/:id'		
-		sp_sel_sip_base_id( ? )
+	-- Selecciona una resolucion especifica
+   $app->get('/resSelID/:id'		
+		sp_sel_sip_resolucion_id( ? )
 		   
 **/
 
-// Ingresa una base
-$app->post('/baseIn','sessionAlive',function() use ($app){
+// Ingresa una resolucion
+$app->post('/resIn','sessionAlive',function() use ($app){
 
 	// Recupera los datos de la forma
 	//
     $r = json_decode($app->request->getBody());
-	var_dump($r);
+	
 	$tipo_base       = $r->base->tipo_base;
 	$ices            = $r->base->ices;         // Debe ser un arreglo con una lista de IDs corta de ice (instituciones contratantes del estado)
 	$idProyecto      = $r->base->idProyecto;
@@ -47,14 +45,13 @@ $app->post('/baseIn','sessionAlive',function() use ($app){
 	$fecha_aprob_conadie  = $r->evento->fecha_aprob_conadie;
 	$num_folios           = $r->base->num_folios;
 	$num_anexos           = $r->base->num_anexos;
-	$id_doc_aprobacion    = $r->base->idDoc;
 	$nog                  = isset($r->base->nog) ? $r->base->nog : "";
 
     $response = array();
 	//
 	//
     $db = new DbHandler();
-	$id = $db->get1Record("select fn_ins_sip_base( '$tipo_base', '$idProyecto', '$fecha_aprob_ice', '$fecha_aprob_anadie', '$fecha_aprob_conadie', '$idDoc', '$num_folios', '$num_anexos', '$nog' ) as id");
+	$id = $db->get1Record("select fn_ins_sip_base( '$tipo_base', '$idProyecto', '$fecha_aprob_ice', '$fecha_aprob_anadie', '$fecha_aprob_conadie', '$num_folios', '$num_anexos', '$nog' ) as id");
 
     if ($id != NULL) {
 		
@@ -72,7 +69,7 @@ $app->post('/baseIn','sessionAlive',function() use ($app){
 });
 
 // Opcion para obtener la totalidad de registros de la tabla sip_base
-$app->get('/baseSel','sessionAlive', function() use ($app){
+$app->get('/resSel','sessionAlive', function() use ($app){
 
     $response = array();
 	//
@@ -90,7 +87,7 @@ $app->get('/baseSel','sessionAlive', function() use ($app){
 });
 
 // Selecciona una base especifica
-$app->get('/baseSelID/:id','sessionAlive', function($id) use ($app){
+$app->get('/resSelID/:id','sessionAlive', function($id) use ($app){
 
     $r = json_decode($app->request->getBody());
 	$idBase = $id;//$r->idBase;

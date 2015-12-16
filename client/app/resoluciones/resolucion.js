@@ -6,8 +6,8 @@ angular.module('anApp')
     .config(function ($stateProvider) {
         $stateProvider
             .state('resolucion', {
-                url: '/resolucion',
-                templateUrl: '/client/app/resolucion/resolucion.html',
+                url: '/resoluciones',
+                templateUrl: '/client/app/resoluciones/resolucion.html',
                 controller: 'ResolucionCtrl'
             });
     });

@@ -4,16 +4,13 @@
         <br/>
         <table ng-table="tablePreguntas"  show-filter="filtro" class="table table-striped">
             <tr class="tr animate-repeat preguntas" ng-repeat="i in $data"  ng-class="getColor(i.fecha_crea,i.estado)">
-                <td data-title="'Pregunta'" sortable="'pregunta'" width="400" filter="{ 'pregunta': 'text' }">
+                <td data-title="'Pregunta'" sortable="'pregunta'" width="600" filter="{ 'pregunta': 'text' }">
                     {{i.pregunta}}
                 </td>
-                <td data-title="'fecha'" sortable="'fecha_crea'" width="400" filter="{ 'fecha_crea': 'text' }">
+                <td data-title="'fecha'" sortable="'fecha_crea'" width="300" filter="{ 'fecha_crea': 'text' }">
                     {{i.fecha_crea | moment:'DD/MM/YYYY h:mma' }}
                 </td>
-                <td data-title="'Ambito'" sortable="'ambito'" width="400" filter="{ 'ambito': 'text' }">
-                    {{i.ambito}}
-                </td>
-                <td data-title="'Estado'" sortable="'est'" width="400" filter="{ 'est': 'text' }">
+                <td data-title="'Estado'" sortable="'est'" width="300" filter="{ 'est': 'text' }">
                     {{i.est}}
                 </td>
                 <td data-title="''" width="80">

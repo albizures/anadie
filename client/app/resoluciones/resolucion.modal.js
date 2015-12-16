@@ -4,8 +4,9 @@
 
 angular.module('anApp')
     .controller('ModalResolucionCtrl',["$scope", '$modalInstance','Data','utils','resolucion',
-        function ($scope,$modalIntance, Data, utils,base) {
-            if(base){
+        function ($scope,$modalIntance, Data, utils, resolucion) {
+			$scope.resolucion = {};
+            if(resolucion){
                 $scope.disable = true;
 
                 //var date = moment(proyecto.fecha_present_p);
@@ -13,7 +14,7 @@ angular.module('anApp')
                 //proyecto.mes = date.month();
                 //proyecto.anio = date.year();
 
-                console.log(base);
+                console.log(resolucion);
                 //$scope.proyecto = proyecto;
             }else{
                 //$scope.proyecto.dia = $scope.today.day;

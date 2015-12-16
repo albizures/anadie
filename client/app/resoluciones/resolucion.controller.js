@@ -15,6 +15,19 @@ angular.module('anApp')
 
                 }
             });
+			Data.get('docSel')
+                .then(function (result) {
+                    if(result.message){
+                        Data.toast(result);
+                        return;
+                    }
+                    for(var i in result){
+                        utils.convertNumber(result[i]);
+                    }
+                    $scope.documentos = result;
+                    table();
+                });
+
             Data.get('resolucionSel')
                 .then(function (results) {
                     for(index in results){

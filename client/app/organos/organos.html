@@ -1,0 +1,39 @@
+<div>
+    <br/>
+    <section class="form-inline">
+        <button ng-click="agregar()" class="btn btn2 btn-primary">
+            <i class="icon-white icon-plus"></i>
+            Agregar Organo
+        </button>
+        <br/>
+        <table ng-table="tableOrganos"  show-filter="filtro" class="table table-striped">
+            <tr class="tr animate-repeat" ng-repeat="i in $data">
+                <td data-title="'Organo'" sortable="'organo'" width="400" ">
+                    {{i.organo}}
+                </td>
+                <td data-title="''" width="40">
+                    <button type="button" class="btn btn-danger btn-xs" ng-click="eliminar(i.id)">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </section>
+</div>
+
+<script type="text/ng-template" id="organos.modal">
+    <div class="modal-header">
+        <h3 class="modal-title">Ingrese los datos</h3>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="documento">Nombre del Organo</label>
+            <input ng-model="organo.organo" type="text" class="form-control" id="organo" placeholder="nombre del organo" required/>
+        </div>
+    </div>
+	
+    <div class="modal-footer">
+        <button class="btn btn2 btn-primary" ng-disabled="!organo.organo" ng-click="ok()">Aceptar</button>
+        <button class="btn btn2 btn-warning" ng-click="cancel()">Cancelar</button>
+    </div>
+</script>

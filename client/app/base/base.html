@@ -11,16 +11,21 @@
     <table ng-table="tabBase"  show-filter="filtro" class="table table-striped">
         <tr ng-repeat="base in $data">
             <td data-title="'Tipo'"  sortable="'nombreTipo'" width="25" filter="{ 'nombreTipo': 'text' }">
-                <span >{{base.nombreTipo}}</span>
+                <span >{{base.nombre_tipo}}</span>
             </td>
             <td data-title="'Proyecto'" sortable="'nombreProyecto'" width="25" filter="{ 'nombreProyecto': 'text' }">
-                <span >{{base.nombreProyecto}}</span>
+                <span >{{base.nombre}}</span>
             </td>
-            <td data-title="'Fecha de apobación'" sortable="'fechaAp'" width="300" filter="{ 'fechaAp': 'text' }">
-                <span >{{base.fechaAp}}</span>
+            <td data-title="'Fecha de apobación conadie'" sortable="'fechaAp'" width="100" filter="{ 'fechaAp': 'text' }">
+                <span >{{base.fecha_aprov_conadie | date:'dd/MM/yyyy'}}</span>
+            </td>
+            <td data-title="'Fecha de apobación anadie'" sortable="'fechaAp'" width="100" filter="{ 'fechaAp': 'text' }">
+                <span >{{base.fecha_aprov_anadie | date:'dd/MM/yyyy'}}</span>
             </td>
             <td data-title="'Acciones'" width="50">
-                <a ng-click="editar(prec.id); prec.$edit = true" class="btn btn-primary btn-xs" ><span class="glyphicon glyphicon-eye-open"></span></a>
+                <a ng-click="ver(base)" class="btn btn-primary btn-xs" >
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                </a>
             </td>
         </tr>
     </table>
@@ -38,7 +43,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="tipo">Tipo </label>
-                            <select ng-init="base.tipo_base = 'P'" ng-model="base.tipo_base" id="tipo" class="form-control" required="">
+                            <select ng-disabled="disable" ng-init="base.tipo_base = 'P'" ng-model="base.tipo_base" id="tipo" class="form-control" required="">
                                 <option value="P" >Precalificación</option>
                                 <option value="L">Licitación</option>
                             </select>

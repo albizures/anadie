@@ -9,20 +9,23 @@ angular.module('anApp')
                 $scope.disable = true;
 
                 var date = moment(base.fecha_aprob_ice);
-                proyecto.diaICE = date.date();
-                proyecto.mesICE = date.month();
-                proyecto.anioICE = date.year();
+                base.diaICE = date.date();
+                base.mesICE = date.month();
+                base.anioICE = date.year();
 
                 date = moment(base.fecha_aprob_anadie);
-                proyecto.diaAN = date.date();
-                proyecto.mesAN = date.month();
-                proyecto.anioAN = date.year();
+                base.diaAN = date.date();
+                base.mesAN = date.month();
+                base.anioAN = date.year();
 
 
                 date = moment(base.fecha_aprob_ice);
-                proyecto.diaCON = date.date();
-                proyecto.mesCON = date.month();
-                proyecto.anioCON = date.year();
+                base.diaCON = date.date();
+                base.mesCON = date.month();
+                base.anioCON = date.year();
+
+                base.idDoc = base.id_doc_aprobacion;
+                base.idProyecto = base.id_proyecto;
                 $scope.base = base;
             }
             Data.get('sectorSel')
@@ -67,8 +70,6 @@ angular.module('anApp')
             };
             $scope.ok = function () {
                 $scope.evento = {};
-
-                console.log($scope.base);
                 var dateICE = moment([
                     $scope.base.anioICE,
                     $scope.base.mesICE,

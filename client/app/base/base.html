@@ -11,13 +11,13 @@
     <table ng-table="tabBase"  show-filter="filtro" class="table table-striped">
         <tr ng-repeat="base in $data">
             <td data-title="'Tipo'"  sortable="'nombreTipo'" width="25" filter="{ 'nombreTipo': 'text' }">
-                <span >{{base.nombre_tipo}}</span>
+                <span >{{base.nombreTipo}}</span>
             </td>
             <td data-title="'Proyecto'" sortable="'nombreProyecto'" width="25" filter="{ 'nombreProyecto': 'text' }">
-                <span >{{base.nombre}}</span>
+                <span >{{base.nombreProyecto}}</span>
             </td>
             <td data-title="'Fecha de apobación conadie'" sortable="'fechaAp'" width="100" filter="{ 'fechaAp': 'text' }">
-                <span >{{base.fecha_aprov_conadie | date:'dd/MM/yyyy'}}</span>
+                <span >{{base.fechaAp | date:'dd/MM/yyyy'}}</span>
             </td>
             <td data-title="'Fecha de apobación anadie'" sortable="'fechaAp'" width="100" filter="{ 'fechaAp': 'text' }">
                 <span >{{base.fecha_aprov_anadie | date:'dd/MM/yyyy'}}</span>

@@ -15,33 +15,41 @@ angular.module('anApp')
 
                 }
             });
-            Data.get('baseSel')
-                .then(function (results) {
-                    for(index in results){
+            function traer() {
+                Data.get('baseSel')
+                    .then(function (results) {
+                        for(index in results){
 
-                        results[index] = utils.convertNumber(results[index]);
-                    }
-                    console.log(results);
-                    $scope.bases = results;
-                    $scope.tabBase = new ngTableParams({
-                            page : 1,
-                            count : 10,
-                            sorting : {
-                                nombre : 'asc'
-                            }
-                        },{
-                            total : $scope.bases.length,
-                            filterDelay: 350,
-                            getData : function ($defer, params) {
-                                var orderedData = params.sorting() ? $filter('orderBy')($scope.bases, params.orderBy()) : $scope.bases;
-                                if($scope.filtro){
-                                    orderedData = params.filter() ? $filter('filter')(orderedData, params.filter()) : orderedData;
-                                }
-                                $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
-                            }
+                            results[index] = utils.convertNumber(results[index]);
                         }
-                    );
-                });
+                        console.log(results);
+                        $scope.bases = results;
+                        if($scope.tabBase){
+                            $scope.tabBase.reload();
+                        }else{
+                            $scope.tabBase = new ngTableParams({
+                                    page : 1,
+                                    count : 10,
+                                    sorting : {
+                                        nombre : 'asc'
+                                    }
+                                },{
+                                    total : $scope.bases.length,
+                                    filterDelay: 350,
+                                    getData : function ($defer, params) {
+                                        var orderedData = params.sorting() ? $filter('orderBy')($scope.bases, params.orderBy()) : $scope.bases;
+                                        if($scope.filtro){
+                                            orderedData = params.filter() ? $filter('filter')(orderedData, params.filter()) : orderedData;
+                                        }
+                                        $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+                                    }
+                                }
+                            );
+                        }
+                    });
+            }
+            traer();
+
             $scope.agregar = function () {
                 var modalBase = $modal.open({
                     templateUrl : 'modalBase',
@@ -53,6 +61,9 @@ angular.module('anApp')
                             return undefined;
                         }
                     }
+                });
+                modalBase.result.then(function () {
+                    traer();
                 });
             };
             $scope.ver = function (base) {

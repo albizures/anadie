@@ -15,46 +15,26 @@ angular.module('anApp')
 
                 }
             });
-			Data.get('docSel')
-                .then(function (result) {
-                    if(result.message){
-                        Data.toast(result);
-                        return;
-                    }
-                    for(var i in result){
-                        utils.convertNumber(result[i]);
-                    }
-                    $scope.documentos = result;
-                    table();
-                });
 
-            Data.get('resolucionSel')
+            Data.get('resSel')
                 .then(function (results) {
                     for(index in results){
 
                         results[index] = utils.convertNumber(results[index]);
                     }
                     // console.log(results);
-                    $scope.opciones = results;
-                    for(index in $scope.opciones){
-
-                        $scope.opciones[index].tipo = {
-                            codTipo : $scope.opciones[index].codTipo,
-                            id  : $scope.opciones[index].idTipo,
-                            nombreTipo : $scope.opciones[index].nombreTipo
-                        }
-                    }
-                    $scope.tabBase = new ngTableParams({
+                    $scope.resoluciones = results;
+                    $scope.tabResolucion = new ngTableParams({
                             page : 1,
                             count : 10,
                             sorting : {
-                                nombre : 'asc'
+                                organo : 'asc'
                             }
                         },{
-                            total : $scope.opciones.length,
+                            total : $scope.resoluciones.length,
                             filterDelay: 350,
                             getData : function ($defer, params) {
-                                var orderedData = params.sorting() ? $filter('orderBy')($scope.opciones, params.orderBy()) : $scope.opciones;
+                                var orderedData = params.sorting() ? $filter('orderBy')($scope.resoluciones, params.orderBy()) : $scope.resoluciones;
                                 if($scope.filtro){
                                     orderedData = params.filter() ? $filter('filter')(orderedData, params.filter()) : orderedData;
                                 }
@@ -63,19 +43,20 @@ angular.module('anApp')
                         }
                     );
                 });
-        $scope.agregar = function () {
-            var modalResolucion = $modal.open({
-                templateUrl : 'modalResolucion',
-                controller : 'ModalResolucionCtrl',
-                size : 'lg',
-                backdrop : 'static',
-                resolve :{
-                    resolucion: function () {
-                        return undefined;
-                    }
-                }
-            });
-		};
+				
+			$scope.agregar = function () {
+				var modalResolucion = $modal.open({
+					templateUrl : 'modalResolucion',
+					controller : 'ModalResolucionCtrl',
+					size : 'lg',
+					backdrop : 'static',
+					resolve :{
+						resolucion: function () {
+							return undefined;
+						}
+					}	
+				});
+			};
 			$scope.limpiar = function () {
                 $scope.tabBase.sorting({});
                 $scope.tabBase.filter({});

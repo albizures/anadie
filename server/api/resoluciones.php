@@ -14,11 +14,17 @@
 
    fn_ins_sip_resolucion
    sp_sel_sip_resolucion
-   sp_del_sip_resolucion
+   sp_sel_sip_resolucionID
+   
+   Tablas relacionadas:
+		sip_proyecto
+		cat_documento
+		sip_organo
+		sip_tema
    
    -- Ingresa una resolucion
    $app->post('/resIn'   
-		fn_ins_sip_resolucion( ?, ?, ?, ? )
+		fn_ins_sip_resolucion( ?, ?, ?, ?, ?, ?, ? )
 		
 	-- Selecciona las resoluciones existentes
    $app->get('/resSel'		
@@ -31,31 +37,31 @@
 **/
 
 // Ingresa una resolucion
+// fn_ins_sip_resolucion( pid_proyecto int, pid_doc int, pid_organo int, pfecha date, pnum_registro varchar(20), pid_tema int, psinopsis varchar(200) )
+
 $app->post('/resIn','sessionAlive',function() use ($app){
 
 	// Recupera los datos de la forma
 	//
     $r = json_decode($app->request->getBody());
 	
-	$tipo_base       = $r->base->tipo_base;
-	$ices            = $r->base->ices;         // Debe ser un arreglo con una lista de IDs corta de ice (instituciones contratantes del estado)
-	$idProyecto      = $r->base->idProyecto;
-	$fecha_aprob_ice      = $r->evento->fecha_aprob_ice;
-	$fecha_aprob_anadie   = $r->evento->fecha_aprob_anadie;
-	$fecha_aprob_conadie  = $r->evento->fecha_aprob_conadie;
-	$num_folios           = $r->base->num_folios;
-	$num_anexos           = $r->base->num_anexos;
-	$nog                  = isset($r->base->nog) ? $r->base->nog : "";
+	$idProyecto      = $r->res->idProyecto;
+	$idDoc           = $r->res->idDoc;
+	$idOrgano        = $r->res->idOrgano;
+	$fecha           = $r->res->fecha;
+	$num_registro    = $r->res->num_registro;
+	$idTema          = $r->res->idTema;
+	$sinopsis        = $r->res->sinopsis;
 
     $response = array();
 	//
+    // Ej. select fn_ins_sip_resolucion( 1, 1, 1, '2015-12-01', '12-22', 1, 'Este es un ejemplo de ingreso manual de una resolucion' );
 	//
     $db = new DbHandler();
-	$id = $db->get1Record("select fn_ins_sip_base( '$tipo_base', '$idProyecto', '$fecha_aprob_ice', '$fecha_aprob_anadie', '$fecha_aprob_conadie', '$num_folios', '$num_anexos', '$nog' ) as id");
+	$id = $db->get1Record("select fn_ins_sip_resolucion( '$idProyecto', '$idDoc', '$idOrgano', '$fecha', '$num_registro', '$idTema', '$sinopsis' ) as id");
 
     if ($id != NULL) {
 		
-		// ingresa cada uno de las ICEs que vienen en la lista $ices
         $response['status'] = "success";
         $response['message'] = 'Se agrego correctamente';
 		$response['data'] = $id;
@@ -68,13 +74,13 @@ $app->post('/resIn','sessionAlive',function() use ($app){
     echoResponse(200, $response);
 });
 
-// Opcion para obtener la totalidad de registros de la tabla sip_base
+// Opcion para obtener la totalidad de registros de la tabla sip_resolucion
 $app->get('/resSel','sessionAlive', function() use ($app){
 
     $response = array();
 	//
     $db = new DbHandler();
-    $datos = $db->getAllRecord("call sp_sel_sip_base( )");
+    $datos = $db->getAllRecord("call sp_sel_sip_resolucion( )");
     //var_dump($datos);
     if ($datos != NULL) {
 			$response = $datos;
@@ -86,21 +92,19 @@ $app->get('/resSel','sessionAlive', function() use ($app){
     echoResponse(200, $response);
 });
 
-// Selecciona una base especifica
+// Selecciona una resolucion especifica
 $app->get('/resSelID/:id','sessionAlive', function($id) use ($app){
 
     $r = json_decode($app->request->getBody());
-	$idBase = $id;//$r->idBase;
+	$idRes = $id;
 
     $response = array();
 	//
     $db = new DbHandler();
-    $datos = $db->getAllRecord("call sp_sel_sip_base_id( '$idBase' )");
+    $datos = $db->getAllRecord("call sp_sel_sip_resolucionID( '$idRes' )");
     //var_dump($datos);
     if ($datos != NULL) {
-		
-		// Debe traer la lista de ICEs en un arreglo asociado a los datos de la base
-			$response = $datos;
+		$response = $datos;
     }else{
         $response['status'] = "info";
         $response['message'] = 'No hay datos';

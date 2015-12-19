@@ -8,22 +8,19 @@
         <button ng-click="agregar()" class="btn btn2 btn-primary"><i class="icon-white icon-plus"></i> Agregar Resolución</button>
     </section>
     <br/>
-    <table ng-table="tabBase"  show-filter="filtro" class="table table-striped">
-        <tr ng-repeat="base in $data">
-            <td data-title="'Organo'"  sortable="'nombreTipo'" width="25" filter="{ 'nombreTipo': 'text' }">
-                <span >{{base.nombreTipo}}</span>
+    <table ng-table="tabResolucion"  show-filter="filtro" class="table table-striped">
+        <tr ng-repeat="res in $data">
+            <td data-title="'Organo'"  sortable="'organo'" width="25" filter="{ 'organo': 'text' }">
+                <span >{{res.organo}}</span>
             </td>
-            <td data-title="'Documento'" sortable="'nombreProyecto'" width="25" filter="{ 'nombreProyecto': 'text' }">
-                <span >{{base.nombreProyecto}}</span>
+            <td data-title="'Documento'" sortable="'nombre_doc'" width="25" filter="{ 'nombre_doc': 'text' }">
+                <span >{{res.nombre_doc}}</span>
             </td>			
-            <td data-title="'Número'" sortable="'fechaAp'" width="270" filter="{ 'fechaAp': 'text' }">
-                <span >{{base.fechaAp}}</span>
+            <td data-title="'Número'" sortable="'num_registro'" width="70" filter="{ 'num_registro': 'text' }">
+                <span >{{res.num_registro}}</span>
             </td>
-            <td data-title="'Proyecto'" width="50">
-                <a ng-click="editar(prec.id); prec.$edit = true" class="btn btn-primary btn-xs" ><span class="glyphicon glyphicon-pencil"></span></a>
-            </td>
-            <td data-title="'Fecha'" width="30">
-                <a ng-click="editar(prec.id); prec.$edit = true" class="btn btn-primary btn-xs" ><span class="glyphicon glyphicon-pencil"></span></a>
+            <td data-title="'Acciones'" width="30">
+                <a ng-click="ver(res.id); prec.$edit = true" class="btn btn-primary btn-xs" ><span class="glyphicon glyphicon-eye-open"></span></a>
             </td>
         </tr>
     </table>
@@ -41,7 +38,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="tipo">Organo </label>
-                            <select ng-model="pre.id_tipo_pre" id="tipo" ng-options="u.id as u.nombre for u in tipos" class="form-control" required=""></select>
+                            <select ng-model="pre.id_tipo_pre" id="tipo" ng-options="u.id as u.organo for u in organos" class="form-control" required=""></select>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -53,24 +50,21 @@
                 </div>
 				<div class="row">
 					<div class="col-md-6">
-						<div class="form-group" ng-show="pre.id_tipo_pre == 1 || pre.id_tipo_pre == 4">
-							<label><input  type="radio" ng-model="rdtipo" ng-init="rdtipo='persona'" id="persona" name="tipo" value="persona" checked="checked">Persona</label>
-						</div>
                         <div class="form-group">
                             <label for="nombre">Proyecto</label>
-                            <input ng-disabled="disable" ng-model="pre.lugar" type="text" class="form-control" id="lugar" placeholder="Nombre del proyecto" required/>
+                            <select ng-model="pre.id_proyecto" id="id_proyecto" ng-options="u.id as u.nombre for u in proyectos" class="form-control" required=""></select>
                         </div>
 						<div class="form-group">
 							<label for="nombre">Número de registro</label>
-							<input ng-disabled="disable" ng-model="pre.nombre" type="text" class="form-control" id="nombre" placeholder="Número de Registro" required/>
+							<input ng-disabled="disable" ng-model="pre.numrec" type="text" class="form-control" id="nombre" placeholder="Número de Registro" required/>
 						</div>
 						<div class="form-group">
 							<label for="nombre">Tema</label>
-							<input ng-disabled="disable" ng-model="pre.nombre" type="text" class="form-control" id="nombre" placeholder="Tema" required/>
+							<input ng-disabled="disable" ng-model="pre.tema" type="text" class="form-control" id="nombre" placeholder="Tema" required/>
 						</div>
 						<div class="form-group">
 							<label for="nombre">Sinopsis</label>
-							<input ng-disabled="disable" ng-model="pre.nombre" type="text" class="form-control" id="nombre" placeholder="Sinopsis" required/>
+							<input ng-disabled="disable" ng-model="pre.sinop" type="text" class="form-control" id="nombre" placeholder="Sinopsis" required/>
 						</div>
 					</div>
 					<div class="col-md-6">

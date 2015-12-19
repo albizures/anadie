@@ -179,6 +179,10 @@ function Footer()
 }
 
 }*/
+//require('gmail.php');
+//require 'PHPMailerAutoload.php';
+//require_once('class.phpmailer.php');
+
 
 // -- Inserta una pregunta, la primera de un objeto específico. 
 $app->post('/preguntaPrimeraIn','sessionAlive',function() use ($app){
@@ -203,6 +207,7 @@ $app->post('/preguntaPrimeraIn','sessionAlive',function() use ($app){
 	$id = $db->get1Record("select fn_ins_pyr_pregunta0( '$clave', '$idTipo', $idEvento, $idDoc, $idUser, '$pregunta' ) as id")['id'];
 	
 	$error = "no";
+	$mensaje_correo = "";
     if ($id != NULL) {
         //
         // Insertará $id pregunta en pyr_pregunta_ambito, insert into pyr_pregunta_ambito (id_pregunta, id_ambito ) values ($id, $ambitos[0] );
@@ -217,18 +222,60 @@ $app->post('/preguntaPrimeraIn','sessionAlive',function() use ($app){
                 break;
             }
         }
+		// Si todo salió bien, enviamos un correo notificando
+		if ($error == "no") {
+			$datos = $db->getAllRecord( "call sp_sel_pyr_pregunta_consultor( '$id' )" );
+			if ($datos ==! NULL) {
+				
+				ini_set("SMTP", "aspmx.l.google.com");
+				ini_set("sendmail_from", 'siprel@agenciadealianzas.gob.gt');
+				
+				$subject = "SIPREL ha recibido una pregunta/comentario dentro del ámbito al cual usted está asignado";
+
+				$message = "Este es un correo automático de notificaciones, no responda a este remitente. " . "\r\n";
+				$message .= "La información relacionada con la presente pregunta/comentario puede ser visualizada en SIPREL " . "\r\n";
+				$message .= "El texto de la pregunta/comentario recibido es: " . "\r\n";
+				$message .= wordwrap($pregunta,70,"\r\n");
+				
+				$from = "From: Administrador SIPREL <siprel@agenciadealianzas.gob.gt;>";
+				$headers = "From: 'siprel@agenciadealianzas.gob.gt'";
+				$i = 1;
+				foreach ($datos as $rec) {
+/*					if ($i==1) {
+						$to = $rec['email'];
+
+					}
+					else {
+						$to = $to . ','.$rec['email'];
+					}
+					++$i;
+	*/			
+					mail($rec['email'],$subject,$message,$from);
+				} 
+// var_dump("el to ",$to);
+
+//				mail($to,$subject,$message,$from);
+				
+				$mensaje_correo = "Mensaje enviado!";
+				if ($mensaje_correo == "Mensaje enviado!") {
+					$error = "no";
+					}
+				else {
+					$error = "si";
+				}
+			}
+		}
     }
 	else { $error = "si"; }		
 
-	
 	if ($error == "no") {
 			$response['status'] = "success";
-			$response['message'] = 'Se agrego correctamente';
+			$response['message'] = 'Se agrego correctamente - ' . $mensaje_correo;
 			$response['data'] = $id;
 	}
 	else{
         $response['status'] = "info";
-        $response['message'] = 'No fue posible agregar los datos';
+        $response['message'] = 'No fue posible agregar los datos - ' . $mensaje_correo;
     }
 	
     echoResponse(200, $response);
@@ -245,8 +292,7 @@ $app->post('/preguntaAdicionalIn','sessionAlive',function() use ($app){
 	$idEvento      = $r->pregunta->idEvento;      // Id del evento
 	$idDoc         = $r->pregunta->idDoc;         // Id del documento
 	$idUser        = $_SESSION['uid'];//$r->pregunta->idUser;        // Id del usuario que crea la pregunta
-	
-	$pregunta      = addslashes($r->pregunta->pregunta);      // Texto o contenido de la pregunta ... con slashes evito que palabras como Moody's no causen problemas.
+	$pregunta      = $r->pregunta->pregunta;      // Texto o contenido de la pregunta
 	
     $response = array();
 	//
@@ -349,7 +395,7 @@ $app->get('/preguntaSelEvento/:id','sessionAlive', function($idEvento) use ($app
     echoResponse(200, $response);
 });
 
-// Opcion para obtener la totalidad de las preguntas, de todos los documentos de un evento de quien la hizo (usuario precalificado )
+// Opcion para obtener la totalidad de las preguntas, de todos los documentos de un evento de quien la hizo (usuario precalificado, opcion Consulta de menu )
 $app->get('/preguntaSelEventoPrec/:id','sessionAlive', function($id) use ($app){
 
     $response = array();

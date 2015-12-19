@@ -20,7 +20,9 @@
                 <span >{{res.num_registro}}</span>
             </td>
             <td data-title="'Acciones'" width="30">
-                <a ng-click="ver(res.id); prec.$edit = true" class="btn btn-primary btn-xs" ><span class="glyphicon glyphicon-eye-open"></span></a>
+                <a ng-click="ver(res);" class="btn btn-primary btn-xs" >
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                </a>
             </td>
         </tr>
     </table>
@@ -37,43 +39,43 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="tipo">Organo </label>
-                            <select ng-model="pre.id_tipo_pre" id="tipo" ng-options="u.id as u.organo for u in organos" class="form-control" required=""></select>
+                            <label for="organo">Organo </label>
+                            <select ng-disabled="disable" ng-model="res.idOrgano" id="organo" ng-options="u.id as u.organo for u in organos" class="form-control" required=""></select>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="documento">Documento </label>
-                            <select ng-disable="!documentos || disable" ng-options="item.id as item.nombre for item in documentos" ng-model="resolucion.id_documento" id="documento"  class="form-control" required=""></select>
+                            <select ng-disabled="disable" ng-options="item.id as item.nombre for item in documentos" ng-model="res.idDoc" id="documento"  class="form-control" required=""></select>
                         </div>
                     </div>
                 </div>
 				<div class="row">
 					<div class="col-md-6">
                         <div class="form-group">
-                            <label for="nombre">Proyecto</label>
-                            <select ng-model="pre.id_proyecto" id="id_proyecto" ng-options="u.id as u.nombre for u in proyectos" class="form-control" required=""></select>
+                            <label for="idProyecto">Proyecto</label>
+                            <select ng-disabled="disable" ng-model="res.idProyecto" id="idProyecto" ng-options="u.id as u.nombre for u in proyectos" class="form-control" required=""></select>
                         </div>
 						<div class="form-group">
-							<label for="nombre">Número de registro</label>
-							<input ng-disabled="disable" ng-model="pre.numrec" type="text" class="form-control" id="nombre" placeholder="Número de Registro" required/>
+							<label for="num_registro">Número de registro</label>
+							<input ng-disabled="disable" ng-model="res.num_registro" type="text" class="form-control" id="num_registro" placeholder="Número de Registro" required/>
 						</div>
 						<div class="form-group">
-							<label for="nombre">Tema</label>
-							<input ng-disabled="disable" ng-model="pre.tema" type="text" class="form-control" id="nombre" placeholder="Tema" required/>
+							<label for="tema">Tema</label>
+                            <select ng-disabled="disable" ng-model="res.idTema" id="tema" ng-options="u.id as u.tema for u in temas" class="form-control" required=""></select>
 						</div>
 						<div class="form-group">
-							<label for="nombre">Sinopsis</label>
-							<input ng-disabled="disable" ng-model="pre.sinop" type="text" class="form-control" id="nombre" placeholder="Sinopsis" required/>
+							<label for="sinopsis">Sinopsis</label>
+							<input ng-disabled="disable" ng-model="res.sinopsis" type="text" class="form-control" id="sinopsis" placeholder="Sinopsis" required/>
 						</div>
 					</div>
 					<div class="col-md-6">
                         <div class="form-group">
                             <label >Fecha</label>
                             <div class="col-md-12 fecha ">
-                                <select ng-options="i for i in dias" ng-model="pre.dia" id="dia" class="form-control"></select>
-                                <select ng-options="i.id as i.nombre for i in meses" ng-model="pre.mes" id="mes" class="form-control"></select>
-                                <select ng-options="i for i in anios" ng-model="pre.anio" id="anios" class="form-control"></select>
+                                <select ng-disabled="disable" ng-init="res.dia = today.day" ng-options="i for i in dias" ng-model="res.dia" id="dia" class="form-control"></select>
+                                <select ng-disabled="disable" ng-init="res.mes = today.month" ng-options="i.id as i.nombre for i in meses" ng-model="res.mes" id="mes" class="form-control"></select>
+                                <select ng-disabled="disable" ng-init="res.anio = today.year" ng-options="i for i in anios" ng-model="res.anio" id="anios" class="form-control"></select>
                             </div>
                         </div>
 					</div>

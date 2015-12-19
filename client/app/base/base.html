@@ -124,7 +124,7 @@
 			</form>
 		</div>
 		<div class="modal-footer">
-			<button class="btn btn2 btn-primary" ng-disabled="!formOpcion.$valid" ng-click="ok()">Aceptar</button>
+			<button class="btn btn2 btn-primary" ng-disabled="!formOpcion.$valid || disable" ng-click="ok()">Aceptar</button>
 			<button class="btn btn2 btn-warning" ng-click="cancel()">Cancelar</button>
 		</div>
 	</div>

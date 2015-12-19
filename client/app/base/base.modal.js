@@ -7,7 +7,10 @@ angular.module('anApp')
         function ($scope,$modalIntance, Data, utils,base) {
             if(base){
                 $scope.disable = true;
-
+                Data.get('baseSelID/' + base.id)
+                    .then(function (result) {
+                        console.log(result);
+                    });
                 var date = moment(base.fecha_aprob_ice);
                 base.diaICE = date.date();
                 base.mesICE = date.month();
@@ -48,7 +51,6 @@ angular.module('anApp')
                     if(result.message){
                         return Data.toast(result);
                     }
-                    console.info(result);
                     $scope.ices = result;
                     $scope.base.ice = result[0].id;
                     $scope.base.icesTemp = [];
@@ -59,7 +61,6 @@ angular.module('anApp')
                         Data.toast(results);
                         return;
                     }
-                    console.log(results);
                     $scope.documentos = results;
                     $scope.base.idDoc = results[0].id;
 

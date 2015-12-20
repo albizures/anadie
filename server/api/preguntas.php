@@ -204,19 +204,17 @@ $app->post('/preguntaPrimeraIn','sessionAlive',function() use ($app){
 	//
 	//
     $db = new DbHandler();
-	$id = $db->get1Record("select fn_ins_pyr_pregunta0( '$clave', '$idTipo', $idEvento, $idDoc, $idUser, '$pregunta' ) as id")['id'];
+	$id = $db->get1Record("select fn_ins_pyr_pregunta0( '$clave', '$idTipo', $idEvento, $idDoc, $idUser, '$pregunta' ) as id");
 	
 	$error = "no";
 	$mensaje_correo = "";
+	$idPregunta = $id['id'];
     if ($id != NULL) {
         //
         // Insertará $id pregunta en pyr_pregunta_ambito, insert into pyr_pregunta_ambito (id_pregunta, id_ambito ) values ($id, $ambitos[0] );
         //
         foreach ($ambitos as $idAmbito) {
-            //var_dump($ambitos);
-            //var_dump($id);
-            //var_dump($ambitos);
-            $id2 = $db->get1Record("select fn_ins_pyr_pregunta_ambito( '$id', '$idAmbito' ) as id");
+            $id2 = $db->get1Record("select fn_ins_pyr_pregunta_ambito( '$idPregunta', '$idAmbito' ) as id");
             if ($id2 == NULL) {
                 $error = "si";
                 break;
@@ -224,7 +222,7 @@ $app->post('/preguntaPrimeraIn','sessionAlive',function() use ($app){
         }
 		// Si todo salió bien, enviamos un correo notificando
 		if ($error == "no") {
-			$datos = $db->getAllRecord( "call sp_sel_pyr_pregunta_consultor( '$id' )" );
+			$datos = $db->getAllRecord( "call sp_sel_pyr_pregunta_consultor( '$idPregunta' )" );
 			if ($datos ==! NULL) {
 				
 				ini_set("SMTP", "aspmx.l.google.com");
@@ -234,28 +232,16 @@ $app->post('/preguntaPrimeraIn','sessionAlive',function() use ($app){
 
 				$message = "Este es un correo automático de notificaciones, no responda a este remitente. " . "\r\n";
 				$message .= "La información relacionada con la presente pregunta/comentario puede ser visualizada en SIPREL " . "\r\n";
-				$message .= "El texto de la pregunta/comentario recibido es: " . "\r\n";
+				$message .= "El texto de la pregunta/comentario recibido es: " . "\r\n\r\n";
 				$message .= wordwrap($pregunta,70,"\r\n");
+				$msgUTF   = utf8_encode($message);
 				
 				$from = "From: Administrador SIPREL <siprel@agenciadealianzas.gob.gt;>";
 				$headers = "From: 'siprel@agenciadealianzas.gob.gt'";
 				$i = 1;
 				foreach ($datos as $rec) {
-/*					if ($i==1) {
-						$to = $rec['email'];
-
-					}
-					else {
-						$to = $to . ','.$rec['email'];
-					}
-					++$i;
-	*/			
-					mail($rec['email'],$subject,$message,$from);
-				} 
-// var_dump("el to ",$to);
-
-//				mail($to,$subject,$message,$from);
-				
+					mail($rec['email'],$subject,$msgUTF,$from);
+				} 				
 				$mensaje_correo = "Mensaje enviado!";
 				if ($mensaje_correo == "Mensaje enviado!") {
 					$error = "no";
@@ -289,18 +275,69 @@ $app->post('/preguntaAdicionalIn','sessionAlive',function() use ($app){
     $r = json_decode($app->request->getBody());
 	
 	$clave         = $r->pregunta->clave;         // Clave que se le asignó al objeto.
+	$idTipo        = $r->pregunta->tipo;          // Tipo de objeto, pudiedo ser P=Parrafo y IMG=image
 	$idEvento      = $r->pregunta->idEvento;      // Id del evento
 	$idDoc         = $r->pregunta->idDoc;         // Id del documento
 	$idUser        = $_SESSION['uid'];//$r->pregunta->idUser;        // Id del usuario que crea la pregunta
-	$pregunta      = $r->pregunta->pregunta;      // Texto o contenido de la pregunta
+	$pregunta      = addslashes($r->pregunta->pregunta);      // Texto o contenido de la pregunta
 	
+	$ambitos       = $r->pregunta->ambitos;                 // Un arreglo que contiene los ambitos (idAmbito)
+
     $response = array();
 	//
 	//
     $db = new DbHandler();
 	$id = $db->get1Record("select fn_ins_pyr_pregunta1( '$clave', $idEvento, $idDoc, $idUser, '$pregunta' ) as id");
 
+	$error = "no";
+	$mensaje_correo = "";
+	$idPregunta = $id['id'];
     if ($id != NULL) {
+        //
+        // Insertará $id pregunta en pyr_pregunta_ambito, insert into pyr_pregunta_ambito (id_pregunta, id_ambito ) values ($id, $ambitos[0] );
+        //
+        foreach ($ambitos as $idAmbito) {
+            $id2 = $db->get1Record("select fn_ins_pyr_pregunta_ambito( '$idPregunta', '$idAmbito' ) as id");
+            if ($id2 == NULL) {
+                $error = "si";
+                break;
+            }
+        }
+		// Si todo salió bien, enviamos un correo notificando
+		if ($error == "no") {
+			$datos = $db->getAllRecord( "call sp_sel_pyr_pregunta_consultor( '$idPregunta' )" );
+			if ($datos ==! NULL) {
+				
+				ini_set("SMTP", "aspmx.l.google.com");
+				ini_set("sendmail_from", 'siprel@agenciadealianzas.gob.gt');
+				
+				$subject = "SIPREL ha recibido una pregunta/comentario dentro del ámbito al cual usted está asignado";
+
+				$message = "Este es un correo automático de notificaciones, no responda a este remitente. " . "\r\n";
+				$message .= "La información relacionada con la presente pregunta/comentario puede ser visualizada en SIPREL " . "\r\n";
+				$message .= "El texto de la pregunta/comentario recibido es: " . "\r\n\r\n";
+				$message .= wordwrap($pregunta,70,"\r\n");
+				$msgUTF  = utf8_encode($message);
+				
+				$from = "From: Administrador SIPREL <siprel@agenciadealianzas.gob.gt;>";
+				$headers = "From: 'siprel@agenciadealianzas.gob.gt'";
+				$i = 1;
+				foreach ($datos as $rec) {
+					mail($rec['email'],$subject,$msgUTF,$from);
+				} 				
+				$mensaje_correo = "Mensaje enviado!";
+				if ($mensaje_correo == "Mensaje enviado!") {
+					$error = "no";
+					}
+				else {
+					$error = "si";
+				}
+			}
+		}
+    }
+	else { $error = "si"; }		
+	
+    if ($error == "no" ) {
         $response['status'] = "success";
         $response['message'] = 'Se agrego correctamente';
 		$response['data'] = $id;

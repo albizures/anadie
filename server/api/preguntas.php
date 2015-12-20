@@ -230,17 +230,19 @@ $app->post('/preguntaPrimeraIn','sessionAlive',function() use ($app){
 				
 				$subject = "SIPREL ha recibido una pregunta/comentario dentro del ámbito al cual usted está asignado";
 
-				$message = "Este es un correo automático de notificaciones, no responda a este remitente. " . "\r\n";
-				$message .= "La información relacionada con la presente pregunta/comentario puede ser visualizada en SIPREL " . "\r\n";
-				$message .= "El texto de la pregunta/comentario recibido es: " . "\r\n\r\n";
-				$message .= wordwrap($pregunta,70,"\r\n");
-				$msgUTF   = utf8_encode($message);
+				$message = "<p>Este es un correo automático de notificaciones, no responda a este remitente. \r\n </p>";
+				$message .= "<p>La información relacionada con la presente pregunta/comentario puede ser visualizada en SIPREL \r\n </p>";
+				$message .= "<p>El texto de la pregunta/comentario recibido es: \r\n\r\n </p>";
+				$message .= "<p>\r\n\r\n </p>";
+				$message .= "<p>" . $pregunta . "</p>";
+				//$message .= wordwrap($pregunta,70,"\r\n");
 				
-				$from = "From: Administrador SIPREL <siprel@agenciadealianzas.gob.gt;>";
-				$headers = "From: 'siprel@agenciadealianzas.gob.gt'";
+				$headers = "From: Administrador SIPREL <siprel@agenciadealianzas.gob.gt> \r\n";
+				$headers .= "Content-Type: text/html; charset=UTF-8";
+				
 				$i = 1;
 				foreach ($datos as $rec) {
-					mail($rec['email'],$subject,$msgUTF,$from);
+					mail($rec['email'],$subject,$message,$headers);
 				} 				
 				$mensaje_correo = "Mensaje enviado!";
 				if ($mensaje_correo == "Mensaje enviado!") {
@@ -313,17 +315,19 @@ $app->post('/preguntaAdicionalIn','sessionAlive',function() use ($app){
 				
 				$subject = "SIPREL ha recibido una pregunta/comentario dentro del ámbito al cual usted está asignado";
 
-				$message = "Este es un correo automático de notificaciones, no responda a este remitente. " . "\r\n";
-				$message .= "La información relacionada con la presente pregunta/comentario puede ser visualizada en SIPREL " . "\r\n";
-				$message .= "El texto de la pregunta/comentario recibido es: " . "\r\n\r\n";
-				$message .= wordwrap($pregunta,70,"\r\n");
-				$msgUTF  = utf8_encode($message);
+				$message = "<p>Este es un correo automático de notificaciones, no responda a este remitente. \r\n </p>";
+				$message .= "<p>La información relacionada con la presente pregunta/comentario puede ser visualizada en SIPREL \r\n </p>";
+				$message .= "<p>El texto de la pregunta/comentario recibido es: \r\n\r\n </p>";
+				$message .= "<p>\r\n\r\n </p>";
+				$message .= "<p>" . $pregunta . "</p>";
+				//$message .= wordwrap($pregunta,70,"\r\n");
 				
-				$from = "From: Administrador SIPREL <siprel@agenciadealianzas.gob.gt;>";
-				$headers = "From: 'siprel@agenciadealianzas.gob.gt'";
+				$headers = "From: Administrador SIPREL <siprel@agenciadealianzas.gob.gt> \r\n";
+				$headers .= "Content-Type: text/html; charset=UTF-8";
+
 				$i = 1;
 				foreach ($datos as $rec) {
-					mail($rec['email'],$subject,$msgUTF,$from);
+					mail($rec['email'],$subject,$message,$headers);
 				} 				
 				$mensaje_correo = "Mensaje enviado!";
 				if ($mensaje_correo == "Mensaje enviado!") {

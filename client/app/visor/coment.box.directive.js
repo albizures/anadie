@@ -75,7 +75,7 @@ angular.module('anApp')
                         .then(function (result) {
                             if(result.status) return $scope.preguntas = [{pregunta : 'No hay preguntas/comentarios...'}];
                             for(var i in result){
-                                result[i].fecha_crea = moment(result[i].fecha_cre).format('DD/MM/YYYY');
+                                result[i].fecha_crea = moment(result[i].fecha_crea).format('DD/MM/YYYY');
                             }
                             $scope.preguntas = result;
 

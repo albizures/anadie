@@ -84,4 +84,48 @@ class R {
 
     echoResponse(200, $response);
 });
+
+// Carga archivos relacionados con el precalificado
 	
+$app->post('/upFilePrec','sessionAlive',function() use ($app){
+
+	$db = new DbHandler();
+	$id = $db->get1Record("select fn_ins_sip_precalificado_doc( '$idPrecalificado', '$idTipoDoc', '$target_file', '$idUser' ) as id");
+	
+	if ($id != NULL) {
+
+		$target_dir = $_SERVER['DOCUMENT_ROOT'] . "/server/uploaded_files/";
+		$fname = $_POST['nombre_file'];
+		
+		$fname1 = $id['id'] . "_" . $_POST['nombre_file'];
+		
+		$idPrecalificado = $_POST['idPrecalificado'];
+		$idTipoDoc       = $_POST['idTipoDoc'];
+		$idUser          = $_SESSION['uid'];
+		
+		$relative_dir =  "/server/uploaded_files/" . $fname1;
+		$response = array("status" => "", "message" => "", "data" => "");
+		
+		if (move_uploaded_file($_FILES[$fname]["tmp_name"], $relative_dir)){
+			//echo "el archivo vino bien\n";
+			$response['status'] = "success";
+			$response['message'] = "Archivo recibido";
+			$response['target_file'] = $relative_dir;//$target_file;
+		}
+		else { 
+			//echo "hubo error\n" ;
+			$response['status'] = "info";
+			$response['message'] = 'No pudo recibirse el archivo ';
+			$response['target_file'] = "";
+			 }
+	}
+	else
+	{
+			$response['status'] = "info";
+			$response['message'] = 'No pudo registrarse el archivo ';
+			$response['target_file'] = "";
+	}
+    echoResponse(200, $response);
+});
+		
+		

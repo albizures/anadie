@@ -8,6 +8,22 @@ angular.module('anApp')
             var PERSONA = '0',
                 EMPRESA = '1',
                 anioTemp = $scope.today.year -  5;
+
+            $scope.pre = {};
+            if(precalificado){
+                $scope.disable = true;
+
+                //var date = moment(proyecto.fecha_present_p);
+                //proyecto.dia = date.date();
+                //proyecto.mes = date.month();
+                //proyecto.anio = date.year();
+                $scope.rdtipo = precalificado.tipo_persona;
+                precalificado.domicilio = precalificado.Domicilio;
+                precalificado.telefono = precalificado.Telefono;
+                console.log(precalificado,$scope.rdtipo);
+                $scope.pre = precalificado;
+            }
+
             $scope.anios = [];
             Data.get('paisSel')
                 .then(function (result) {
@@ -16,13 +32,12 @@ angular.module('anApp')
                         return;
                     }
                     $scope.paises = result;
-                    $scope.pre.paisnac = '1';
+                    $scope.pre.paisnac = result[0].id;
                     
                 });
             for (var i = 0; i < 7; i++) {
                 $scope.anios[i] = anioTemp + i;
             }
-            $scope.pre = precalificado || {};
             Data.get('tpSel')
                 .then(function (result) {
                     if(result.message){
@@ -32,23 +47,6 @@ angular.module('anApp')
                     $scope.tipos = result;
                     $scope.pre.id_tipo_pre = $scope.tipos[0].id;
                 });
-            $scope.proyecto = {};
-            if(precalificado){
-                $scope.disable = true;
-
-                //var date = moment(proyecto.fecha_present_p);
-                //proyecto.dia = date.date();
-                //proyecto.mes = date.month();
-                //proyecto.anio = date.year();
-
-                console.log(precalificado);
-                //$scope.proyecto = proyecto;
-            }else{
-                //$scope.proyecto.dia = $scope.today.day;
-                //$scope.proyecto.mes = $scope.today.month;
-                //$scope.proyecto.anio = $scope.today.year;
-                //$scope.proyecto.id_pais = 1;
-            }
 
 
             $scope.cancel = function () {
@@ -99,15 +97,15 @@ angular.module('anApp')
             };
             $scope.$watch('pre.id_tipo_pre', function (newValue, oldValue) {
                 if(newValue == 2 || newValue == 3 || newValue == 5){
-                    $scope.rdtipo = 'persona';
+                    $scope.rdtipo = PERSONA;
 
                 }
             });
-            $scope.$watchGroup(['pre.dia','pre.mes','pre.anio'], function () {
-                var date =  moment({y : $scope.pre.anio, M : $scope.pre.mes, d :$scope.pre.dia});
-                $scope.fecha = date.format();
-                $scope.valid = date.isValid();
-
-            });
+            //$scope.$watchGroup(['pre.dia','pre.mes','pre.anio'], function () {
+            //    var date =  moment({y : $scope.pre.anio, M : $scope.pre.mes, d :$scope.pre.dia});
+            //    $scope.fecha = date.format();
+            //    $scope.valid = date.isValid();
+            //
+            //});
             
         }]);

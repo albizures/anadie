@@ -81,4 +81,17 @@ angular.module('anApp')
                 return val;
             };
             traer();
+            $scope.ver = function (precalificado) {
+                var modalPrecalificado = $modal.open({
+                    templateUrl : 'modalPrecalificado',
+                    controller : 'ModalPrecalificadoCtrl',
+                    size : 'lg',
+                    backdrop : 'static',
+                    resolve :{
+                        precalificado: function () {
+                            return precalificado;
+                        }
+                    }
+                });
+            };
         }]);

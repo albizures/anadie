@@ -88,7 +88,8 @@ class R {
 // Carga archivos relacionados con el precalificado
 	
 $app->post('/upFilePrec','sessionAlive',function() use ($app){
-
+    var_dump($_FILES);
+    var_dump($_POST);
 	$db = new DbHandler();
 	$id = $db->get1Record("select fn_ins_sip_precalificado_doc( '$idPrecalificado', '$idTipoDoc', '$target_file', '$idUser' ) as id");
 	

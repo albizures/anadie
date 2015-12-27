@@ -19,14 +19,6 @@ angular.module('anApp')
                 Data.get('precalificadosSel')
                     .then(function (results) {
                         $scope.precalificados = results;
-                        for(index in $scope.precalificados){
-
-                            $scope.precalificados[index].tipo = {
-                                codTipo : $scope.precalificados[index].codTipo,
-                                id  : $scope.precalificados[index].idTipo,
-                                nombreTipo : $scope.precalificados[index].nombreTipo
-                            }
-                        }
                         if($scope.tabPrecalificado){
                             $scope.tabPrecalificado.reload();
                         }else{
@@ -51,7 +43,18 @@ angular.module('anApp')
                         }
                     });
             }
-
+            $scope.documentos = function (precalificado) {
+                var modalDocumentos = $modal.open({
+                    templateUrl : 'documentos.precalificado.modal',
+                    controller : 'ModalDocumentosPreCtrl',
+                    backdrop : 'static',
+                    resolve : {
+                        precalificado : function () {
+                            return precalificado;
+                        }
+                    }
+                });
+            };
             $scope.agregar = function () {
                 var modalPrecalificado = $modal.open({
                     templateUrl : 'modalPrecalificado',

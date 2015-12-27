@@ -11,24 +11,25 @@ angular.module('anApp')
                     .then(function (result) {
                         console.log(result);
                     });
-                var date = moment(base.fecha_aprob_ice);
+                var date = moment(base.fechaAp);
                 base.diaICE = date.date();
                 base.mesICE = date.month();
                 base.anioICE = date.year();
 
-                date = moment(base.fecha_aprob_anadie);
+                date = moment(base.fecha_aprov_anadie);
                 base.diaAN = date.date();
                 base.mesAN = date.month();
                 base.anioAN = date.year();
 
 
-                date = moment(base.fecha_aprob_ice);
+                date = moment(base.fecha_aprov_ice);
                 base.diaCON = date.date();
                 base.mesCON = date.month();
                 base.anioCON = date.year();
 
-                base.idDoc = base.id_doc_aprobacion;
-                base.idProyecto = base.id_proyecto;
+                base.idDoc = base.id_doc_aprobacion.toString();
+                base.idProyecto = base.id_proyecto.toString();
+                console.log(base);
                 $scope.base = base;
             }
             Data.get('sectorSel')
@@ -44,7 +45,8 @@ angular.module('anApp')
                         return Data.toast(result);
                     }
                     $scope.proyectos = result;
-                    $scope.base.idProyecto = result[0].id;
+                    if(!$scope.disable)
+                        $scope.base.idProyecto = result[0].id;
                 });
             Data.get('iceSel')
                 .then(function (result) {
@@ -52,7 +54,8 @@ angular.module('anApp')
                         return Data.toast(result);
                     }
                     $scope.ices = result;
-                    $scope.base.ice = result[0].id;
+                    if(!$scope.disable)
+                        $scope.base.ice = result[0].id;
                     $scope.base.icesTemp = [];
                 });
             Data.get('docSel')
@@ -62,7 +65,8 @@ angular.module('anApp')
                         return;
                     }
                     $scope.documentos = results;
-                    $scope.base.idDoc = results[0].id;
+                    if(!$scope.disable)
+                        $scope.base.idDoc = results[0].id;
 
                 });
 

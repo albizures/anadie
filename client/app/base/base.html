@@ -73,25 +73,25 @@
                         <div class="form-group">
                             <label >Fecha de Aprobación ICE</label>
                             <div class="col-md-12 fecha ">
-                                <select ng-disabled="disable"  ng-init="base.diaICE = today.day" ng-options="i for i in dias" ng-model="base.diaICE"  class="form-control"></select>
-                                <select ng-disabled="disable" ng-init="base.mesICE = today.month" ng-options="i.id as i.nombre for i in meses" ng-model="base.mesICE" class="form-control"></select>
-                                <select ng-disabled="disable" ng-init="base.anioICE = today.year" ng-options="i for i in anios" ng-model="base.anioICE" class="form-control"></select>
+                                <select ng-disabled="disable"  ng-init="base.diaICE = base.diaICE || today.day" ng-options="i for i in dias" ng-model="base.diaICE"  class="form-control"></select>
+                                <select ng-disabled="disable" ng-init="base.mesICE = base.mesICE || today.month" ng-options="i.id as i.nombre for i in meses" ng-model="base.mesICE" class="form-control"></select>
+                                <select ng-disabled="disable" ng-init="base.anioICE = base.anioICE || today.year" ng-options="i for i in anios" ng-model="base.anioICE" class="form-control"></select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label >Fecha de Aprobación ANADIE</label>
                             <div class="col-md-12 fecha ">
-                                <select ng-disabled="disable" ng-init="base.diaAN = today.day" ng-options="i for i in dias" ng-model="base.diaAN" class="form-control"></select>
-                                <select ng-disabled="disable" ng-init="base.mesAN = today.month" ng-options="i.id as i.nombre for i in meses" ng-model="base.mesAN" class="form-control"></select>
-                                <select ng-disabled="disable" ng-init="base.anioAN = today.year" ng-options="i for i in anios" ng-model="base.anioAN" class="form-control"></select>
+                                <select ng-disabled="disable" ng-init="base.diaAN = base.diaAN || today.day" ng-options="i for i in dias" ng-model="base.diaAN" class="form-control"></select>
+                                <select ng-disabled="disable" ng-init="base.mesAN = base.mesAN || today.month" ng-options="i.id as i.nombre for i in meses" ng-model="base.mesAN" class="form-control"></select>
+                                <select ng-disabled="disable" ng-init="base.anioAN = base.anioAN||  today.year" ng-options="i for i in anios" ng-model="base.anioAN" class="form-control"></select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label >Fecha de Aprobación CONADIE</label>
                             <div class="col-md-12 fecha ">
-                                <select ng-disabled="disable" ng-init="base.diaCON = today.day" ng-options="i for i in dias" ng-model="base.diaCON" id="dia" class="form-control"></select>
-                                <select ng-disabled="disable" ng-init="base.mesCON = today.month" ng-options="i.id as i.nombre for i in meses" ng-model="base.mesCON" id="mes" class="form-control"></select>
-                                <select ng-disabled="disable" ng-init="base.anioCON = today.year" ng-options="i for i in anios" ng-model="base.anioCON" id="anios" class="form-control"></select>
+                                <select ng-disabled="disable" ng-init="base.diaCON = base.diaCON || today.day" ng-options="i for i in dias" ng-model="base.diaCON" id="dia" class="form-control"></select>
+                                <select ng-disabled="disable" ng-init="base.mesCON = base.mesCON || today.month" ng-options="i.id as i.nombre for i in meses" ng-model="base.mesCON" id="mes" class="form-control"></select>
+                                <select ng-disabled="disable" ng-init="base.anioCON = base.anioCON || today.year" ng-options="i for i in anios" ng-model="base.anioCON" id="anios" class="form-control"></select>
                             </div>
                         </div>
                         <div class="form-group">

@@ -13,11 +13,15 @@ angular.module('anApp')
             if(precalificado){
                 $scope.disable = true;
 
-                //var date = moment(proyecto.fecha_present_p);
-                //proyecto.dia = date.date();
-                //proyecto.mes = date.month();
-                //proyecto.anio = date.year();
+                var date = moment(precalificado.fecha);
+                precalificado.dia = date.date();
+                precalificado.mes = date.month();
+                precalificado.anio = date.year();
                 $scope.rdtipo = precalificado.tipo_persona;
+                if(precalificado.id_tipo_pre == 2 || precalificado.id_tipo_pre == 3 || precalificado.id_tipo_pre == 5){
+                    console.log($scope.rdtipo);
+                    $scope.rdtipo = EMPRESA;
+                }
                 precalificado.domicilio = precalificado.Domicilio;
                 precalificado.telefono = precalificado.Telefono;
                 console.log(precalificado,$scope.rdtipo);
@@ -32,7 +36,8 @@ angular.module('anApp')
                         return;
                     }
                     $scope.paises = result;
-                    $scope.pre.paisnac = result[0].id;
+                    if(!$scope.disable)
+                        $scope.pre.paisnac = result[0].id;
                     
                 });
             for (var i = 0; i < 7; i++) {
@@ -45,7 +50,8 @@ angular.module('anApp')
                         return;
                     }
                     $scope.tipos = result;
-                    $scope.pre.id_tipo_pre = $scope.tipos[0].id;
+                    if(!$scope.disable)
+                        $scope.pre.id_tipo_pre = $scope.tipos[0].id;
                 });
 
 
@@ -97,7 +103,8 @@ angular.module('anApp')
             };
             $scope.$watch('pre.id_tipo_pre', function (newValue, oldValue) {
                 if(newValue == 2 || newValue == 3 || newValue == 5){
-                    $scope.rdtipo = PERSONA;
+                    if(!$scope.disable)
+                        $scope.rdtipo = PERSONA;
 
                 }
             });

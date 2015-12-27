@@ -103,12 +103,14 @@ $app->get('/baseSelID/:id','sessionAlive', function($id) use ($app){
 	//
     $db = new DbHandler();
     $datos = $db->getAllRecord("call sp_sel_sip_base_id( '$idBase' )");
-	$datos['ices'] = array( 'id' => '5', 'id' => '11' );
+	//$datos['ices'] = array( '0' => '5', '1' => '11' );
     //var_dump($datos);
     if ($datos != NULL) {
 		//var_dump($datos);
 		// Debe traer la lista de ICEs en un arreglo asociado a los datos de la base
-			$response = $datos;
+		$dat2 = $db->getAllRecord("call sp_sel_sip_base_iceID( '$idBase' )");
+		$datos['ices'] = $dat2;
+		$response = $datos;
     }else{
         $response['status'] = "info";
         $response['message'] = 'No hay datos';

@@ -9,7 +9,11 @@ angular.module('anApp')
                 $scope.disable = true;
                 Data.get('baseSelID/' + base.id)
                     .then(function (result) {
+                        if(result.message){
+                            return Data.toast(result);
+                        }
                         console.log(result);
+                        base.icesTemp = result.ices;
                     });
                 var date = moment(base.fechaAp);
                 base.diaICE = date.date();
@@ -26,7 +30,8 @@ angular.module('anApp')
                 base.diaCON = date.date();
                 base.mesCON = date.month();
                 base.anioCON = date.year();
-
+                base.num_anexos = Number(base.num_anexos);
+                base.num_folios = Number(base.num_folios);
                 base.idDoc = base.id_doc_aprobacion.toString();
                 base.idProyecto = base.id_proyecto.toString();
                 console.log(base);

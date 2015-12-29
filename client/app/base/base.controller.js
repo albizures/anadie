@@ -18,10 +18,6 @@ angular.module('anApp')
             function traer() {
                 Data.get('baseSel')
                     .then(function (results) {
-                        for(index in results){
-
-                            results[index] = utils.convertNumber(results[index]);
-                        }
                         console.log(results);
                         $scope.bases = results;
                         if($scope.tabBase){

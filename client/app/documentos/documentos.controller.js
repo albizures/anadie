@@ -11,9 +11,6 @@ angular.module('anApp')
                         Data.toast(result);
                         return;
                     }
-                    for(var i in result){
-                        utils.convertNumber(result[i]);
-                    }
                     $scope.documentos = result;
                     table();
                 });

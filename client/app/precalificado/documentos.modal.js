@@ -8,7 +8,6 @@ angular.module('anApp')
 
             $scope.uploading = false;
             $scope.create = true;
-
             var tipos = ['image/jpeg', 'image/png','application/pdf'];
 			var tnombre = "";
 
@@ -22,6 +21,15 @@ angular.module('anApp')
 
                     });*/
             }
+            Data.get('docSel')
+                .then(function (result) {
+                    if(result.message){
+                        Data.toast(result);
+                        return;
+                    }
+                    $scope.tiposDocumentos = result;
+                    $scope.idTipoDoc = result[0].id;
+                });
             traerDocumentos();
             var uploader = $scope.uploader = new FileUploader({
                 url: '/server/api/upFilePrec'
@@ -34,21 +42,6 @@ angular.module('anApp')
             });
             $scope.uploader.onWhenAddingFileFailed = function(item, filter, options) {
                 Data.toast({status : 'warning', message : 'Tipo incorrecto'});
-            };
-            uploader.onProgressItem = function(fileItem, progress) {
-                console.info('onProgressItem', fileItem, progress);
-            };
-            uploader.onProgressAll = function(progress) {
-                console.info('onProgressAll', progress);
-            };
-            uploader.onSuccessItem = function(fileItem, response, status, headers) {
-                console.info('onSuccessItem', fileItem, response, status, headers);
-            };
-            uploader.onErrorItem = function(fileItem, response, status, headers) {
-                console.info('onErrorItem', fileItem, response, status, headers);
-            };
-            uploader.onCancelItem = function(fileItem, response, status, headers) {
-                console.info('onCancelItem', fileItem, response, status, headers);
             };
             //$scope.getName = function () {
             //    if($scope.uploader.queue.length == 1){
@@ -82,16 +75,8 @@ angular.module('anApp')
                 $scope.nombreFile = fileItem.file.name;
             };
             $scope.uploader.onBeforeUploadItem = function(item) {
-                console.log({
-                    'idTipoDoc' : 'tipoprueba',
-                    'idPrecalificado' : precalificado.id,
-                    'nombre_file' : $scope.nombre
-                });
-                console.log($scope.uploader.queue[0]);
-                console.log('lele');
-
                 item.formData.push({
-                    'idTipoDoc' : 'tipoprueba',
+                    'idTipoDoc' : $scope.idTipoDoc,
                     'idPrecalificado' : precalificado.id,
                     'nombre_file' : $scope.nombre
                 });

@@ -59,9 +59,11 @@ angular.module('anApp')
                         return Data.toast(result);
                     }
                     $scope.ices = result;
-                    if(!$scope.disable)
+                    if(!$scope.disable){
                         $scope.base.ice = result[0].id;
-                    $scope.base.icesTemp = [];
+                        $scope.base.icesTemp = [];
+                    }
+
                 });
             Data.get('docSel')
                 .then(function (results) {

@@ -130,4 +130,18 @@ $app->get('/precalificadosSel','sessionAlive', function() use ($app){
     echoResponse(200, $response);
 });
 
+// -- Documentos asociados a un precalificado 
+$app->get('/precSelDocID','sessionAlive', function($id) use ($app) {
+    $db = new DbHandler();
+	
+    $datos = $db->getAllRecord("call sp_sel_sip_precalificado_doc($id)");
+	if ($datos != NULL) {
+		$response = $datos;
+	} else {
+        $response['status'] = "info";
+        $response['message'] = 'No hay datos';
+	}
+    echoResponse(200, $response);
+});
+
 ?>

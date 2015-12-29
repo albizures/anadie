@@ -88,43 +88,45 @@ class R {
 // Carga archivos relacionados con el precalificado
 	
 $app->post('/upFilePrec','sessionAlive',function() use ($app){
-    var_dump($_FILES);
-    var_dump($_POST);
+	$idPrecalificado = $_POST['idPrecalificado'];
+	$idTipoDoc       = $_POST['idTipoDoc'];
+	$idUser          = $_SESSION['uid'];
+	$fname           = $_POST['nombre_file'];
+	$source_fname    = $_FILES['file']['name'];
+	$source_type     = $_FILES['file']['type'];
+	$target_dir  = $_SERVER['DOCUMENT_ROOT'] . "/server/uploaded_files/";
+	$server_dir  = "/server/uploaded_files/";
+	//$target_file = $_SERVER['DOCUMENT_ROOT'] . "/server/uploaded_files/" . $source_fname;
+	
+
 	$db = new DbHandler();
-	$id = $db->get1Record("select fn_ins_sip_precalificado_doc( '$idPrecalificado', '$idTipoDoc', '$target_file', '$idUser' ) as id");
+	$id = $db->get1Record("select fn_ins_sip_precalificado_doc( '$idPrecalificado', '$idTipoDoc', '$fname', '$source_fname', '$server_dir', '$idUser' ) as id")['id'];
+	
+	$response = array("status" => "", "message" => "", "data" => "");
 	
 	if ($id != NULL) {
 
-		$target_dir = $_SERVER['DOCUMENT_ROOT'] . "/server/uploaded_files/";
-		$fname = $_POST['nombre_file'];
-		
-		$fname1 = $id['id'] . "_" . $_POST['nombre_file'];
-		
-		$idPrecalificado = $_POST['idPrecalificado'];
-		$idTipoDoc       = $_POST['idTipoDoc'];
-		$idUser          = $_SESSION['uid'];
-		
-		$relative_dir =  "/server/uploaded_files/" . $fname1;
-		$response = array("status" => "", "message" => "", "data" => "");
-		
-		if (move_uploaded_file($_FILES[$fname]["tmp_name"], $relative_dir)){
+		$target_file =  $target_dir . $id . '_' . $source_fname;
+		//var_dump('from: ',$_FILES['file']['tmp_name']);
+		//var_dump('to : ',$target_file);
+		if (move_uploaded_file($_FILES['file']['tmp_name'], $target_file)){
 			//echo "el archivo vino bien\n";
 			$response['status'] = "success";
 			$response['message'] = "Archivo recibido";
-			$response['target_file'] = $relative_dir;//$target_file;
+			//$response['target_file'] = $relative_dir;//$target_file;
 		}
-		else { 
+		else {                                           // OJO: si aqui hubo error, debiera eliminar el registro que se creo en get1Record()
 			//echo "hubo error\n" ;
 			$response['status'] = "info";
 			$response['message'] = 'No pudo recibirse el archivo ';
-			$response['target_file'] = "";
+			//$response['target_file'] = "";
 			 }
 	}
 	else
 	{
 			$response['status'] = "info";
 			$response['message'] = 'No pudo registrarse el archivo ';
-			$response['target_file'] = "";
+			//$response['target_file'] = "";
 	}
     echoResponse(200, $response);
 });

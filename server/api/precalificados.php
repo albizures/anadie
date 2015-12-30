@@ -131,7 +131,7 @@ $app->get('/precalificadosSel','sessionAlive', function() use ($app){
 });
 
 // -- Documentos asociados a un precalificado 
-$app->get('/precSelDocID','sessionAlive', function($id) use ($app) {
+$app->get('/precSelDocID/:id','sessionAlive', function($id) use ($app) {
     $db = new DbHandler();
 	
     $datos = $db->getAllRecord("call sp_sel_sip_precalificado_doc($id)");

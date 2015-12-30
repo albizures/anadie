@@ -12,14 +12,14 @@ angular.module('anApp')
 			var tnombre = "";
 
             function traerDocumentos() {
-               /* Data.get('eventoFileSel/'+ licitacion.id)
+               Data.get('precSelDocID/'+ precalificado.id)
                     .then(function (result) {
                         if(result.status){
                             return $scope.documentos = [];
                         }
                         $scope.documentos = result;
 
-                    });*/
+                    });
             }
             Data.get('docSel')
                 .then(function (result) {
@@ -59,12 +59,11 @@ angular.module('anApp')
             //    return undefined;
             //};
             $scope.uploader.onCompleteAll = function() {
-                console.log('complete');
                 //$scope.uploader.queue[0].remove();
 
                 $scope.uploading = false;
                 $scope.create = true;
-                $scope.nombreFile = '';
+                $scope.nombre = '';
                 traerDocumentos();
 
             };

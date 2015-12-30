@@ -79,11 +79,24 @@
                             </div>
                         </div>
 					</div>
+                    <div class="col-lg-5" style="height: 34px;">
+                        <input  class="form-control" type="text" ng-model="nombre" placeholder="Nombre"/>
+                        <br/>
+                    </div>
+                    <!--<div class="col-lg-1 btn btn2 btn-default ">-->
+                    <label for="upload" style="width: 6%" class="col-lg-1 btn btn2 btn-default ">
+                        <span class="glyphicon glyphicon-file"></span>
+                    </label>
+                    <div class="col-lg-6">
+                        <small><strong>Nombre archivo:</strong><em>{{nombreFile}}</em></small>
+                    </div>
+                    <input nv-file-select="" uploader="uploader" type="file" accept="application/pdf,image/jpeg,image/png" id="upload" ng-show="false">
 				</div>
 			</form>
 		</div>
 		<div class="modal-footer">
-			<button class="btn btn2 btn-primary" ng-disabled="!formOpcion.$valid" ng-click="ok()">Aceptar</button>
+            <button class="btn btn2 btn-primary" ng-if="disable" ng-disabled="uploader.queue.length == 1" ng-click="subir()">Aceptar</button>
+			<button class="btn btn2 btn-primary" ng-if="!disable" ng-disabled="!formOpcion.$valid" ng-click="ok()">Aceptar</button>
 			<button class="btn btn2 btn-warning" ng-click="cancel()">Cancelar</button>
 		</div>
 	</div>

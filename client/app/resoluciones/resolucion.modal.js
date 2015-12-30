@@ -3,9 +3,11 @@
  */
 
 angular.module('anApp')
-    .controller('ModalResolucionCtrl',["$scope", '$modalInstance','Data','utils','res',
-        function ($scope,$modalIntance, Data, utils, res) {
+    .controller('ModalResolucionCtrl',["$scope", '$modalInstance','Data','utils','res','FileUploader',
+        function ($scope,$modalIntance, Data, utils, res,FileUploader) {
 			$scope.res = {};
+            var id;
+            var tipos = ['image/jpeg', 'image/png','application/pdf'];
             if(res){
                 $scope.disable = true;
 
@@ -13,7 +15,7 @@ angular.module('anApp')
                 res.dia = date.date();
                 res.mes = date.month();
                 res.anio = date.year();
-
+                id = res.id;
                 $scope.res = res;
             }
             Data.get('organoSel')
@@ -22,7 +24,8 @@ angular.module('anApp')
                         return Data.toast(result);
                     }
                     $scope.organos = result;
-                    $scope.res.idOrgano = result[0].id;
+                    if(!$scope.disable)
+                        $scope.res.idOrgano = result[0].id;
                 });
             Data.get('temaSel')
                 .then(function (result) {
@@ -30,7 +33,8 @@ angular.module('anApp')
                         return Data.toast(result);
                     }
                     $scope.temas = result;
-                    $scope.res.idTema = result[0].id;
+                    if(!$scope.disable)
+                        $scope.res.idTema = result[0].id;
                 });
             Data.get('proyectoSel')
                 .then(function (result) {
@@ -38,7 +42,8 @@ angular.module('anApp')
                         return Data.toast(result);
                     }
                     $scope.proyectos = result;
-                    $scope.res.idProyecto = result[0].id;
+                    if(!$scope.disable)
+                        $scope.res.idProyecto = result[0].id;
                 });
             Data.get('docSel')
                 .then(function (results) {
@@ -47,10 +52,47 @@ angular.module('anApp')
                         return;
                     }
                     $scope.documentos = results;
-                    $scope.res.idDoc = results[0].id;
+                    if(!$scope.disable)
+                        $scope.res.idDoc = results[0].id;
                 });
             $scope.cancel = function () {
                 $modalIntance.dismiss('cancel');
+            };
+            var uploader = $scope.uploader = new FileUploader({
+                url: '/server/api/upFilePrec'
+            });
+            $scope.uploader.filters.push({
+                name: 'precalificados',
+                fn: function(item, options) {
+                    return tipos.indexOf(item.type) !== -1;
+                }
+            });
+            $scope.uploader.onWhenAddingFileFailed = function(item, filter, options) {
+                Data.toast({status : 'warning', message : 'Tipo incorrecto'});
+            };
+            $scope.uploader.onCompleteAll = function() {
+                //$scope.uploader.queue[0].remove();
+
+                $scope.uploading = false;
+                $scope.create = true;
+                $scope.nombre = '';
+
+            };
+            $scope.uploader.onAfterAddingFile = function(fileItem) {
+                if($scope.uploader.queue.length > 1){
+                    $scope.uploader.queue[0].remove();
+                }
+                $scope.nombreFile = fileItem.file.name;
+            };
+            $scope.uploader.onBeforeUploadItem = function(item) {
+                item.formData.push({
+                   // 'idTipoDoc' : $scope.idTipoDoc,
+                    'idResolucion' : id,
+                    'nombre_file' : $scope.nombre
+                });
+
+                $scope.uploading = true;
+                $scope.create = false;
             };
             $scope.ok = function () {
                 var date =  moment([$scope.res.anio,$scope.res.mes,$scope.res.dia]);
@@ -62,10 +104,18 @@ angular.module('anApp')
 
                 Data.post('resIn',{ res : $scope.res})
                     .then(function (result) {
+                        if(result.status == 'success'){
+                            id = result.data.id;
+                            $scope.subir();
+                        }
                         Data.toast(result);
+
                         $modalIntance.close($scope.res);
                     });
 
+            };
+            $scope.subir = function () {
+                uploader.uploadAll();
             };
             $scope.cancel = function () {
                 $modalIntance.dismiss('cancel');

@@ -9,6 +9,11 @@ angular.module('anApp')
             var id;
             var tipos = ['image/jpeg', 'image/png','application/pdf'];
             if(res){
+                console.log(res);
+                res.idOrgano = res.id_organo;
+                res.idDoc = res.id_doc;
+                res.idProyecto = res.id_proyecto;
+                res.idTema = res.id_tema;
                 $scope.disable = true;
 
                 var date = moment(res.fecha);

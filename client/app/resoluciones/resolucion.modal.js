@@ -15,7 +15,7 @@ angular.module('anApp')
                 res.idProyecto = res.id_proyecto;
                 res.idTema = res.id_tema;
                 $scope.disable = true;
-
+                $scope.uploaded = !!res.ubicacion;
                 var date = moment(res.fecha);
                 res.dia = date.date();
                 res.mes = date.month();
@@ -64,7 +64,7 @@ angular.module('anApp')
                 $modalIntance.dismiss('cancel');
             };
             var uploader = $scope.uploader = new FileUploader({
-                url: '/server/api/upFilePrec'
+                url: '/server/api/upFileRes'
             });
             $scope.uploader.filters.push({
                 name: 'precalificados',
@@ -76,11 +76,12 @@ angular.module('anApp')
                 Data.toast({status : 'warning', message : 'Tipo incorrecto'});
             };
             $scope.uploader.onCompleteAll = function() {
-                //$scope.uploader.queue[0].remove();
+                $scope.uploader.queue[0].remove();
 
                 $scope.uploading = false;
                 $scope.create = true;
-                $scope.nombre = '';
+                $scope.nombreFile = '';
+                $modalIntance.close($scope.res);
 
             };
             $scope.uploader.onAfterAddingFile = function(fileItem) {
@@ -91,9 +92,9 @@ angular.module('anApp')
             };
             $scope.uploader.onBeforeUploadItem = function(item) {
                 item.formData.push({
-                   // 'idTipoDoc' : $scope.idTipoDoc,
+                    'idTipoDoc' : $scope.res.idDoc,
                     'idResolucion' : id,
-                    'nombre_file' : $scope.nombre
+                    'nombre_file' : $scope.nombre || $scope.nombreFile
                 });
 
                 $scope.uploading = true;
@@ -111,16 +112,23 @@ angular.module('anApp')
                     .then(function (result) {
                         if(result.status == 'success'){
                             id = result.data.id;
-                            $scope.subir();
+                            if(uploader.queue.length == 1){
+                                $scope.subir();
+                            }else{
+                                $modalIntance.close($scope.res);
+                            }
+
                         }
                         Data.toast(result);
-
-                        $modalIntance.close($scope.res);
                     });
 
             };
             $scope.subir = function () {
                 uploader.uploadAll();
+            };
+            $scope.remove = function () {
+                $scope.uploader.queue[0].remove();
+                $scope.nombreFile = '';
             };
             $scope.cancel = function () {
                 $modalIntance.dismiss('cancel');

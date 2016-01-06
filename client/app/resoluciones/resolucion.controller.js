@@ -18,6 +18,7 @@ angular.module('anApp')
             function traer(){
                 Data.get('resSel')
                     .then(function (results) {
+                        console.log(results);
                         $scope.resoluciones = results;
                         if($scope.tabResolucion){
                             $scope.tabResolucion.reload();

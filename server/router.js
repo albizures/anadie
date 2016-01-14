@@ -8,7 +8,7 @@ function getIndex(req, res) {
 module.exports = function (app) {
 
 	app.use('/server/api/', require('./api/session/session.js'));
-	app.use('/server/api/', require('./api/session/ambitos.js'));
+	app.use('/server/api/', require('./api/ambitos/ambitos.js'));
 
 	app.use('/', getIndex);
 	app.use('/index', getIndex);

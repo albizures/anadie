@@ -9,16 +9,16 @@ module.exports.ambitoIn = function (req, res) {
 	connect.query(query,data,function (row) {
 
 		if (row != NULL) {
-        res[0] = "success";
-        res[1] = 'Se agrego correctamente';
-		    res[2] = row[0];
-			
+        r1[0] = "success";
+        r1[1] = 'Se agrego correctamente';
+		    r1[2] = row[0];
+
     }else{
-        res[0] = "info";
-        res[1] = 'No fue posible agregar los datos';
-				res[2] = undefined;
+        r1[0] = "info";
+        r1[1] = 'No fue posible agregar los datos';
+				r1[2] = undefined;
     }
-		res.json(200,res);
+		res.json(200,r1);
 };
 
 module.exports.ambitoSel = function (req, res) {

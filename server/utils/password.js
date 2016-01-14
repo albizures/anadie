@@ -1,3 +1,5 @@
+'use strict';
+
 const crypto = require("crypto");
 
 function secret() {
@@ -12,12 +14,12 @@ function randomInt (low, high) {
 }
 
 module.exports = {
-	function generateHash(password) {
+	generateHash (password) {
 		return crypto.createHash('sha1', secret())
 														.update(password)
 														.digest('hex');
-	}
-	function checkPassword(hash, password) {
+	},
+	checkPassword (hash, password) {
 		const fullStalt = hash.substr(0, 29),
 					newHash = generateHash(password);
 		return newHash == hash;

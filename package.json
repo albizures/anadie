@@ -4,6 +4,7 @@
   "description": "Sistema de registro, Preguntas y respuestas - ANADIE",
   "main": " ",
   "dependencies": {
+    "body-parser": "^1.14.2",
     "express": "^4.13.3",
     "mysql": "^2.10.1",
     "passport": "^0.3.2",

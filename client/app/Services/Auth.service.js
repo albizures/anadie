@@ -75,10 +75,10 @@ angular.module('anApp')
                 user.password = utils.str_rot13(user.password);
                 //console.log(user);
                 var cb = callback || angular.noop;
-                Data.post('login',{'user':{
+                Data.post('login',{
                     username: user.username,
                     password: user.password
-                }}).then(function (results) {
+                }).then(function (results) {
                     Data.toast(results);
                     if(results.status === "success"){
                         $location.path("/");

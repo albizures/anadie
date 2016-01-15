@@ -1,5 +1,5 @@
 const express = require("express"),
-			passport = require("./passport"),
+			passport = require("./passport.js"),
 			bodyParser = require('body-parser'),
 			path = require("path");
 module.exports = function (app) {

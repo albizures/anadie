@@ -12,16 +12,17 @@ function secret() {
 function randomInt (low, high) {
     return Math.floor(Math.random() * (high - low) + low);
 }
-
+function generateHash (password) {
+	return crypto.createHash('sha1', secret())
+													.update(password)
+													.digest('hex');
+}
+function checkPassword (hash, password) {
+	const fullStalt = hash.substr(0, 29),
+				newHash = generateHash(password);
+	return newHash == hash;
+}
 module.exports = {
-	generateHash (password) {
-		return crypto.createHash('sha1', secret())
-														.update(password)
-														.digest('hex');
-	},
-	checkPassword (hash, password) {
-		const fullStalt = hash.substr(0, 29),
-					newHash = generateHash(password);
-		return newHash == hash;
-	}
+	checkPassword,
+	generateHash
 };

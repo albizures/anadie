@@ -4,7 +4,7 @@ const express = require("express"),
 			controller = require('./session.controller.js');
 
 router.get('/session', controller.session);
-router.post('/login' , /*passport.authenticate('local'),*/ controller.login);
+router.post('/login' , controller.login, controller.session);
 router.get('/logout', controller.logout);
 
 module.exports = router;

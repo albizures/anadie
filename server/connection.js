@@ -5,7 +5,7 @@ var pool  = mysql.createPool({
 	database : 'db_anadie',
 	host : 'localhost',
 	user : 'root',
-	password : ''
+	password : 'root'
 });
 
 

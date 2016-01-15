@@ -4,9 +4,7 @@ const express = require("express"),
 			controller = require('./ambitos.controller.js');
 
 router.post('/ambitoIn',controller.ambitoIn);
-router.post('/ambitoSel', controller.ambitoSel);
-
-// $app->get('/ambitoD/:id','sessionAlive',function($id) use ($app
-router.post('/ambitoD/:id', controller.ambitoD);
+router.get('/ambitoSel', controller.ambitoSel);
+router.get('/ambitoD/:id', controller.ambitoD);
 
 module.exports = router;

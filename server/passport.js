@@ -30,7 +30,7 @@ passport.use(new LocalStrategy({
 			if (!rows || !rows[0] || !rows[0][0]) {// se verifica que haya devuelto algun usuario la consulta
         return done(null, false, { message: 'Incorrect username.' });
       }
-			if (!passwordUtils.checkPassword(rows[0][0].clave, password)) {// se valida la contraseña
+			if (!passwordUtils.checkPassword(rows[0][0].clave, passwordUtils.str_rot13(password))) {// se valida la contraseña
 				return done(null, false, { message: 'Incorrect password.' });
 			}
 			// se pone toda la informacion que viene en el sp en la variable de sesion

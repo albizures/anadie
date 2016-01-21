@@ -2,6 +2,13 @@
 
 const crypto = require("crypto");
 
+function str_rot13 (str) {
+		return (str + '')
+				.replace(/[a-z]/gi, function(s) {
+						return String.fromCharCode(s.charCodeAt(0) + (s.toLowerCase() < 'n' ? 13 : -13));
+				});
+}
+
 function secret() {
 	return '$2a$10$' + crypto.createHash('sha1')
 												.update(randomInt(0,10).toString())
@@ -24,5 +31,6 @@ function checkPassword (hash, password) {
 }
 module.exports = {
 	checkPassword,
-	generateHash
+	generateHash,
+	str_rot13
 };

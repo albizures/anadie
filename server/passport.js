@@ -10,6 +10,7 @@ const express = require("express"),
 
 passport.serializeUser(function(user, done) {
 	console.log('serializeUser');
+		// TODO: aqui hay que pasar solo la informacion esencial
 	done(null, user);
 });
 

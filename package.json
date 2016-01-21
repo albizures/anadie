@@ -1,7 +1,7 @@
 {
   "name": "anadie",
   "version": "0.1.0",
-  "description": "Sistema de registro, Preguntas y respuestas - ANADIE",
+  "description": "Sistema de registro, Preguntas y respuestas.",
   "main": " ",
   "dependencies": {
     "body-parser": "^1.14.2",

@@ -96,29 +96,29 @@ $app->post('/login',function() use ($app){
 			$response['organizacion'] = $usuario['organizacion'];
 			$response['idestado'] = $usuario['idestado'];
 			$response['estado'] = $usuario['estado'];
-			
+
 			$response['fecha'] = $usuario['fecha'];
 			if (!isset($_SESSION)) {
 				session_start();
 			}
 			$_SESSION['uid'] = $id;
 			$_SESSION['name'] = $usuario['nombre'];
-			// 
+			//
 			$name = $usuario['nombre'];
 			$resx = $db->get1Record("select fn_ins_seg_user_logging( '$id', '$id', '$user') as id");
 			// Ya tiene los accesos , ahora busca las opciones asignadas de acuerdo a su rol
 			$res = $db->getAllRecord("call sp_sel_opciones_menu( '$id' )" );
-			
+
 			$response['opciones'] = $res;
-			
+
 		}else{
 			$response['status'] = "error";
-			$response['message'] = 'Falló el ingreso al sistema. Datos de ingreso incorrectos';
+			$response['message'] = 'Falló el ingreso al sistema. Datos de ingreso incorrectos (authentication:116)';
 		}
 	} else {$response['status'] = "error";
-        $response['message'] = 'Falló el ingreso al sistema. Datos de ingreso incorrectos';
+        $response['message'] = 'Falló el ingreso al sistema. Datos de ingreso incorrectos (authentication:119)';
     }
-	
+
     echoResponse(200, $response);
 });
 

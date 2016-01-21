@@ -68,7 +68,7 @@ angular.module('anApp')
                         });
                 });
             };
-			
+
             $scope.eliminar = function (id) {
                 $scope.confirm('Desea eliminar el ámbito?',confirm);
                 function confirm (result) {
@@ -76,7 +76,7 @@ angular.module('anApp')
                     Data.get('ambitoD/'+ id)
                         .then(function (result) {
                             Data.toast(result);
-                            if(result.status == 'success'){
+                            if(result.status === 'success'){
                                 for(var index in $scope.ambitos){
                                     if($scope.ambitos[index].id == id){
                                         $scope.ambitos.splice(index,1);

@@ -22,24 +22,15 @@ module.exports.login = function (req, res, next) {
 	passport.authenticate('local', function(err, user, info) {
 		if (err || !user) {
 			return res.json({
-<<<<<<< HEAD
-				status : 'erroro',
-				message : 'Falló el ingreso al sistema. Datos de ingreso incorrectos'
-=======
 				status : 'error',
 				message : 'Falló el ingreso al sistema. Datos de ingreso incorrectos.'
->>>>>>> 0240437f63426398c5c84d80ab805ff06ee57a90
 			});
 		}
 		req.login(user, function(err) {
 			if (err) {
 				return res.json({
 					status : 'error',
-<<<<<<< HEAD
-					message : 'Falló el ingreso al sistema. Datos de ingreso incorrectos'
-=======
 					message : 'Falló el ingreso al sistema. Datos de ingreso incorrectos.'
->>>>>>> 0240437f63426398c5c84d80ab805ff06ee57a90
 				});
 			}
 			return next();

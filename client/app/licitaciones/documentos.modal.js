@@ -11,7 +11,7 @@ angular.module('anApp')
             $scope.create = true;
 
             var zip = ['application/zip', 'application/x-zip', 'application/x-zip-compressed', 'application/octet-stream', 'multipart/x-zip'];
-			var tnombre = "";
+            var tnombre = "";
 
             function traerDocumentos() {
                 Data.get('eventoFileSel/'+ licitacion.id)
@@ -66,9 +66,9 @@ angular.module('anApp')
                 if(cargar) return true;
                 return documento.ubicacion.indexOf('pdf') != -1;
             };
-			
+
             $scope.uploader.onBeforeUploadItem = function(item) {
-				tnombre = $scope.nombre + ' - ' + (item.file.type == "application/pdf"? 'PDF' : 'HTML');
+              tnombre = $scope.nombre + ' - ' + (item.file.type == "application/pdf"? 'PDF' : 'HTML');
                 item.formData.push({
                     tipo : item.file.type == "application/pdf"? 'PDF' : 'ZIP',
                     idEvento : licitacion.id,

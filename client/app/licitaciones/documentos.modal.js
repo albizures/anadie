@@ -25,8 +25,13 @@ angular.module('anApp')
             }
             traerDocumentos();
             $scope.uploader = new FileUploader({
-                url: 'server/api/uploadFileEvento'
+                url: 'http://localhost:3000/server/api/uploadFileEvento',
+                headers : {
+                  'Access-Control-Allow-Origin' : 'http://localhost:3000',
+                  'Access-Control-Allow-Credentials' : true
+                }
             });
+            console.log('ee');
             $scope.validPdf = function () {
                 var result = $scope.uploader.queue.filter(function (item) {
                     return item.file.type == "application/pdf";
@@ -72,8 +77,11 @@ angular.module('anApp')
                 item.formData.push({
                     tipo : item.file.type == "application/pdf"? 'PDF' : 'ZIP',
                     idEvento : licitacion.id,
-                    nombre_doc : tnombre// + ' - ' + item.file.type == "application/pdf"? 'PDF' : 'ZIP'
+                    nombre_doc : tnombre,// + ' - ' + item.file.type == "application/pdf"? 'PDF' : 'ZIP',
+                    token : 'lele'
                 });
+                item.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000';
+                item.headers['Access-Control-Allow-Credentials'] = true;
                 $scope.uploading = true;
                 $scope.create = false;
             };

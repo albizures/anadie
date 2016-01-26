@@ -17,7 +17,7 @@ $app->get('/login',function() use ($app){
 // sesion se use para pedir la informacion, de lo contrario se responde con 401 de no autorizado.
 // Tambien cambie la ruta a get porque no se va a mandar nada.
 
-$app->get('/session',function() use ($app){
+$app->get('/session/',function() use ($app){
 	session_start();
     $response = array();
     $code = 0;
@@ -65,10 +65,10 @@ $app->post('/login',function() use ($app){
 
 	// Recupera los datos de la forma
     $r = json_decode($app->request->getBody());
-    verifyRequiredParams(array('username', 'password'),$r->user);//cambio el nombre customer por user
+    verifyRequiredParams(array('username', 'password'),$r);//cambio el nombre customer por user
 
-    $clave = str_rot13($r->user->password);
-    $user = $r->user->username;
+    $clave = str_rot13($r->password);
+    $user = $r->username;
 
     $response = array();
 	//

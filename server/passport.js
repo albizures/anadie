@@ -45,3 +45,28 @@ passport.use(new LocalStrategy({
 
 
 module.exports = passport;
+
+module.exports.hasRol = function (req, res, next) {
+
+};
+module.exports.isAuthenticated = function (req, res, next) {
+
+};
+module.exports.isTokenAuthenticated = function (req, res, next) {
+  // aqui se tiene que validar si el toquen existe
+  // por el momento solo verifico que exite el parametro token
+  if (req.body.token) {
+    next();
+  }else {
+    res.status(401).end();
+  }
+};
+module.exports.hasTokenRol = function (req, res, next) {
+  // se valida si tiene algun rol
+  // por el momento solo verifico que existe el paramentro token
+  if (req.body.token) {
+    next();
+  }else {
+    res.status(401).end();
+  }
+}

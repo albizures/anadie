@@ -4,7 +4,7 @@ const express = require("express"),
 			passport = require('../../passport.js'),
 			controller = require('./eventos.controller.js');
 
-router.post('/uploadFileEvento', passport.hasTokenRol, upload.single('file'), controller.uploadFileEvento);
+router.post('/uploadFileEvento',upload.single('file'), passport.hasTokenRol, controller.uploadFileEvento);
 
 
 module.exports = router;

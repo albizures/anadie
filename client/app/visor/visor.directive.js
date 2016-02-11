@@ -115,7 +115,7 @@ angular.module('anApp')
                                 $scope.changeId(data.clave);
                                 if(nuevo){
                                     console.log('unevo');
-                                    $scope.updFile();
+                                    //$scope.updFile();
 
                                 }else{
                                     $scope.$broadcast('actualizarComentario');

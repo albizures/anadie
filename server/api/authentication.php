@@ -6,6 +6,38 @@
  * Time: 11:20 AM
  */
 
+function obtenCaracterAleatorio($arreglo) {
+	$clave_aleatoria = array_rand($arreglo, 1);	//obtén clave aleatoria
+	return $arreglo[ $clave_aleatoria ];	//devolver ítem aleatorio
+}
+
+function obtenCaracterMd5($car) {
+	$md5Car = md5($car.Time());	//Codificar el carácter y el tiempo POSIX (timestamp) en md5
+	$arrCar = str_split(strtoupper($md5Car));	//Convertir a array el md5
+	$carToken = obtenCaracterAleatorio($arrCar);	//obtén un ítem aleatoriamente
+	return $carToken;
+}
+
+function obtenToken($longitud) {
+	//crear alfabeto
+	$mayus = "ABCDEFGHIJKMNPQRSTUVWXYZ";
+	$mayusculas = str_split($mayus);	//Convertir a array
+	//crear array de numeros 0-9
+	$numeros = range(0,9);
+	//revolver arrays
+	shuffle($mayusculas);
+	shuffle($numeros);
+	//Unir arrays
+	$arregloTotal = array_merge($mayusculas,$numeros);
+	$newToken = "";
+
+	for($i=0;$i<=$longitud;$i++) {
+		$miCar = obtenCaracterAleatorio($arregloTotal);
+		$newToken .= obtenCaracterMd5($miCar);
+	}
+	return $newToken;
+}
+
 $app->get('/login',function() use ($app){
     $r = json_decode($app->request->getBody());
     var_dump( $r);
@@ -18,9 +50,12 @@ $app->get('/login',function() use ($app){
 // Tambien cambie la ruta a get porque no se va a mandar nada.
 
 $app->get('/session/',function() use ($app){
-	session_start();
+	  session_start();
     $response = array();
     $code = 0;
+
+    $r = json_decode($app->request->getBody());   // Aqui espero me manden el token
+
     if(isset($_SESSION['name'])){
         //
         // Verifica si los datos existen en la base de datos.
@@ -51,7 +86,23 @@ $app->get('/session/',function() use ($app){
         // Ya tiene los datos , ahora busca las opciones asignadas de acuerdo a su rol
         $res = $db->getAllRecord("call sp_sel_opciones_menu( '$id' )" );
         $response['opciones'] = $res;
-        $code = 200;
+
+        // Verifica que exista el token   --
+/*
+        $token = $r->token;
+
+        $usuario = $db->get1Record("call sp_sel_seg_usuario_token( '$token' )");
+        if($usuario['id'] != NULL) {
+          $code = 200;
+        }
+        else {
+          $code = 401;
+          $response['status'] = "error";
+          $response['message'] = 'Ha tenido problemas con la validación de su token.';
+        }
+*/
+        // Fin. - Verifica que exista el token --
+
     }else{
         $code = 401;
         $response['status'] = "error";
@@ -62,6 +113,8 @@ $app->get('/session/',function() use ($app){
 });
 
 $app->post('/login',function() use ($app){
+
+  // espera recibir un token que ya fue asignado previamente
 
 	// Recupera los datos de la forma
     $r = json_decode($app->request->getBody());
@@ -77,7 +130,7 @@ $app->post('/login',function() use ($app){
     $db = new DbHandler();
     $usuario = $db->get1Record("call sp_sel_seg_usuario( '$user' )");
 
-	$opciones = array();
+	  $opciones = array();
 	// call sp_sel_seg_usuario( ? ) pusuario
     if ($usuario != NULL) {
         //if($clave == $usuario['clave']/*passwordHash::check_password($usuario['clave'],$clave)*/){
@@ -111,12 +164,39 @@ $app->post('/login',function() use ($app){
 
 			$response['opciones'] = $res;
 
+      // le genera su token - 26/01/2016
+      $nuevoToken = "";
+
+    	//const INTENTOS = 5;
+    	$contador = 1;
+    	while( $contador<=5 ) {
+
+      		$tmpToken = obtenToken(10);
+      		//Validar que no exista ya el token generado
+      		$sql = "SELECT  count(id) as total FROM seg_usuario_token
+      						WHERE token = '$tmpToken';";
+          $resx2 = $db->get1Record($sql);
+
+      		//Si no existe, entonces el token generado es valido
+      		if( $resx2['total']==0 ) {
+      			$nuevoToken = $tmpToken;
+      			break;	//Salir del bucle
+      		}
+      		$contador++;
+      	}
+
+      	if(strlen($nuevoToken)>0 ) {
+          $response['token'] = $nuevoToken;
+        }
+
+      // Fin. de se le genera su token - 26/01/2016
+
 		}else{
 			$response['status'] = "error";
-			$response['message'] = 'Falló el ingreso al sistema. Datos de ingreso incorrectos (authentication:116)';
+			$response['message'] = 'Falló el ingreso al sistema. Datos de ingreso incorrectos';
 		}
 	} else {$response['status'] = "error";
-        $response['message'] = 'Falló el ingreso al sistema. Datos de ingreso incorrectos (authentication:119)';
+        $response['message'] = 'Falló el ingreso al sistema. Datos de ingreso incorrectos';
     }
 
     echoResponse(200, $response);
@@ -124,10 +204,22 @@ $app->post('/login',function() use ($app){
 
 $app->get('/logout', function() use ($app){
     session_start();
+
+    // Recupera los datos de la forma
+    $r = json_decode($app->request->getBody());
+
+    // $sql = "UPDATE seg_usuario_token set estado = 1 WHERE token = '$r->token'";
+
+    $sql = "UPDATE seg_usuario_token set estado = 1 WHERE id_usuario = " . $_SESSION['uid'];
+    $db = new DbHandler();
+    $resx2 = $db->get1Record($sql);
+
+    // Se actualizó el estado del token para invalidarlo y dejarlo como históreadline_completion_function
+
     $response["status"] = "info";
     $response["message"] = "Se ha desconectado del sistema.";
     session_unset();
-	session_destroy();
+  	session_destroy();
     echoResponse(200, $response);
 });
 

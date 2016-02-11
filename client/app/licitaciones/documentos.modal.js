@@ -31,7 +31,6 @@ angular.module('anApp')
                   'Access-Control-Allow-Credentials' : true
                 }
             });
-            console.log('ee');
             $scope.validPdf = function () {
                 var result = $scope.uploader.queue.filter(function (item) {
                     return item.file.type == "application/pdf";
@@ -71,7 +70,9 @@ angular.module('anApp')
                 if(cargar) return true;
                 return documento.ubicacion.indexOf('pdf') != -1;
             };
-
+            $scope.addHandlerProcess = function (fn) {
+                $scope.procesarHtml = fn;
+            };
             $scope.uploader.onBeforeUploadItem = function(item) {
               tnombre = $scope.nombre + ' - ' + (item.file.type == "application/pdf"? 'PDF' : 'HTML');
                 item.formData.push({
@@ -89,3 +90,59 @@ angular.module('anApp')
                 $modalIntance.close();
             };
         }]);
+
+angular.module('anApp')
+    .directive('ngProcessHtml',['Data','FileUploader',function (Data,FileUploader) {
+        return {
+            template : '<div ng-include="documento.ubicacion" onload="termino()">',
+            scope : {
+                'addHandlerProcess' : '=ngProcessHtml'
+            },
+            link : function (scope, element) {
+                scope.termino = function () {
+                    var elementos = element.get(0).querySelectorAll('p > span,img');
+                    for (var i = 0; i < elementos.length; i++) {
+                        var obj = elementos[i];
+                        if(obj.parentElement.tagName == 'SPAN'){
+                            if(obj.tagName == 'SPAN'){
+                                obj.parentElement.id = obj.parentElement.id || 'P-' + Date.now().toString() + i.toString();
+                            }else  if(obj.tagName == 'IMG'){
+                                obj.parentElement.id = obj.parentElement.id || 'IMG-' + Date.now().toString() + i.toString();
+                            }
+                        }else{
+                            if(obj.tagName == 'SPAN'){
+                                obj.parentElement.id = obj.parentElement.id || 'P-' + Date.now().toString() + i.toString();
+                            }else  if(obj.tagName == 'IMG'){
+                                obj.parentElement.id = obj.parentElement.id || 'iMG-' + Date.now().toString() + i.toString();
+                            }
+                        }
+                    }
+                    var a = new File([element.get(0).children[0].innerHTML],'name.html', { type: "text/html"});
+                    var file = new FileUploader.FileItem(scope.uploader,a);
+                    file.progress = 100;
+                    file.isUploaded = true;
+                    file.isSuccess = true;
+
+                    file.formData.push({
+                        'nombre_doc' : scope.documento.ubicacion,
+                        'idEvento' : scope.documento.id_evento,
+                        'id' : scope.documento.id
+                    });
+                    scope.uploader.queue.push(file);
+                    scope.uploader.queue[0].upload();
+                }
+            },
+            controller : function ($scope) {
+                $scope.uploader = new FileUploader({
+                    url: 'server/api/uploadFileUPD',
+                    headers : 'Content-Type: text/html; charset=UTF-8'
+                });
+                $scope.procesar = function (documento) {
+                    console.log(documento);
+                    $scope.documento = documento;
+                    $scope.$applyAsync();
+                };
+                $scope.addHandlerProcess($scope.procesar);
+            }
+        }
+    }]);

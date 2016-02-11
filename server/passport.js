@@ -64,6 +64,7 @@ module.exports.isTokenAuthenticated = function (req, res, next) {
 module.exports.hasTokenRol = function (req, res, next) {
   // se valida si tiene algun rol
   // por el momento solo verifico que existe el paramentro token
+  console.log(req.body,req.file);
   if (req.body.token) {
     next();
   }else {

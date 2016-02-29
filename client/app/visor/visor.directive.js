@@ -107,7 +107,7 @@ angular.module('anApp')
                         idDoc : Number($scope.documento.id),
                         pregunta : $scope.estado.pregunta,
                         ambitos : ambitos,
-                        parrafo : scope.estado.objeto.textContent
+                        parrafo : $scope.estado.objeto.textContent
                     };
                     Data.post(ruta,{pregunta : data})
                         .then(function (result) {

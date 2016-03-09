@@ -8,8 +8,28 @@
         <br/>
         <div class="panel panel-default">
             <div class="panel-body">
-                <label>Pregunta:</label>
-                <p>{{pregunta.pregunta}}</p>
+							<div class="col-md-6">
+								<label>Evento:</label>
+								<p>{{pregunta.nombre}}</p>
+								<label>Documento:</label>
+								<p>{{pregunta.nombre_doc}}</p>
+								<label>Nombre:</label>
+                <p>{{pregunta.nombres }} {{pregunta.apellidos}}</p>
+							</div>
+							<div class="col-md-6">
+								<label>Fecha creacion:</label>
+                <p>{{pregunta.fecha_crea}}</p>
+								<label>ID:</label>
+                <p>{{pregunta.id_objeto}}</p>
+							</div>
+							<div class="col-md-12">
+								<hr>
+								<label>Parrafo:</label>
+								<p>{{pregunta.parrafo}}</p>
+								<hr>
+								<label>Pregunta:</label>
+	              <p>{{pregunta.pregunta}}</p>
+								</div>
             </div>
         </div>
         <hr/>

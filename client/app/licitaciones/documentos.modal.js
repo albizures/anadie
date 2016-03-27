@@ -99,20 +99,29 @@ angular.module('anApp')
                 'addHandlerProcess' : '=ngProcessHtml'
             },
             link : function (scope, element) {
+                function updateParrafo (id, parrafo){
+                  if(id){
+                    Data.post('preguntaParrafoUpd', {id : id, parrafo : parrafo}); 
+                  }
+                }
                 scope.termino = function () {
                     var elementos = element.get(0).querySelectorAll('p > span,img');
                     for (var i = 0; i < elementos.length; i++) {
                         var obj = elementos[i];
                         if(obj.parentElement.tagName == 'SPAN'){
                             if(obj.tagName == 'SPAN'){
+                                updateParrafo(obj.parentElement.id, obj.parentElement.textContent);
                                 obj.parentElement.id = obj.parentElement.id || 'P-' + Date.now().toString() + i.toString();
                             }else  if(obj.tagName == 'IMG'){
+                                updateParrafo(obj.parentElement.id, obj.parentElement.textContent);
                                 obj.parentElement.id = obj.parentElement.id || 'IMG-' + Date.now().toString() + i.toString();
                             }
                         }else{
                             if(obj.tagName == 'SPAN'){
+                                updateParrafo(obj.parentElement.id, obj.parentElement.textContent);
                                 obj.parentElement.id = obj.parentElement.id || 'P-' + Date.now().toString() + i.toString();
                             }else  if(obj.tagName == 'IMG'){
+                                updateParrafo(obj.parentElement.id, obj.parentElement.textContent);
                                 obj.parentElement.id = obj.parentElement.id || 'iMG-' + Date.now().toString() + i.toString();
                             }
                         }

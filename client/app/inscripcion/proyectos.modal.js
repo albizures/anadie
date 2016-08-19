@@ -75,7 +75,7 @@ angular.module('anApp')
                                 utils.convertNumber(result[i]);
                             }
                             console.log('ya llego ', result,proyecto);
-                            $scope.departamentos = result;
+                            $scope.departamentos = result.data;
                         });
                 }
             });
@@ -93,7 +93,7 @@ angular.module('anApp')
                             for(var i in result){
                                 utils.convertNumber(result[i]);
                             }
-                            $scope.municipios = result;
+                            $scope.municipios = result.data;
                         });
                 }
             });

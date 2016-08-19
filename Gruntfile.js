@@ -238,12 +238,12 @@ module.exports = function(grunt){
     grunt.loadNpmTasks( 'grunt-replace' );
     grunt.loadNpmTasks('grunt-wiredep');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    /*grunt.registerTask('build',[
+    grunt.registerTask('serve',[
         'injector:bower_dependencies',
         'injector:local_dependencies',
         'injector:stylus',
         'watch'
-    ]);*/
+    ]);
     grunt.registerTask( 'build', 'Crea el dist', function() {
         //So the user doesn't have to add '--force' to the command to clean the build directory
         //grunt.option( 'force', true );

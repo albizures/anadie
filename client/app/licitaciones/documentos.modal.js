@@ -25,11 +25,11 @@ angular.module('anApp')
             }
             traerDocumentos();
             $scope.uploader = new FileUploader({
-                url: 'http://localhost:3000/server/api/uploadFileEvento',
-                headers : {
-                  'Access-Control-Allow-Origin' : 'http://localhost:3000',
-                  'Access-Control-Allow-Credentials' : true
-                }
+                url: 'server/api/uploadFileEvento' //http://localhost:3000/server/api/uploadFileEvento',
+                // headers : {
+                //   'Access-Control-Allow-Origin' : 'http://localhost:3000',
+                //   'Access-Control-Allow-Credentials' : true
+                // }
             });
             $scope.validPdf = function () {
                 var result = $scope.uploader.queue.filter(function (item) {

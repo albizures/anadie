@@ -12,6 +12,9 @@ angular.module('anApp')
             $scope.secretario = false;
             $scope.agregar = function () {
                 $scope.consultor.idEvento = licitacion.id;// o idLicitacion
+                $scope.consultor.Secretario = $scope.Secretario;
+                $scope.consultor.idAmbito = $scope.idAmbito;
+                $scope.consultor.idConsultor = $scope.consultor.id;
                 Data.post('eventoConsultorI',$scope.consultor)
                     .then(function (result) {
                         Data.toast(result);
@@ -27,6 +30,7 @@ angular.module('anApp')
                     .then(function (result) {
                         console.log(Number(result[0].id));
                         $scope.secretario = Number(result[0].id) > 0;
+                        $scope.Secretario = $scope.secretario? 'N' : $scope.Secretario;
                     });
             }
             Data.get('userDatos')

@@ -106,16 +106,16 @@
         <form name="agregarForm" ng-submit="agregarForm.$valid && agregar()" novalidate="">
             <div class="form-group">
                 <label for="">Consultor</label>
-                <select ng-model="consultor.idConsultor" ng-options="u.id as u.nombre for u in consultores" class="form-control" required=""></select>
+                <select ng-model="consultor" ng-options="u as u.nombre for u in consultores" class="form-control" required=""></select>
             </div>
             <div class="form-group">
                 <label for="">Ambitos</label>
-                <select ng-model="consultor.idAmbito" ng-options="u.id as u.nombre for u in ambitos" class="form-control" required></select>
+                <select ng-model="idAmbito" ng-options="u.id as u.nombre for u in ambitos" class="form-control" required></select>
             </div>
             <div class="form-group">
                 <div class="checkbox">
                     <label>
-                        <input ng-init="consultor.Secretario = 'N'" ng-disabled="secretario" ng-model="consultor.Secretario" type="checkbox" ng-true-value="'S'" ng-false-value="'N'"> Secretario
+                        <input ng-init="Secretario = 'N'" ng-disabled="secretario" ng-model="Secretario" type="checkbox" ng-true-value="'S'" ng-false-value="'N'"> Secretario
                     </label>
                 </div>
             </div>
@@ -129,7 +129,7 @@
         <span ng-if="newConsultores.length !== 0">Consultores agregados recientemente</span>
         <ul class="list-group">
             <li class="list-group-item" ng-repeat="p in newConsultores">
-                {{p.nombre}}
+                {{p.nombre}}  -   {{p.Secretario}}
             </li>
         </ul>
     </div>

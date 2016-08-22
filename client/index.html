@@ -195,7 +195,7 @@
                             <button class="btn btn-default pull-right btn-xs" ng-click="openVisor(d.ubicacion)">
                                 <span class="glyphicon glyphicon-eye-open"></span>
                             </button>
-                            <button class="btn btn-default pull-right btn-xs" ng-show='d.ubicacion.indexOf(".pdf") != -1' ng-click="procesarHtml(d)">
+                            <button class="btn btn-default pull-right btn-xs" ng-show='d.ubicacion.indexOf(".pdf") == -1' ng-click="procesarHtml(d)">
                                procesar
                             </button>
                         </li>

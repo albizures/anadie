@@ -68,7 +68,7 @@ angular.module('anApp')
             };
             $scope.validarPdf = function (documento) {
                 if(cargar) return true;
-                return documento.ubicacion.indexOf('pdf') != -1;
+                return documento.ubicacion.indexOf('.pdf') != -1;
             };
             $scope.addHandlerProcess = function (fn) {
                 $scope.procesarHtml = fn;
@@ -81,8 +81,8 @@ angular.module('anApp')
                     nombre_doc : tnombre,// + ' - ' + item.file.type == "application/pdf"? 'PDF' : 'ZIP',
                     token : 'lele'
                 });
-                item.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000';
-                item.headers['Access-Control-Allow-Credentials'] = true;
+                //item.headers['Access-Control-Allow-Origin'] = 'http://localhost:3000';
+                //item.headers['Access-Control-Allow-Credentials'] = true;
                 $scope.uploading = true;
                 $scope.create = false;
             };
@@ -138,6 +138,18 @@ angular.module('anApp')
                         'id' : scope.documento.id
                     });
                     scope.uploader.queue.push(file);
+                    scope.uploader.onSuccessItem = function(item) {
+                        Data.toast({
+                            status : 0,
+                            message : 'Se proceso correctamente'
+                        });
+                    };
+                    scope.uploader.onErrorItem = function(item) {
+                        Data.toast({
+                            status : 1,
+                            message : 'Ocurrio un error al procesar'
+                        });
+                    };
                     scope.uploader.queue[0].upload();
                 }
             },

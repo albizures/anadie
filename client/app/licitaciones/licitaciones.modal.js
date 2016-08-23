@@ -6,10 +6,15 @@ angular.module('anApp')
     .controller('ModalLicitacionesCtrl',["$scope", '$modalInstance','Data','utils','evento','FileUploader','$modal',
         function ($scope,$modalIntance, Data, utils,evento,FileUploader,$modal) {
             if(evento){
-                var date = moment(evento.fecha_present_p);
-                evento.dia = date.date();
-                evento.mes = date.month();
-                evento.anio = date.year();
+                console.log(evento);
+                var dateF = moment(evento.fecha_final);
+                evento.diaF = dateF.date();
+                evento.mesF = dateF.month();
+                evento.anioF = dateF.year();
+                var dateI = moment(evento.fecha_inicio);
+                evento.diaI = dateI.date();
+                evento.mesI = dateI.month();
+                evento.anioI = dateI.year();
             }else{
                 evento = {};
                 evento.diaI = evento.diaF = $scope.today.day;

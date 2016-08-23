@@ -50,6 +50,31 @@ angular.module('anApp')
                 }
             });
         };
+        $scope.editar = function (evento) {
+            var modalEventos = $modal.open({
+                templateUrl : 'licitaciones.modal',
+                controller : 'ModalLicitacionesCtrl',
+                //size : 'lg',
+                backdrop : 'static',
+                resolve :{
+                    evento: function () {
+                        return evento;
+                    }
+                }
+            });
+            modalEventos.result.then(function (eventoUpd) {
+                Data.post('eventoUpd', evento)
+                    .then(function (results) {
+                        if(results.status === "success"){
+                          evento.nombre = eventoUpd.nombre;
+                          evento.descripcion = eventoUpd.descripcion;
+                          evento.fecha_present_p = eventoUpd.fecha_present_p;
+                          evento.fecha_final = eventoUpd.fecha_final;
+                        }
+                        Data.toast(results);
+                    });
+            });
+        };
         $scope.agregar = function () {
             var modalEventos = $modal.open({
                 templateUrl : 'licitaciones.modal',

@@ -565,5 +565,35 @@ $app->get('/userAllEventoSel/:id','sessionAlive', function($id) use ($app){
     echoResponse(200, $response);
 });
 
+// Opción para actualizar un registro de la tabla pyr_evento - fechas del evento
+$app->post('/eventoUpd','sessionAlive',function() use ($app){
+
+ // Recupera los datos de la forma
+ //
+  $r = json_decode($app->request->getBody());
+
+ //var_dump($r->evento);
+  $response = array();
+ //
+  //var_dump($r);
+  $db = new DbHandler();
+  $column_names = array('id','nombre','descripcion','fecha_inicio','fecha_final','estado');
+
+  //
+  $resId = $db->updateRecord("call sp_upd_pyr_evento(?,?,?,?,?,?)", $r, $column_names,'issssi');
+
+  if ($resId > 0) {
+        $response['status'] = "success";
+        $response['message'] = 'Se actualizo correctamente';
+  //$response['data'] = $id;
+
+    }else{
+        $response['status'] = "info";
+        $response['message'] = 'No fue posible actualizar los datos';
+    }
+
+    echoResponse(200, $response);
+});
+
 
 ?>

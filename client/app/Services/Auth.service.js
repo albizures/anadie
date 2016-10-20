@@ -3,7 +3,11 @@
  */
 angular.module('anApp')
     .factory('Auth',['$cookieStore','$rootScope','Data','$location','utils',function ($cookieStore,$rootScope,Data,$location,utils) {
+        $rootScope.hasAccion = function () {
+            return $rootScope.usuario.acciones.indexOf('test') !== -1;
+        };
         $rootScope.usuario = $cookieStore.get('user') || null;
+        
         $cookieStore.remove('user');
         function informacionUsuario (data) {
             $rootScope.usuario = {
@@ -14,15 +18,19 @@ angular.module('anApp')
                 rol : data.rol,
                 idOrganizacion : data.idorganizacion,
                 organizacion : data.organizacion,
-                email : data.email
+                email : data.email,
+                acciones: []
             };
             for(index in data.opciones){
                 data.opciones[index] = utils.convertNumber(data.opciones[index]);
             }
             var temp = [];
             for(index in data.opciones){
-                if(data.opciones[index].Titulo_padre === null){
+                if(data.opciones[index].Titulo_padre === null && data.opciones[index].idTipo != '3'){
                     anidacion(data.opciones[index]);
+                } 
+                if (data.opciones[index].idTipo == '3') {
+                    $rootScope.usuario.acciones.push(data.opciones[index].nombre);
                 }
             }
             function anidacion (opcion,padre) {

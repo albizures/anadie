@@ -17,7 +17,7 @@
                 <a ng-click="editar(rol.id); rol.$edit = true" class="btn btn-primary btn-xs" >
                     <span class="glyphicon glyphicon-pencil"></span>
                 </a>
-                <a ng-click="eliminar(rol.id,$index)" class="btn btn-danger btn-xs">
+                <a ng-if='hasAccion("test")' ng-click="eliminar(rol.id,$index)" class="btn btn-danger btn-xs">
                     <span class="glyphicon glyphicon-remove"></span>
                 </a>
             </td>

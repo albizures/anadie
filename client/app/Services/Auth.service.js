@@ -3,8 +3,8 @@
  */
 angular.module('anApp')
     .factory('Auth',['$cookieStore','$rootScope','Data','$location','utils',function ($cookieStore,$rootScope,Data,$location,utils) {
-        $rootScope.hasAccion = function () {
-            return $rootScope.usuario.acciones.indexOf('test') !== -1;
+        $rootScope.hasAccion = function (accion) {
+            return $rootScope.usuario.acciones.indexOf(accion) !== -1;
         };
         $rootScope.usuario = $cookieStore.get('user') || null;
         
